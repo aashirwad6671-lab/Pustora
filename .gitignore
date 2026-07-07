@@ -1,0 +1,74 @@
+# ===================================
+# PUSTORA MONOREPO — .gitignore
+# ===================================
+
+# Dependencies
+node_modules/
+mobile/node_modules/
+admin/node_modules/
+customer/node_modules/
+
+# Environment files (NEVER commit secrets)
+.env
+.env.local
+.env.production
+.env.development
+.env.staging
+mobile/.env
+admin/.env.local
+customer/.env.local
+
+# Next.js build output
+.next/
+admin/.next/
+customer/.next/
+out/
+
+# Expo / React Native
+mobile/.expo/
+mobile/dist/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# iOS / Android native builds
+mobile/ios/
+mobile/android/
+mobile/.expo-shared/
+
+# TypeScript build info
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Supabase local dev
+.supabase/
+
+# Misc
+*.log
+dist/
+build/
+coverage/
