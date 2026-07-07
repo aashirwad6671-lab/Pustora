@@ -3,22 +3,21 @@ const nextConfig = {
   reactStrictMode: true,
 
   // ── Cloudflare Pages compatibility ──────────────────────────
-  // 'export' produces a fully static site that Cloudflare Pages can serve.
-  output: 'export',
+  // 'standalone' works with @cloudflare/next-on-pages adapter (SSR supported).
+  // Do NOT use 'export' — the app has dynamic routes (category/[id], product/[slug], etc.)
+  // that depend on Supabase data and cannot be statically pre-rendered.
+  output: 'standalone',
 
-  // Required for static export — disable Next.js image optimisation
-  // (use a CDN or Cloudflare Images instead)
+  // ── Image optimisation ───────────────────────────────────────
   images: {
-    unoptimized: true,
+    unoptimized: true, // required for Cloudflare Pages
     remotePatterns: [
       {
-        // Supabase Storage CDN
         protocol: 'https',
         hostname: '*.supabase.co',
         pathname: '/storage/v1/object/public/**',
       },
       {
-        // Supabase Storage (custom domain variant)
         protocol: 'https',
         hostname: '*.supabase.in',
         pathname: '/storage/v1/object/public/**',
@@ -28,3 +27,4 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
