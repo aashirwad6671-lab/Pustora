@@ -110,10 +110,11 @@ export default function AuthSplash() {
       if (res.error || !res.data) throw new Error(res.error || 'Verification failed');
       
       setSuccess('Email verified successfully!');
+      const data = res.data;
       setTimeout(() => {
         setShowSplash(false);
         window.dispatchEvent(new Event('authSkipped'));
-        if (res.data.isNewUser) {
+        if (data?.isNewUser) {
           router.push('/setup');
         }
       }, 1000);
