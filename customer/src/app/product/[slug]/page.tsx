@@ -1,6 +1,9 @@
 // /product/[slug]/page.tsx  
 // Handles SEO-friendly slug URLs (e.g., /product/apsara-platinum-pencils)
 // Also handles legacy UUID URLs as fallback (resolves to slug and redirects)
+
+export const runtime = 'edge';
+
 // This is a SERVER COMPONENT wrapper that provides SSR metadata, then
 // renders the existing client-side ProductDetailsPage.
 // ──────────────────────────────────────────────────────────────────────
