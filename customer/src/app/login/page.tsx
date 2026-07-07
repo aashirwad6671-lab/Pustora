@@ -90,8 +90,9 @@ export default function LoginPage() {
       if (res.error || !res.data) throw new Error(res.error || 'Verification failed');
       
       setSuccess('Email verified successfully!');
+      const data = res.data;
       setTimeout(() => {
-        if (res.data.isNewUser) {
+        if (data?.isNewUser) {
           router.push('/setup');
         } else {
           router.push('/');
