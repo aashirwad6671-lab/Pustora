@@ -28,7 +28,8 @@ function getAdminSupabase() {
   });
 }
 
-let _adminSupabase: ReturnType<typeof createClient> | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let _adminSupabase: any = null;
 export function getSupabaseClient() {
   if (!_adminSupabase) {
     _adminSupabase = getAdminSupabase();
@@ -36,10 +37,12 @@ export function getSupabaseClient() {
   return _adminSupabase;
 }
 // Keep backward compatibility
-export const adminSupabase = new Proxy({} as ReturnType<typeof createClient>, {
-  get(_target, prop) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const adminSupabase = new Proxy({} as any, {
+  get(_target: any, prop: string | symbol) {
     return (getSupabaseClient() as any)[prop];
   },
+
 });
 
 async function clientCall(action: string, ...args: any[]): Promise<ApiResponse<any>> {
