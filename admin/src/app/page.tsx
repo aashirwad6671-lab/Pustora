@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { AdminService, adminSupabase } from '../services/adminService';
-import { Product, Order, Profile, Coupon } from '../../../mobile/src/types';
+import { Product, Order, Profile, Coupon } from '../types';
 
 export default function AdminControlPanel() {
   const [activeModule, setActiveModule] = useState<

@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import { ApiResponse } from '../../../mobile/src/services/api.types';
-import { Product, Order, Profile, Coupon, Store } from '../../../mobile/src/types';
+import { ApiResponse } from './api.types';
+import { Product, Order, Profile, Coupon, Store } from '../types';
 
 const isServer = typeof window === 'undefined';
 
