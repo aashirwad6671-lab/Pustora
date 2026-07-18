@@ -4,6 +4,9 @@ import { Product, Order, Profile, Coupon, Store } from '../../../mobile/src/type
 
 const isServer = typeof window === 'undefined';
 
+// Module-level flag so AdminService methods can reference it
+let isServiceRoleReal = false;
+
 function getAdminSupabase() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
   const serviceRoleKey = isServer ? (process.env.SUPABASE_SERVICE_ROLE_KEY || '') : '';
@@ -14,7 +17,7 @@ function getAdminSupabase() {
   }
 
   // Use service role key if it's set and not a placeholder, otherwise fall back to anon key
-  const isServiceRoleReal =
+  isServiceRoleReal =
     serviceRoleKey.length > 20 &&
     !serviceRoleKey.includes('placeholder') &&
     !serviceRoleKey.includes('your-supabase');
@@ -92,10 +95,10 @@ export class AdminService {
 
       const allOrders = ordersRes.data || [];
       const todayRevenue = allOrders
-        .filter(o => o.status === 'delivered')
-        .reduce((sum, o) => sum + parseFloat(o.grand_total.toString()), 0);
+        .filter((o: any) => o.status === 'delivered')
+        .reduce((sum: any, o: any) => sum + parseFloat(o.grand_total.toString()), 0);
 
-      const pendingOrdersCount = allOrders.filter(o => o.status !== 'delivered' && o.status !== 'cancelled').length;
+      const pendingOrdersCount = allOrders.filter((o: any) => o.status !== 'delivered' && o.status !== 'cancelled').length;
       const totalUsers = usersRes.count || 0;
       const lowStockCount = stockRes.data?.length || 0;
 

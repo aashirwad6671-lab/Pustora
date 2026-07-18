@@ -120,7 +120,7 @@ export default function AdminControlPanel() {
           table: 'support_messages',
           filter: `ticket_id=eq.${activeTicketId}`,
         },
-        (payload) => {
+        (payload: any) => {
           if (isMounted) {
             setActiveTicketMessages((prev) => {
               if (prev.some((m) => m.id === payload.new.id)) return prev;
