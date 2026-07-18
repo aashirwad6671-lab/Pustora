@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AdminService } from '../../../services/adminService';
 
+// Force dynamic rendering — prevents Next.js from executing this at build time
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

@@ -3,21 +3,42 @@ import { ApiResponse } from '../../../mobile/src/services/api.types';
 import { Product, Order, Profile, Coupon, Store } from '../../../mobile/src/types';
 
 const isServer = typeof window === 'undefined';
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const serviceRoleKey = isServer ? (process.env.SUPABASE_SERVICE_ROLE_KEY || '') : '';
-const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
-// Use service role key if it's set and not a placeholder, otherwise fall back to anon key
-const isServiceRoleReal =
-  serviceRoleKey.length > 20 &&
-  !serviceRoleKey.includes('placeholder') &&
-  !serviceRoleKey.includes('your-supabase');
+function getAdminSupabase() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  const serviceRoleKey = isServer ? (process.env.SUPABASE_SERVICE_ROLE_KEY || '') : '';
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
-const activeKey = isServer && isServiceRoleReal ? serviceRoleKey : anonKey;
+  if (!supabaseUrl) {
+    throw new Error('NEXT_PUBLIC_SUPABASE_URL environment variable is not set.');
+  }
 
-export const adminSupabase = createClient(supabaseUrl, activeKey, {
-  auth: {
-    persistSession: false,
+  // Use service role key if it's set and not a placeholder, otherwise fall back to anon key
+  const isServiceRoleReal =
+    serviceRoleKey.length > 20 &&
+    !serviceRoleKey.includes('placeholder') &&
+    !serviceRoleKey.includes('your-supabase');
+
+  const activeKey = isServer && isServiceRoleReal ? serviceRoleKey : anonKey;
+
+  return createClient(supabaseUrl, activeKey, {
+    auth: {
+      persistSession: false,
+    },
+  });
+}
+
+let _adminSupabase: ReturnType<typeof createClient> | null = null;
+export function getSupabaseClient() {
+  if (!_adminSupabase) {
+    _adminSupabase = getAdminSupabase();
+  }
+  return _adminSupabase;
+}
+// Keep backward compatibility
+export const adminSupabase = new Proxy({} as ReturnType<typeof createClient>, {
+  get(_target, prop) {
+    return (getSupabaseClient() as any)[prop];
   },
 });
 
