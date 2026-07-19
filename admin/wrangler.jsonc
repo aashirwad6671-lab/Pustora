@@ -11,5 +11,10 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
+  },
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://erhuepjjtuwnpzcgduxz.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyaHVlcGpqdHV3bnB6Y2dkdXh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MTMwOTIsImV4cCI6MjA5NTk4OTA5Mn0.Dea4Uz-HfCjdxbmlyEI1DFXlhOCzsz2e0H5HA7LKhS0"
   }
 }
+
