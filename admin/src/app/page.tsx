@@ -5,6 +5,9 @@ import { AdminService, adminSupabase } from '../services/adminService';
 import { Product, Order, Profile, Coupon } from '../types';
 
 export default function AdminControlPanel() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  
   const [activeModule, setActiveModule] = useState<
     'dashboard' | 'products' | 'orders' | 'inventory' | 'users' | 'support' | 'analytics' | 'marketing'
   >('dashboard');
@@ -334,6 +337,37 @@ export default function AdminControlPanel() {
       <div style={styles.loaderBox}>
         <div style={styles.spinner}></div>
         <p style={{ marginTop: '16px' }}>Synchronizing Pustora Database...</p>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f3f4f6', padding: '1rem' }}>
+        <div style={{ padding: '2rem', backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', textAlign: 'center', width: '100%', maxWidth: '400px' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚡</div>
+          <h2 style={{ marginBottom: '1.5rem', color: '#1f2937', fontFamily: 'system-ui, sans-serif' }}>Pustora Admin</h2>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            if (passwordInput === 'admin@12345') {
+              setIsAuthenticated(true);
+            } else {
+              alert('Incorrect password. Please try again.');
+            }
+          }}>
+            <input 
+              type="password" 
+              placeholder="Enter admin password" 
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              style={{ padding: '0.75rem', marginBottom: '1rem', width: '100%', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '1rem', boxSizing: 'border-box' }}
+              autoFocus
+            />
+            <button type="submit" style={{ padding: '0.75rem 1.5rem', backgroundColor: '#7C3AED', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '1rem', fontWeight: 600, width: '100%', transition: 'background-color 0.2s' }}>
+              Login
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
