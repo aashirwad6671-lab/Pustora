@@ -130,7 +130,7 @@ export default function SetupPage() {
           </div>
         )}
 
-        <form onSubmit={handleSetup} className="space-y-6">
+        <div className="space-y-6">
           {/* User Full Name */}
           <div className="space-y-1.5">
             <label className="block text-xs uppercase tracking-wider font-bold" style={{ color: 'var(--primary)' }}>
@@ -141,38 +141,53 @@ export default function SetupPage() {
               placeholder="Enter your name"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="stitch-input"
+              className="stitch-input w-full"
               required
               id="setup-name"
             />
           </div>
 
-          {/* School Role Selector (Student / Parent / Teacher / General) */}
+          {/* School Role Selector */}
           <div className="space-y-1.5">
             <label className="block text-xs uppercase tracking-wider font-bold" style={{ color: 'var(--primary)' }}>
-              Choose School Role
+              Choose School Role <span className="text-gray-400 font-normal lowercase">(Optional)</span>
             </label>
             <div className="grid grid-cols-4 gap-2">
-              {(['student', 'parent', 'teacher', 'general'] as const).map((r) => (
-                <button
-                  key={r}
-                  type="button"
-                  onClick={() => setRole(r === 'general' ? 'parent' : r)}
-                  className={`stitch-btn-secondary capitalize text-xs min-h-[44px] justify-center ${
-                    role === r ? 'stitch-chip-active' : ''
-                  }`}
-                  id={`role-btn-${r}`}
-                >
-                  {r}
-                </button>
-              ))}
+              <button
+                type="button"
+                onClick={() => setRole('student')}
+                className={`stitch-btn-secondary capitalize text-xs min-h-[44px] justify-center ${role === 'student' ? 'stitch-chip-active' : ''}`}
+              >
+                Student
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole('parent')}
+                className={`stitch-btn-secondary capitalize text-xs min-h-[44px] justify-center ${role === 'parent' ? 'stitch-chip-active' : ''}`}
+              >
+                Parent
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole('teacher')}
+                className={`stitch-btn-secondary capitalize text-xs min-h-[44px] justify-center ${role === 'teacher' ? 'stitch-chip-active' : ''}`}
+              >
+                Teacher
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole('general')}
+                className={`stitch-btn-secondary capitalize text-xs min-h-[44px] justify-center ${role === 'general' ? 'stitch-chip-active' : ''}`}
+              >
+                Skip
+              </button>
             </div>
           </div>
 
           {/* Address Label Header */}
           <div className="pt-4 border-t space-y-4" style={{ borderColor: 'var(--outline)' }}>
             <h3 className="text-xs uppercase tracking-wider font-bold" style={{ color: 'var(--primary)' }}>
-              Delivery Address (Lucknow Active Zones)
+              Delivery Address
             </h3>
 
             <div className="space-y-3">
@@ -208,65 +223,42 @@ export default function SetupPage() {
                   placeholder="e.g. Flat 302, Royal Residency"
                   value={addressLine1}
                   onChange={(e) => setAddressLine1(e.target.value)}
-                  className="stitch-input"
+                  className="stitch-input w-full"
                   required
                   id="setup-address-line"
                 />
               </div>
 
-              {/* Area Selector and Pincode in one row */}
-              <div className="grid grid-cols-2 gap-2">
-                <div className="space-y-1.5">
-                  <label className="block text-[10px] text-gray-500 font-semibold">
-                    Select Active Area
-                  </label>
-                  <select
-                    value={area}
-                    onChange={(e) => setArea(e.target.value)}
-                    className="w-full rounded-xl px-3 py-2.5 text-xs focus:outline-none border bg-white min-h-[44px]"
-                    style={{ 
-                      borderColor: 'var(--outline)', 
-                      color: 'var(--deep-text)',
-                      cursor: 'pointer'
-                    }}
-                    required
-                    id="setup-area-selector"
-                  >
-                    <option value="Hazratganj">Hazratganj</option>
-                    <option value="Gomti Nagar">Gomti Nagar</option>
-                    <option value="Aliganj">Aliganj</option>
-                    <option value="Indira Nagar">Indira Nagar</option>
-                  </select>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="block text-[10px] text-gray-500 font-semibold">
-                    Lucknow Pincode
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. 226001"
-                    maxLength={6}
-                    value={pincode}
-                    onChange={(e) => setPincode(e.target.value.replace(/\D/g, ''))}
-                    className="stitch-input"
-                    required
-                    id="setup-pincode"
-                  />
-                </div>
+              {/* Pincode */}
+              <div className="space-y-1.5">
+                <label className="block text-[10px] text-gray-500 font-semibold">
+                  Pincode
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. 226001"
+                  maxLength={6}
+                  value={pincode}
+                  onChange={(e) => setPincode(e.target.value.replace(/\D/g, ''))}
+                  className="stitch-input w-full"
+                  required
+                  id="setup-pincode"
+                />
               </div>
             </div>
           </div>
 
           {/* Submit Action Button */}
           <button
-            type="submit"
+            type="button"
+            onClick={handleSetup}
             disabled={loading}
             className="stitch-btn w-full justify-center min-h-[48px]"
             id="btn-complete-setup"
           >
             {loading ? 'Registering Onboarding Details...' : 'Complete Onboarding & Shop'}
           </button>
-        </form>
+        </div>
       </div>
 
       <Link href="/" className="text-xs text-gray-500 hover:text-black mt-6 hover:underline min-h-[44px] flex items-center">
