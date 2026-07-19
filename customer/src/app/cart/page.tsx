@@ -1,12 +1,23 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useCartStore } from '../../store/cartStore';
 import { useAuthStore } from '../../store/authStore';
 import { useLocationStore } from '../../store/locationStore';
 import { OrderService } from '../../services/orderService';
+import { supabase } from '../../services/supabaseClient';
+import type { OrderStatus } from '../../types';
+
+const ORDER_STATUS_STEP: Record<OrderStatus, number> = {
+  placed: 0,
+  confirmed: 1,
+  packed: 2,
+  out_for_delivery: 3,
+  delivered: 4,
+  cancelled: 0,
+};
 
 export default function CartPage() {
   const router = useRouter();
@@ -42,8 +53,10 @@ export default function CartPage() {
   // Active address choice
   const [selectedAddressLabel, setSelectedAddressLabel] = useState('Home');
 
-  // Tracking animated progress indicator mock
+  // Tracking animated progress indicator - driven by real Supabase order status
   const [trackingStep, setTrackingStep] = useState(0);
+  const [liveOrderStatus, setLiveOrderStatus] = useState<string>('placed');
+  const trackingChannelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
 
   useEffect(() => {
     // Automatically trigger delivery cost calculation using location coords
@@ -52,15 +65,53 @@ export default function CartPage() {
     calculateDelivery(lat, lng);
   }, []);
 
-  // Tick order tracking steps for gorgeous UX demo
+  // Subscribe to real-time order status from Supabase when tracking stage begins
   useEffect(() => {
-    if (stage === 'tracking') {
-      const interval = setInterval(() => {
-        setTrackingStep((prev) => (prev < 4 ? prev + 1 : 4));
-      }, 5000);
-      return () => clearInterval(interval);
+    if (stage === 'tracking' && placedOrderId && !placedOrderId.startsWith('order-lucknow-')) {
+      // Fetch current status immediately
+      supabase
+        .from('orders')
+        .select('status')
+        .eq('id', placedOrderId)
+        .single()
+        .then(({ data }) => {
+          if (data?.status) {
+            const step = ORDER_STATUS_STEP[data.status as OrderStatus] ?? 0;
+            setTrackingStep(step);
+            setLiveOrderStatus(data.status);
+          }
+        });
+
+      // Subscribe to real-time changes on this order
+      const channel = supabase
+        .channel(`order-tracking-${placedOrderId}`)
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'orders',
+            filter: `id=eq.${placedOrderId}`,
+          },
+          (payload: any) => {
+            const newStatus = payload.new?.status as OrderStatus;
+            if (newStatus) {
+              const step = ORDER_STATUS_STEP[newStatus] ?? 0;
+              setTrackingStep(step);
+              setLiveOrderStatus(newStatus);
+            }
+          }
+        )
+        .subscribe();
+
+      trackingChannelRef.current = channel;
+
+      return () => {
+        channel.unsubscribe();
+        trackingChannelRef.current = null;
+      };
     }
-  }, [stage]);
+  }, [stage, placedOrderId]);
 
   const handleApplyCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -456,7 +507,12 @@ export default function CartPage() {
 
               {/* Animated Milestone Step Timeline */}
               <div className="border-t border-b py-6 space-y-4" style={{ borderColor: 'var(--outline)' }}>
-                <span className="text-xs font-bold uppercase tracking-wider text-gray-500 block">Real-time Dispatch Status</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-gray-500 block">Real-time Dispatch Status</span>
+                  <span className="text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-purple-50" style={{ color: 'var(--primary)' }}>
+                    {liveOrderStatus.replace(/_/g, ' ')}
+                  </span>
+                </div>
                 
                 <div className="flex justify-between items-center relative px-2">
                   {/* Progress Line */}

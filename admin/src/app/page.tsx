@@ -149,6 +149,51 @@ export default function AdminControlPanel() {
     }
   }, [activeTicketMessages]);
 
+  // Real-time subscription: instantly update order table when new orders arrive or status changes
+  useEffect(() => {
+    const channel = adminSupabase
+      .channel('admin-orders-realtime')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'orders' },
+        (payload: any) => {
+          const newOrder = payload.new;
+          setOrders((prev) => {
+            // Avoid duplicates
+            if (prev.some((o) => o.id === newOrder.id)) return prev;
+            return [newOrder, ...prev];
+          });
+          // Bump pending orders metric
+          setMetrics((prev) => ({
+            ...prev,
+            pendingOrdersCount: prev.pendingOrdersCount + 1,
+          }));
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'orders' },
+        (payload: any) => {
+          const updated = payload.new;
+          setOrders((prev) =>
+            prev.map((o) => (o.id === updated.id ? { ...o, ...updated } : o))
+          );
+          // Decrease pending count when order is delivered or cancelled
+          if (updated.status === 'delivered' || updated.status === 'cancelled') {
+            setMetrics((prev) => ({
+              ...prev,
+              pendingOrdersCount: Math.max(0, prev.pendingOrdersCount - 1),
+            }));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      adminSupabase.removeChannel(channel);
+    };
+  }, []);
+
   const handleResolveTicket = async () => {
     if (!activeTicketId) return;
     setActionLoading(true);
