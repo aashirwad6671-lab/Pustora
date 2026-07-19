@@ -164,7 +164,7 @@ export default function Navbar({
             {/* Sign in / Profile */}
             {isAuthenticated ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Link href="/setup" className="navbar-profile-btn" id="nav-profile-desktop">
+                <Link href="/profile" className="navbar-profile-btn" id="nav-profile-desktop">
                   <ProfileIcon />
                   {user?.full_name?.split(' ')[0] || 'Profile'}
                 </Link>
@@ -210,7 +210,7 @@ export default function Navbar({
 
           <div className="navbar-mobile-right-actions">
             <Link
-              href={isAuthenticated ? '/setup' : '/login'}
+              href={isAuthenticated ? '/profile' : '/login'}
               className="navbar-mobile-icon-btn"
               id="nav-profile-mobile"
               aria-label={isAuthenticated ? 'My Profile' : 'Sign In'}
@@ -265,8 +265,8 @@ export default function Navbar({
         </Link>
 
         <Link
-          href={isAuthenticated ? '/setup' : '/login'}
-          className={`bottom-nav-item${pathname === '/setup' || pathname === '/login' ? ' active' : ''}`}
+          href={isAuthenticated ? '/profile' : '/login'}
+          className={`bottom-nav-item${pathname === '/profile' || pathname === '/login' ? ' active' : ''}`}
           id="bottom-nav-profile"
         >
           <ProfileIcon />
