@@ -52,6 +52,8 @@ export default function CartPage() {
 
   // Active address choice
   const [selectedAddressLabel, setSelectedAddressLabel] = useState('Home');
+  const [addresses, setAddresses] = useState<any[]>([]);
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
 
   // Tracking animated progress indicator - driven by real Supabase order status
   const [trackingStep, setTrackingStep] = useState(0);
@@ -63,7 +65,17 @@ export default function CartPage() {
     const lat = 26.8504;
     const lng = 80.9419;
     calculateDelivery(lat, lng);
-  }, []);
+
+    // Fetch user addresses
+    if (user?.id) {
+      supabase.from('addresses').select('*').eq('user_id', user.id).order('is_default', { ascending: false }).then(({ data, error }) => {
+        if (!error && data) {
+          setAddresses(data);
+          if (data.length > 0) setSelectedAddressId(data[0].id);
+        }
+      });
+    }
+  }, [user?.id]);
 
   // Subscribe to real-time order status from Supabase when tracking stage begins
   useEffect(() => {
@@ -144,12 +156,15 @@ export default function CartPage() {
   };
 
   const handleCheckout = async () => {
-    if (!isAuthenticated) {
-      router.push('/login');
+    if (!isAuthenticated || !user) {
+      router.push('/login?redirect=/cart');
       return;
     }
-
-    if (items.length === 0) return;
+    
+    if (addresses.length === 0 || !selectedAddressId) {
+      alert('Please add or select a delivery address');
+      return;
+    }
 
     setCheckoutLoading(true);
     try {
@@ -173,7 +188,7 @@ export default function CartPage() {
       const response = await OrderService.createOrder(
         userId,
         storeId,
-        'default-address-id',
+        selectedAddressId,
         address,
         lat,
         lng,
