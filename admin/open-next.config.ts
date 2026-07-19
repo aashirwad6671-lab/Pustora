@@ -1,2 +1,5 @@
-// No import needed — plain object uses OpenNext Cloudflare defaults
-export default {};
+// open-next.config.ts — required by @opennextjs/cloudflare build
+export default {
+  default: {}
+};
+
