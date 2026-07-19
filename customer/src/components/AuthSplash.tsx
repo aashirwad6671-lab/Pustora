@@ -100,8 +100,8 @@ export default function AuthSplash() {
   const handleVerifyOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null); setSuccess(null);
-    if (otpToken.length < 6) {
-      setError('Please enter a valid OTP code.'); return;
+    if (otpToken.length !== 6) {
+      setError('Please enter a valid 6-digit OTP code.'); return;
     }
 
     setLoadingLocal(true); setLoading(true);
@@ -240,8 +240,8 @@ export default function AuthSplash() {
         {mode === 'otp' && (
           <form onSubmit={handleVerifyOTP} className="space-y-4">
             <div>
-              <label className="block text-xs uppercase tracking-wider font-bold mb-1.5" style={{ color: 'var(--primary)' }}>OTP Code</label>
-              <input type="text" placeholder="Enter code sent to email" maxLength={8} value={otpToken} onChange={e => setOtpToken(e.target.value.replace(/\D/g, ''))} className="stitch-input text-center text-lg font-bold w-full" required />
+              <label className="block text-xs uppercase tracking-wider font-bold mb-1.5" style={{ color: 'var(--primary)' }}>6-Digit OTP Code</label>
+              <input type="text" placeholder="Enter code sent to email" maxLength={6} value={otpToken} onChange={e => setOtpToken(e.target.value.replace(/\D/g, ''))} className="stitch-input text-center text-lg font-bold w-full" required />
             </div>
             <button type="submit" disabled={loadingLocal} className="stitch-btn w-full justify-center min-h-[48px]">
               {loadingLocal ? 'Verifying...' : 'Verify & Continue'}
