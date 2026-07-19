@@ -90,73 +90,76 @@ export default function ProfilePage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50/50 pb-20">
-      {/* 1. Top Header */}
-      <div className="bg-white px-4 pt-8 pb-8 flex flex-col items-center justify-center border-b border-gray-100">
-        <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-          {user.avatar_url ? (
-            <img src={user.avatar_url} alt="Profile" className="w-full h-full rounded-full object-cover" />
-          ) : (
-            <span className="text-3xl text-gray-500 font-medium">
-              {user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
-            </span>
-          )}
-        </div>
-        <h1 className="text-2xl font-bold text-gray-900">{user.full_name || 'Your account'}</h1>
-        <p className="text-sm text-gray-500 mt-1">{user.phone_number}</p>
-        <Link href="/setup" className="mt-4 text-xs font-semibold text-primary underline">
-          Edit Profile
-        </Link>
-      </div>
-
-      {/* 2. Quick Action Cards */}
-      <div className="bg-white px-4 py-6 border-b border-gray-100">
-        <div className="grid grid-cols-3 gap-3">
-          <Link href="/cart" className="flex flex-col items-center justify-center p-3 rounded-xl border border-gray-100 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
-            <Package className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
-            <span className="text-[12px] font-medium text-gray-800 text-center leading-tight">Your orders</span>
+    <div className="min-h-screen bg-gray-50/50 flex justify-center pb-20">
+      <div className="w-full max-w-lg bg-gray-50/50 min-h-screen sm:border-x sm:border-gray-200 sm:shadow-sm">
+        
+        {/* 1. Top Header */}
+        <div className="bg-white px-4 pt-8 pb-8 flex flex-col items-center justify-center border-b border-gray-100">
+          <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+            {user.avatar_url ? (
+              <img src={user.avatar_url} alt="Profile" className="w-full h-full rounded-full object-cover" />
+            ) : (
+              <span className="text-3xl text-gray-500 font-medium">
+                {user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
+              </span>
+            )}
+          </div>
+          <h1 className="text-xl font-bold text-gray-900">{user.full_name || 'Your account'}</h1>
+          <p className="text-sm text-gray-500 mt-1">{user.phone_number}</p>
+          <Link href="/setup" className="mt-4 text-xs font-semibold" style={{ color: 'var(--primary)' }}>
+            Edit Profile
           </Link>
-          <button className="flex flex-col items-center justify-center p-3 rounded-xl border border-gray-100 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
-            <Wallet className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
-            <span className="text-[12px] font-medium text-gray-800 text-center leading-tight">Pustora Wallet</span>
-          </button>
-          <button className="flex flex-col items-center justify-center p-3 rounded-xl border border-gray-100 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
-            <MessageCircleQuestion className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
-            <span className="text-[12px] font-medium text-gray-800 text-center leading-tight">Need help?</span>
-          </button>
         </div>
-      </div>
 
-      {/* 3. Your Information */}
-      <SectionHeader title="Your information" />
-      <div className="bg-white border-y border-gray-100">
-        <ListItem icon={BookUser} title="Address book" href="/setup" />
-        <ListItem icon={GraduationCap} title="My Students / School Details" subtitle="Save school & class to quickly find combos" href="/setup" />
-        <ListItem icon={Heart} title="Your wishlist" />
-        <ListItem icon={ReceiptText} title="GST details" />
-      </div>
+        {/* 2. Quick Action Cards */}
+        <div className="bg-white px-4 py-6 border-b border-gray-100">
+          <div className="flex flex-row items-center justify-between gap-3">
+            <Link href="/cart" className="flex-1 flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-gray-200 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
+              <Package className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
+              <span className="text-xs font-medium text-gray-800 text-center leading-tight">Your orders</span>
+            </Link>
+            <button className="flex-1 flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-gray-200 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
+              <Wallet className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
+              <span className="text-xs font-medium text-gray-800 text-center leading-tight">Pustora Wallet</span>
+            </button>
+            <button className="flex-1 flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-gray-200 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
+              <MessageCircleQuestion className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
+              <span className="text-xs font-medium text-gray-800 text-center leading-tight">Need help?</span>
+            </button>
+          </div>
+        </div>
 
-      {/* 4. Payments and Offers */}
-      <SectionHeader title="Payments and coupons" />
-      <div className="bg-white border-y border-gray-100">
-        <ListItem icon={TicketPercent} title="Coupons & offers" />
-        <ListItem icon={CreditCard} title="Payment settings" />
-        <ListItem icon={Gift} title="Refer & Earn" subtitle="Invite friends and get discount" />
-      </div>
+        {/* 3. Your Information */}
+        <SectionHeader title="Your information" />
+        <div className="bg-white border-y border-gray-100">
+          <ListItem icon={BookUser} title="Address book" href="/setup" />
+          <ListItem icon={GraduationCap} title="My Students / School Details" subtitle="Save school & class to quickly find combos" href="/setup" />
+          <ListItem icon={Heart} title="Your wishlist" />
+          <ListItem icon={ReceiptText} title="GST details" />
+        </div>
 
-      {/* 5. Other Information */}
-      <SectionHeader title="Other information" />
-      <div className="bg-white border-y border-gray-100">
-        <ListItem icon={Share2} title="Share the app" />
-        <ListItem icon={Info} title="About us" />
-        <ListItem icon={ShieldCheck} title="Account privacy" subtitle="Data protection and deletion" />
-        <ListItem icon={Bell} title="Notification preferences" />
-        <ListItem icon={LogOut} title="Log out" onClick={handleLogout} />
-      </div>
-      
-      <div className="text-center py-8">
-        <h4 className="text-gray-400 font-bold tracking-widest text-lg">PUSTORA</h4>
-        <p className="text-xs text-gray-400 mt-1">v1.0.0</p>
+        {/* 4. Payments and Offers */}
+        <SectionHeader title="Payments and coupons" />
+        <div className="bg-white border-y border-gray-100">
+          <ListItem icon={TicketPercent} title="Coupons & offers" />
+          <ListItem icon={CreditCard} title="Payment settings" />
+          <ListItem icon={Gift} title="Refer & Earn" subtitle="Invite friends and get discount" />
+        </div>
+
+        {/* 5. Other Information */}
+        <SectionHeader title="Other information" />
+        <div className="bg-white border-y border-gray-100 mb-6">
+          <ListItem icon={Share2} title="Share the app" />
+          <ListItem icon={Info} title="About us" />
+          <ListItem icon={ShieldCheck} title="Account privacy" subtitle="Data protection and deletion" />
+          <ListItem icon={Bell} title="Notification preferences" />
+          <ListItem icon={LogOut} title="Log out" onClick={handleLogout} />
+        </div>
+        
+        <div className="text-center py-8">
+          <h4 className="text-gray-400 font-bold tracking-widest text-lg">PUSTORA</h4>
+          <p className="text-xs text-gray-400 mt-1">v1.0.0</p>
+        </div>
       </div>
     </div>
   );
