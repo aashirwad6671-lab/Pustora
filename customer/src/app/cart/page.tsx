@@ -38,7 +38,7 @@ export default function CartPage() {
     clearCart,
   } = useCartStore();
 
-  const { nearestStore, distanceKm } = useLocationStore();
+  const { nearestStore, distanceKm, fetchStores } = useLocationStore();
 
   const [couponCode, setCouponCode] = useState('');
   const [couponError, setCouponError] = useState<string | null>(null);
@@ -61,6 +61,9 @@ export default function CartPage() {
   const trackingChannelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
 
   useEffect(() => {
+    // Fetch real stores from DB (so we get actual UUIDs for order creation)
+    fetchStores();
+
     // Automatically trigger delivery cost calculation using location coords
     const lat = 26.8504;
     const lng = 80.9419;
@@ -169,7 +172,14 @@ export default function CartPage() {
     setCheckoutLoading(true);
     try {
       const userId = user?.id || 'demo-user-uuid-12345';
-      const storeId = nearestStore?.id || 'store-hazratganj';
+      // Use the real UUID from deliveryCalculations (fetched from DB), or nearestStore from locationStore
+      const storeId = deliveryCalculations?.nearestStoreId || nearestStore?.id || null;
+
+      if (!storeId) {
+        alert('Unable to determine nearest store. Please try again.');
+        setCheckoutLoading(false);
+        return;
+      }
       const address = 'Hazratganj, Lucknow';
       const lat = 26.8504;
       const lng = 80.9419;

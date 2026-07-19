@@ -36,10 +36,10 @@ export const useLocationStore = create<LocationState>((set, get) => ({
       }
     } catch (err) {
       console.error('Failed to fetch stores:', err);
-      // fallback stores if query fails
+      // fallback stores if query fails - note: id is empty string since we don't have real UUIDs
       const fallbackStores: Store[] = [
         {
-          id: 'store-hazratganj',
+          id: '',
           name: 'Hazratganj Main Hub',
           address: 'Hazratganj, Lucknow',
           latitude: 26.8504,
@@ -49,7 +49,7 @@ export const useLocationStore = create<LocationState>((set, get) => ({
           updated_at: new Date().toISOString(),
         },
         {
-          id: 'store-gomtinagar',
+          id: '',
           name: 'Gomti Nagar Express',
           address: 'Gomti Nagar, Lucknow',
           latitude: 26.8624,
@@ -59,7 +59,7 @@ export const useLocationStore = create<LocationState>((set, get) => ({
           updated_at: new Date().toISOString(),
         },
         {
-          id: 'store-aliganj',
+          id: '',
           name: 'Aliganj Smart Depot',
           address: 'Aliganj, Lucknow',
           latitude: 26.8929,

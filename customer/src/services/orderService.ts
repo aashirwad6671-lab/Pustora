@@ -64,24 +64,35 @@ export class OrderService {
 
   /**
    * Evaluates the delivery fee for Lucknow zones:
-   * 1. Evaluates distance to 3 stores: Hazratganj (26.8504, 80.9419), Gomti Nagar (26.8624, 80.9987), Aliganj (26.8929, 80.9388).
-   * 2. Selects the closest store.
-   * 3. Calculates delivery cost: free under 3km, ₹15 per additional km after.
+   * 1. Fetches active stores from Supabase to get real UUIDs.
+   * 2. Evaluates distance to all stores using Haversine formula.
+   * 3. Selects the closest store.
+   * 4. Calculates delivery cost: free under 3km, ₹15 per additional km after.
    */
   static async calculateDeliveryCost(userLat: number, userLng: number): Promise<ApiResponse<DeliveryCostCalculation>> {
     try {
-      // 3 simulated Lucknow store hubs
-      const STORES = [
-        { id: 'store-hazratganj', name: 'Hazratganj Main Hub', lat: 26.8504, lng: 80.9419 },
-        { id: 'store-gomtinagar', name: 'Gomti Nagar Express', lat: 26.8624, lng: 80.9987 },
-        { id: 'store-aliganj', name: 'Aliganj Smart Depot', lat: 26.8929, lng: 80.9388 },
+      // Fetch real stores from DB to get actual UUIDs
+      const { data: storesData, error: storesError } = await supabase
+        .from('stores')
+        .select('id, name, latitude, longitude')
+        .eq('is_active', true);
+
+      // Fallback store coords if DB fetch fails (UUIDs will be null - handled at order creation)
+      const FALLBACK_STORES = [
+        { id: null, name: 'Hazratganj Main Hub', lat: 26.8504, lng: 80.9419 },
+        { id: null, name: 'Gomti Nagar Express', lat: 26.8624, lng: 80.9987 },
+        { id: null, name: 'Aliganj Smart Depot', lat: 26.8929, lng: 80.9388 },
       ];
 
+      const stores = (!storesError && storesData && storesData.length > 0)
+        ? storesData.map((s: any) => ({ id: s.id as string, name: s.name as string, lat: s.latitude as number, lng: s.longitude as number }))
+        : FALLBACK_STORES;
+
       let minDistance = Infinity;
-      let closestStore = STORES[0];
+      let closestStore = stores[0];
 
       // Haversine formula to compute geodesic distances
-      STORES.forEach((store) => {
+      stores.forEach((store) => {
         const R = 6371; // Earth radius in km
         const dLat = ((store.lat - userLat) * Math.PI) / 180;
         const dLng = ((store.lng - userLng) * Math.PI) / 180;
@@ -114,7 +125,7 @@ export class OrderService {
           distanceKm: parseFloat(minDistance.toFixed(1)),
           isFreeDelivery: minDistance <= thresholdKm,
           deliveryFee: deliveryFee,
-          nearestStoreId: closestStore.id,
+          nearestStoreId: closestStore.id ?? '',
           nearestStoreName: closestStore.name,
         },
         error: null,
@@ -151,6 +162,7 @@ export class OrderService {
           user_id: userId,
           store_id: storeId,
           address_id: addressId,
+          status: 'placed',
           items_total: itemsTotal,
           delivery_fee: deliveryFee,
           discount_applied: discountApplied,
