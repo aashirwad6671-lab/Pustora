@@ -75,16 +75,16 @@ export default function SetupPage() {
           PUSTORA
         </Link>
         <p className="text-[10px] uppercase tracking-widest font-bold text-gray-500">
-          Lucknow Onboarding Setup
+          Profile Settings
         </p>
       </div>
 
       <div className="w-full max-w-md stitch-card">
         <h2 className="text-xl font-bold mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
-          Profile Onboarding Setup
+          Edit Profile Details
         </h2>
         <p className="text-xs mb-6 text-gray-500">
-          Onboard school role and delivery address for Hazratganj, Gomti Nagar & Aliganj zones.
+          Update your personal information and school role.
         </p>
 
         {error && (
@@ -162,14 +162,14 @@ export default function SetupPage() {
             className="stitch-btn w-full justify-center min-h-[48px]"
             id="btn-complete-setup"
           >
-            {loading ? 'Registering Onboarding Details...' : 'Complete Onboarding & Shop'}
+            {loading ? 'Saving Details...' : 'Save Details'}
           </button>
         </div>
       </div>
 
-      <Link href="/" className="text-xs text-gray-500 hover:text-black mt-6 hover:underline min-h-[44px] flex items-center">
-        ← Browse Catalog without Profile
-      </Link>
+      <button onClick={() => router.back()} className="text-xs text-gray-500 hover:text-black mt-6 hover:underline min-h-[44px] flex items-center bg-transparent border-none">
+        ← Cancel
+      </button>
     </div>
   );
 }

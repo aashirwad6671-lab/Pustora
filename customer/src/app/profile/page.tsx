@@ -56,12 +56,12 @@ export default function ProfilePage() {
     href?: string;
   }) => {
     const content = (
-      <div className="flex items-center justify-between py-4 border-b border-gray-100 bg-white px-4 hover:bg-gray-50 transition-colors">
+      <div className="flex items-center justify-between py-4 border-b border-gray-100 bg-white px-4 hover:bg-gray-50 transition-colors" style={{ fontFamily: 'var(--font-sans, sans-serif)' }}>
         <div className="flex items-center gap-3">
           <Icon className="w-5 h-5 text-gray-700 stroke-[1.5]" />
           <div>
-            <div className="text-[14px] font-medium text-gray-900">{title}</div>
-            {subtitle && <div className="text-[12px] text-gray-500 mt-0.5">{subtitle}</div>}
+            <div className="text-[14px] font-medium text-gray-900" style={{ fontFamily: 'inherit' }}>{title}</div>
+            {subtitle && <div className="text-[12px] text-gray-500 mt-0.5" style={{ fontFamily: 'inherit' }}>{subtitle}</div>}
           </div>
         </div>
         <ChevronRight className="w-4 h-4 text-gray-400 stroke-[1.5]" />
@@ -85,17 +85,17 @@ export default function ProfilePage() {
 
   const SectionHeader = ({ title }: { title: string }) => (
     <div className="px-4 pt-6 pb-2 bg-gray-50/50">
-      <h3 className="text-[14px] font-bold text-gray-800">{title}</h3>
+      <h3 className="text-[14px] font-bold text-gray-800" style={{ fontFamily: 'var(--font-sans, sans-serif)' }}>{title}</h3>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-gray-50/50 flex justify-center pb-20">
+    <div className="min-h-screen bg-gray-50/50 flex justify-center pb-20" style={{ fontFamily: 'var(--font-sans, sans-serif)' }}>
       <div className="w-full max-w-lg bg-gray-50/50 min-h-screen sm:border-x sm:border-gray-200 sm:shadow-sm">
         
         {/* 1. Top Header */}
         <div className="bg-white px-4 pt-8 pb-8 flex flex-col items-center justify-center border-b border-gray-100">
-          <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-4 border-2 border-gray-100 shadow-inner overflow-hidden">
             {user.avatar_url ? (
               <img src={user.avatar_url} alt="Profile" className="w-full h-full rounded-full object-cover" />
             ) : (
@@ -114,7 +114,7 @@ export default function ProfilePage() {
         {/* 2. Quick Action Cards */}
         <div className="bg-white px-4 py-6 border-b border-gray-100">
           <div className="flex flex-row items-center justify-between gap-3">
-            <Link href="/cart" className="flex-1 flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-gray-200 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
+            <Link href="/orders" className="flex-1 flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-gray-200 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
               <Package className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
               <span className="text-xs font-medium text-gray-800 text-center leading-tight">Your orders</span>
             </Link>
