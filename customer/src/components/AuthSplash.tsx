@@ -117,7 +117,7 @@ export default function AuthSplash() {
         if (data?.isNewUser) {
           router.push('/setup');
         }
-      }, 1000);
+      }, 200);
     } catch (err: any) {
       setError(err.message || 'Verification failed. Please check your OTP.');
     } finally {

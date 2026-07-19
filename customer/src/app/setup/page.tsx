@@ -43,11 +43,6 @@ export default function SetupPage() {
       return;
     }
 
-    if (!addressLine1 || !pincode) {
-      setError('Please provide a delivery address.');
-      return;
-    }
-
     setLoading(true);
 
     try {
@@ -59,38 +54,12 @@ export default function SetupPage() {
         throw new Error(profileResponse.error || 'Failed to update profile.');
       }
 
-      let lat = 26.8504;
-      let lng = 80.9419;
-
-      if (area.toLowerCase().includes('gomti')) {
-        lat = 26.8624;
-        lng = 80.9987;
-      } else if (area.toLowerCase().includes('aliganj')) {
-        lat = 26.8929;
-        lng = 80.9388;
-      }
-
-      const addressResponse = await AuthService.setupAddress(
-        userId,
-        addressLabel,
-        addressLine1,
-        area,
-        pincode,
-        lat,
-        lng,
-        true
-      );
-
-      if (addressResponse.error) {
-        throw new Error(addressResponse.error || 'Failed to register delivery address.');
-      }
-
       setSession(profileResponse.data, 'valid-session-jwt');
-      setSuccess('Profile and address onboarded successfully! Loading store catalog...');
+      setSuccess('Profile updated successfully! Redirecting...');
 
       setTimeout(() => {
-        router.push('/');
-      }, 1500);
+        router.back(); // Go back to the previous page
+      }, 500);
     } catch (err: any) {
       setError(err.message || 'Onboarding process failed.');
     } finally {
@@ -184,69 +153,6 @@ export default function SetupPage() {
             </div>
           </div>
 
-          {/* Address Label Header */}
-          <div className="pt-4 border-t space-y-4" style={{ borderColor: 'var(--outline)' }}>
-            <h3 className="text-xs uppercase tracking-wider font-bold" style={{ color: 'var(--primary)' }}>
-              Delivery Address
-            </h3>
-
-            <div className="space-y-3">
-              {/* Address Label */}
-              <div className="space-y-1.5">
-                <label className="block text-[10px] text-gray-500 font-semibold">
-                  Address Label
-                </label>
-                <div className="flex gap-2">
-                  {['Home', 'Work', 'School'].map((lbl) => (
-                    <button
-                      key={lbl}
-                      type="button"
-                      onClick={() => setAddressLabel(lbl)}
-                      className={`stitch-btn-secondary text-xs min-h-[44px] ${
-                        addressLabel === lbl ? 'stitch-chip-active' : ''
-                      }`}
-                      id={`address-label-${lbl}`}
-                    >
-                      {lbl}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Address Line 1 */}
-              <div className="space-y-1.5">
-                <label className="block text-[10px] text-gray-500 font-semibold">
-                  Flat/House/Street Address
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. Flat 302, Royal Residency"
-                  value={addressLine1}
-                  onChange={(e) => setAddressLine1(e.target.value)}
-                  className="stitch-input w-full"
-                  required
-                  id="setup-address-line"
-                />
-              </div>
-
-              {/* Pincode */}
-              <div className="space-y-1.5">
-                <label className="block text-[10px] text-gray-500 font-semibold">
-                  Pincode
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. 226001"
-                  maxLength={6}
-                  value={pincode}
-                  onChange={(e) => setPincode(e.target.value.replace(/\D/g, ''))}
-                  className="stitch-input w-full"
-                  required
-                  id="setup-pincode"
-                />
-              </div>
-            </div>
-          </div>
 
           {/* Submit Action Button */}
           <button
