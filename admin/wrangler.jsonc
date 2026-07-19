@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "pustoraadmin",
+  "account_id": "7a5caeef8c904a31fd3ca26956d29370",
   "compatibility_date": "2026-07-18",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
