@@ -421,31 +421,8 @@ export default function AdminControlPanel() {
 
   return (
     <div style={styles.container}>
-      {/* RLS WARNING BANNER — shown when service role key is missing */}
-      {!hasFullAccess && (
-        <div style={{
-          position: 'fixed',
-          top: 0, left: 0, right: 0,
-          zIndex: 9999,
-          background: 'linear-gradient(90deg, #7C3AED, #B45309)',
-          color: '#fff',
-          padding: '10px 20px',
-          fontSize: '0.8rem',
-          fontWeight: 600,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '12px',
-          flexWrap: 'wrap',
-        }}>
-          <span>
-            ⚠️ <strong>Limited Mode:</strong> Running with anon key — writes (Add Product, Delete, etc.) will fail if Supabase RLS is ON.
-          </span>
-          <span style={{ opacity: 0.85, fontSize: '0.75rem' }}>
-            Fix: Add your <code style={{ background: 'rgba(0,0,0,0.25)', padding: '2px 6px', borderRadius: '4px' }}>SUPABASE_SERVICE_ROLE_KEY</code> to <code style={{ background: 'rgba(0,0,0,0.25)', padding: '2px 6px', borderRadius: '4px' }}>admin/.env.local</code>, then restart the server.
-          </span>
-        </div>
-      )}
+
+
 
       {/* SIDEBAR NAVIGATION */}
       <aside style={styles.sidebar}>
