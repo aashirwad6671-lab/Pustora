@@ -151,16 +151,10 @@ export class OrderService {
           user_id: userId,
           store_id: storeId,
           address_id: addressId,
-          delivery_address: deliveryAddress,
-          delivery_latitude: latitude,
-          delivery_longitude: longitude,
-          distance_km: distanceKm,
           items_total: itemsTotal,
           delivery_fee: deliveryFee,
           discount_applied: discountApplied,
           grand_total: grandTotal,
-          payment_method: paymentMethod,
-          payment_status: paymentMethod === 'COD' ? 'pending' : 'paid',
         })
         .select()
         .single();
@@ -170,6 +164,14 @@ export class OrderService {
       }
 
       const order = orderData as Order;
+
+      // 1.5. Insert payment record
+      await supabase.from('payments').insert({
+        order_id: order.id,
+        payment_method: paymentMethod,
+        payment_status: paymentMethod === 'COD' ? 'pending' : 'paid',
+        amount: grandTotal,
+      });
 
       // 2. Prepare and insert order items list
       const orderItemsInsert = items.map((it) => ({

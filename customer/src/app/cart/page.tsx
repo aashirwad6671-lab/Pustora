@@ -187,11 +187,7 @@ export default function CartPage() {
       );
 
       if (response.error) {
-        // Mock fallback for evaluation
-        const randomOrderId = 'order-lucknow-' + Math.floor(100000 + Math.random() * 900000);
-        setPlacedOrderId(randomOrderId);
-        setStage('tracking');
-        clearCart();
+        alert('Failed to place order: ' + response.error);
       } else if (response.data) {
         setPlacedOrderId(response.data.id);
         setStage('tracking');
@@ -389,28 +385,61 @@ export default function CartPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="md:col-span-2 space-y-4">
-                {/* Address Selector Card */}
                 <div className="stitch-card space-y-4">
-                  <h4 className="text-xs uppercase tracking-wider font-bold" style={{ color: 'var(--primary)' }}>
-                    📍 Delivery Address selector
-                  </h4>
-                  <div className="grid grid-cols-3 gap-2">
-                    {['Home', 'Office', 'School'].map((label) => (
-                      <button
-                        key={label}
-                        onClick={() => setSelectedAddressLabel(label)}
-                        className={`stitch-btn-secondary text-xs min-h-[44px] justify-center ${
-                          selectedAddressLabel === label ? 'stitch-chip-active' : ''
-                        }`}
-                      >
-                        {label}
-                      </button>
-                    ))}
+                  <div className="flex justify-between items-center">
+                    <h4 className="text-xs uppercase tracking-wider font-bold" style={{ color: 'var(--primary)' }}>
+                      📍 Delivery Address selector
+                    </h4>
+                    {addresses.length > 0 && (
+                      <Link href="/addresses/new" className="text-[10px] font-bold underline" style={{ color: 'var(--primary)' }}>+ Add New</Link>
+                    )}
                   </div>
-                  <div className="p-4 rounded-xl border" style={{ backgroundColor: 'var(--background)', borderColor: 'var(--outline)' }}>
-                    <span className="text-xs font-bold block" style={{ color: 'var(--deep-text)' }}>Lucknow Depot Delivery Zone</span>
-                    <p className="text-xs text-gray-500 mt-1">Flat 402, Royal Residency, Hazratganj active route. Distance calculated: {distanceKm || 1.2} km</p>
-                  </div>
+                  {addresses.length === 0 ? (
+                    <div className="text-center p-6 border-2 border-dashed rounded-xl space-y-3" style={{ borderColor: 'var(--outline)' }}>
+                      <p className="text-xs text-gray-500 font-medium">No saved addresses found.</p>
+                      <Link href="/addresses/new" className="stitch-btn text-xs px-4 py-2 inline-flex items-center gap-2 min-h-[40px]">
+                        Add Delivery Address
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {addresses.map((addr) => (
+                        <div 
+                          key={addr.id}
+                          onClick={() => setSelectedAddressId(addr.id)}
+                          className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${selectedAddressId === addr.id ? 'border-[#2874f0] bg-blue-50/30' : 'border-gray-200 hover:border-gray-300'}`}
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <input 
+                                type="radio" 
+                                checked={selectedAddressId === addr.id} 
+                                readOnly 
+                                className="w-4 h-4 text-[#2874f0] border-gray-300 focus:ring-[#2874f0]" 
+                              />
+                              <span className="bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
+                                {addr.label || 'Home'}
+                              </span>
+                              {addr.is_default && (
+                                <span className="text-[#2874f0] text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
+                                  Default
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="ml-6 space-y-1">
+                            <p className="text-sm font-bold text-gray-800">{user?.full_name || 'Customer'}</p>
+                            <p className="text-xs text-gray-600 leading-relaxed">
+                              {addr.address_line1}
+                              {addr.address_line2 ? `, ${addr.address_line2}` : ''}
+                              <br />
+                              {addr.area}, {addr.city}, {addr.state} - <span className="font-semibold text-black">{addr.pincode}</span>
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Delivery ETA banner */}
@@ -535,19 +564,7 @@ export default function CartPage() {
                 </div>
               </div>
 
-              {/* Map Placeholder Graphic */}
-              <div className="p-4 rounded-xl border relative overflow-hidden" style={{ minHeight: '160px', backgroundColor: 'var(--background)', borderColor: 'var(--outline)' }}>
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-purple-50/50">
-                  <span className="text-4xl animate-bounce">🚴</span>
-                  <span className="text-xs font-bold mt-2 text-gray-500">Live GPS Hub Mapping Lucknow...</span>
-                </div>
-                {/* Decorative map lines using SVG */}
-                <svg className="w-full h-full opacity-10" viewBox="0 0 100 100" preserveAspectRatio="none">
-                  <path d="M0,50 Q25,20 50,50 T100,50" fill="none" stroke="currentColor" strokeWidth="2" />
-                  <path d="M20,0 L20,100" fill="none" stroke="currentColor" strokeWidth="2" />
-                  <path d="M80,0 L80,100" fill="none" stroke="currentColor" strokeWidth="2" />
-                </svg>
-              </div>
+              {/* GPS Map removed as requested */}
 
               <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl text-left space-y-1 text-xs">
                 <span className="font-bold text-amber-800">⏱️ Lucknow Delivery ETA Target</span>
