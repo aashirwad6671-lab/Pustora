@@ -132,7 +132,7 @@ export default function ProfilePage() {
         {/* 3. Your Information */}
         <SectionHeader title="Your information" />
         <div className="bg-white border-y border-gray-100">
-          <ListItem icon={BookUser} title="Address book" href="/setup" />
+          <ListItem icon={BookUser} title="Address book" href="/addresses" />
           <ListItem icon={GraduationCap} title="My Students / School Details" subtitle="Save school & class to quickly find combos" href="/setup" />
           <ListItem icon={Heart} title="Your wishlist" />
           <ListItem icon={ReceiptText} title="GST details" />
