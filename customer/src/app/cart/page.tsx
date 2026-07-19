@@ -189,11 +189,33 @@ export default function CartPage() {
       const discount = getDiscountTotal();
       const grandTotal = getGrandTotal();
 
-      const checkoutItems = items.map((it) => ({
-        productId: it.product.id,
-        quantity: it.quantity,
-        price: it.product.price,
-      }));
+      // UUID validation regex
+      const isValidUUID = (str: string) =>
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
+
+      // Resolve product IDs - if cart has legacy fake IDs, look up real UUID from Supabase by name
+      const checkoutItems = await Promise.all(
+        items.map(async (it) => {
+          let productId = it.product.id;
+          if (!isValidUUID(productId)) {
+            const { data: prodData } = await supabase
+              .from('products')
+              .select('id')
+              .eq('name', it.product.name)
+              .single();
+            if (prodData?.id) {
+              productId = prodData.id;
+            } else {
+              throw new Error(`Product "${it.product.name}" not found in database. Please clear cart and re-add items.`);
+            }
+          }
+          return {
+            productId,
+            quantity: it.quantity,
+            price: it.product.price,
+          };
+        })
+      );
 
       const response = await OrderService.createOrder(
         userId,
