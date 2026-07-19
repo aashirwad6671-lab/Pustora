@@ -137,8 +137,8 @@ export default function AuthSplash() {
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-white">
-      <div className="w-full max-w-sm stitch-card relative overflow-hidden bg-white shadow-none animate-fade-in-up border border-gray-100">
+    <div className="fixed inset-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" style={{ zIndex: 99999 }}>
+      <div className="w-full max-w-sm stitch-card relative overflow-hidden bg-white shadow-2xl animate-fade-in-up border border-gray-100">
         <button 
           onClick={handleSkip}
           className="absolute top-4 right-4 text-xs font-bold text-gray-400 hover:text-gray-700 bg-gray-100 rounded-full px-3 py-1"
