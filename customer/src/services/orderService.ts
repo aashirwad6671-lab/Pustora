@@ -150,6 +150,7 @@ export class OrderService {
         .insert({
           user_id: userId,
           store_id: storeId,
+          address_id: addressId,
           delivery_address: deliveryAddress,
           delivery_latitude: latitude,
           delivery_longitude: longitude,
