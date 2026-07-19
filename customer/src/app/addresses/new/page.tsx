@@ -3,8 +3,142 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '../../../store/authStore';
-import { Crosshair } from 'lucide-react';
 import { AuthService } from '../../../services/authService';
+
+const BLUE = '#2874f0';
+const GRAY_BG = '#f1f3f6';
+const BORDER = '#d0d5dd';
+const BORDER_FOCUS = '#2874f0';
+const TEXT_MAIN = '#212121';
+const TEXT_MUTED = '#878787';
+const INPUT_H = '48px';
+
+const inp = (focused: boolean): React.CSSProperties => ({
+  width: '100%',
+  height: INPUT_H,
+  border: `1px solid ${focused ? BORDER_FOCUS : BORDER}`,
+  borderRadius: '2px',
+  padding: '0 14px',
+  fontSize: '14px',
+  color: TEXT_MAIN,
+  background: '#fff',
+  outline: 'none',
+  boxSizing: 'border-box',
+  transition: 'border-color 0.15s',
+  fontFamily: 'inherit',
+});
+
+function Input({
+  placeholder,
+  value,
+  onChange,
+  type = 'text',
+  required,
+}: {
+  placeholder: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  required?: boolean;
+}) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div style={{ position: 'relative' }}>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={inp(focused)}
+        placeholder=""
+        autoComplete="off"
+        required={required}
+      />
+      <label
+        style={{
+          position: 'absolute',
+          left: '14px',
+          top: value || focused ? '-10px' : '50%',
+          transform: value || focused ? 'none' : 'translateY(-50%)',
+          fontSize: value || focused ? '11px' : '14px',
+          color: focused ? BLUE : TEXT_MUTED,
+          background: value || focused ? '#fff' : 'transparent',
+          padding: value || focused ? '0 3px' : '0',
+          pointerEvents: 'none',
+          transition: 'all 0.15s ease',
+          zIndex: 1,
+        }}
+      >
+        {placeholder}{required && <span style={{ color: '#e53935' }}> *</span>}
+      </label>
+    </div>
+  );
+}
+
+function SelectInput({
+  value,
+  onChange,
+  options,
+  placeholder,
+  required,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: { label: string; value: string }[];
+  placeholder: string;
+  required?: boolean;
+}) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div style={{ position: 'relative' }}>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={{ ...inp(focused), appearance: 'none', cursor: 'pointer' }}
+        required={required}
+      >
+        <option value="" disabled />
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>{o.label}</option>
+        ))}
+      </select>
+      <label
+        style={{
+          position: 'absolute',
+          left: '14px',
+          top: value || focused ? '-10px' : '50%',
+          transform: value || focused ? 'none' : 'translateY(-50%)',
+          fontSize: value || focused ? '11px' : '14px',
+          color: focused ? BLUE : TEXT_MUTED,
+          background: value || focused ? '#fff' : 'transparent',
+          padding: value || focused ? '0 3px' : '0',
+          pointerEvents: 'none',
+          transition: 'all 0.15s ease',
+          zIndex: 1,
+        }}
+      >
+        {placeholder}{required && <span style={{ color: '#e53935' }}> *</span>}
+      </label>
+      <div style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: TEXT_MUTED }}>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+const STATES = [
+  'Andhra Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Delhi', 'Goa',
+  'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka',
+  'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya',
+  'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim',
+  'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand',
+  'West Bengal',
+].map((s) => ({ label: s, value: s }));
 
 export default function AddAddressPage() {
   const router = useRouter();
@@ -12,7 +146,6 @@ export default function AddAddressPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Form State
   const [name, setName] = useState(user?.full_name || '');
   const [phone, setPhone] = useState(user?.phone_number || '');
   const [pincode, setPincode] = useState('');
@@ -22,7 +155,7 @@ export default function AddAddressPage() {
   const [state, setState] = useState('');
   const [landmark, setLandmark] = useState('');
   const [altPhone, setAltPhone] = useState('');
-  const [addressType, setAddressType] = useState('Home');
+  const [addressType, setAddressType] = useState<'Home' | 'Work' | 'Other'>('Home');
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -30,9 +163,7 @@ export default function AddAddressPage() {
     }
   }, [isAuthenticated, router]);
 
-  if (!isAuthenticated || !user) {
-    return null;
-  }
+  if (!isAuthenticated || !user) return null;
 
   const handleSave = async () => {
     if (!name || !phone || !pincode || !locality || !addressLine || !city || !state) {
@@ -41,30 +172,20 @@ export default function AddAddressPage() {
     }
     setLoading(true);
     setError('');
-
     try {
-      // Mock latitude/longitude for now. In real app, geocode the pincode/locality.
       const lat = 26.8467;
       const lng = 80.9462;
-
-      // Note: We are using AuthService.setupAddress which only saves basic fields currently.
-      // Name, Phone, Landmark, AltPhone are mocked in UI but not stored in Supabase yet.
       const res = await AuthService.setupAddress(
         user.id,
         addressType,
         addressLine,
-        locality, // using locality as area
+        locality,
         pincode,
         lat,
         lng,
-        true // make default
+        true
       );
-
-      if (res.error) {
-        throw new Error(res.error);
-      }
-
-      // Success
+      if (res.error) throw new Error(res.error);
       router.push('/addresses');
     } catch (err: any) {
       setError(err.message || 'Failed to save address.');
@@ -74,166 +195,174 @@ export default function AddAddressPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f1f3f6] flex justify-center pb-10" style={{ fontFamily: 'Roboto, var(--font-sans, sans-serif)' }}>
-      <div className="w-full max-w-[800px] bg-white min-h-screen sm:min-h-fit sm:mt-8 sm:border sm:border-gray-200 sm:shadow-sm">
-        
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-100 bg-white">
-          <h1 className="text-[16px] font-medium text-[#2874f0] uppercase tracking-wide">Add a new address</h1>
+    <div style={{ minHeight: '100vh', background: GRAY_BG, fontFamily: '"Roboto", "DM Sans", sans-serif', paddingBottom: '100px' }}>
+      {/* Header */}
+      <div style={{ background: '#fff', borderBottom: `1px solid ${BORDER}`, padding: '16px 20px', position: 'sticky', top: 0, zIndex: 10 }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button
+            onClick={() => router.back()}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: TEXT_MUTED, padding: '4px', display: 'flex', alignItems: 'center' }}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M13 4l-6 6 6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          <h1 style={{ fontSize: '16px', fontWeight: 700, color: TEXT_MAIN, margin: 0, letterSpacing: '0.2px' }}>
+            ADD A NEW ADDRESS
+          </h1>
+        </div>
+      </div>
+
+      {/* Card */}
+      <div style={{ maxWidth: '860px', margin: '24px auto', background: '#fff', borderRadius: '2px', border: `1px solid ${BORDER}`, padding: '0' }}>
+        {/* Section title */}
+        <div style={{ padding: '20px 24px', borderBottom: `1px solid ${BORDER}` }}>
+          <p style={{ fontSize: '12px', color: TEXT_MUTED, margin: 0, letterSpacing: '0.3px', textTransform: 'uppercase' }}>
+            Contact Details
+          </p>
         </div>
 
-        <div className="p-6">
-          <button className="flex items-center gap-2 bg-[#2874f0] text-white px-4 py-2.5 rounded-sm font-medium text-[14px] shadow-sm hover:shadow-md transition-shadow mb-6">
-            <Crosshair className="w-4 h-4" />
-            Use my current location
-          </button>
+        <div style={{ padding: '24px' }}>
+          {/* Row 1 — Name & Phone */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '20px' }}>
+            <Input placeholder="Full Name" value={name} onChange={setName} required />
+            <Input placeholder="10-digit Mobile Number" value={phone} onChange={setPhone} type="tel" required />
+          </div>
 
-          {error && (
-            <div className="mb-4 text-sm text-red-600 bg-red-50 p-3 rounded border border-red-100">
-              {error}
-            </div>
-          )}
+          {/* Address section title */}
+          <div style={{ borderTop: `1px solid ${BORDER}`, paddingTop: '20px', marginBottom: '20px' }}>
+            <p style={{ fontSize: '12px', color: TEXT_MUTED, margin: '0 0 20px 0', letterSpacing: '0.3px', textTransform: 'uppercase' }}>
+              Address Details
+            </p>
 
-          <div className="space-y-4 max-w-full">
-            {/* Row 1 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full border border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#2874f0] rounded-sm transition-colors"
-              />
-              <input
-                type="tel"
-                placeholder="10-digit mobile number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full border border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#2874f0] rounded-sm transition-colors"
-              />
+            {/* Row 2 — Pincode & Locality */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '20px' }}>
+              <Input placeholder="Pincode" value={pincode} onChange={setPincode} required />
+              <Input placeholder="Locality" value={locality} onChange={setLocality} required />
             </div>
 
-            {/* Row 2 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="Pincode"
-                value={pincode}
-                onChange={(e) => setPincode(e.target.value)}
-                className="w-full border border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#2874f0] rounded-sm transition-colors"
-              />
-              <input
-                type="text"
-                placeholder="Locality"
-                value={locality}
-                onChange={(e) => setLocality(e.target.value)}
-                className="w-full border border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#2874f0] rounded-sm transition-colors"
-              />
-            </div>
-
-            {/* Row 3 - Full Width Textarea */}
-            <div>
+            {/* Row 3 — Address textarea */}
+            <div style={{ marginBottom: '20px', position: 'relative' }}>
               <textarea
-                placeholder="Address (Area and Street)"
                 value={addressLine}
                 onChange={(e) => setAddressLine(e.target.value)}
-                rows={4}
-                className="w-full border border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#2874f0] rounded-sm transition-colors resize-none"
+                rows={3}
+                style={{
+                  width: '100%', border: `1px solid ${BORDER}`, borderRadius: '2px',
+                  padding: '14px', fontSize: '14px', color: TEXT_MAIN, outline: 'none',
+                  resize: 'none', fontFamily: 'inherit', boxSizing: 'border-box',
+                  transition: 'border-color 0.15s',
+                }}
+                onFocus={(e) => { e.target.style.borderColor = BORDER_FOCUS; }}
+                onBlur={(e) => { e.target.style.borderColor = BORDER; }}
+                placeholder=""
               />
+              <label style={{
+                position: 'absolute', left: '14px',
+                top: addressLine ? '-10px' : '16px',
+                fontSize: addressLine ? '11px' : '14px',
+                color: addressLine ? BLUE : TEXT_MUTED,
+                background: addressLine ? '#fff' : 'transparent',
+                padding: addressLine ? '0 3px' : '0',
+                pointerEvents: 'none', transition: 'all 0.15s ease',
+              }}>
+                Address (Area and Street) <span style={{ color: '#e53935' }}>*</span>
+              </label>
             </div>
 
-            {/* Row 4 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="City/District/Town"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                className="w-full border border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#2874f0] rounded-sm transition-colors"
-              />
-              <div className="relative">
-                <select
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
-                  className="w-full border border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#2874f0] rounded-sm transition-colors appearance-none bg-white text-gray-700"
-                >
-                  <option value="" disabled>--Select State--</option>
-                  <option value="Uttar Pradesh">Uttar Pradesh</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Karnataka">Karnataka</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
-                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
-              </div>
+            {/* Row 4 — City & State */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '20px' }}>
+              <Input placeholder="City / District / Town" value={city} onChange={setCity} required />
+              <SelectInput placeholder="State" value={state} onChange={setState} options={STATES} required />
             </div>
 
-            {/* Row 5 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="Landmark (Optional)"
-                value={landmark}
-                onChange={(e) => setLandmark(e.target.value)}
-                className="w-full border border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#2874f0] rounded-sm transition-colors"
-              />
-              <input
-                type="tel"
-                placeholder="Alternate Phone (Optional)"
-                value={altPhone}
-                onChange={(e) => setAltPhone(e.target.value)}
-                className="w-full border border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#2874f0] rounded-sm transition-colors"
-              />
+            {/* Row 5 — Landmark & Alt Phone */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
+              <Input placeholder="Landmark (Optional)" value={landmark} onChange={setLandmark} />
+              <Input placeholder="Alternate Phone (Optional)" value={altPhone} onChange={setAltPhone} type="tel" />
             </div>
-
-            {/* Address Type */}
-            <div className="pt-4">
-              <span className="block text-[12px] text-gray-500 mb-3">Address Type</span>
-              <div className="flex items-center gap-6">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="addressType"
-                    value="Home"
-                    checked={addressType === 'Home'}
-                    onChange={(e) => setAddressType(e.target.value)}
-                    className="w-4 h-4 text-[#2874f0] focus:ring-[#2874f0] border-gray-300"
-                  />
-                  <span className="text-[14px] text-gray-700">Home</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="addressType"
-                    value="Work"
-                    checked={addressType === 'Work'}
-                    onChange={(e) => setAddressType(e.target.value)}
-                    className="w-4 h-4 text-[#2874f0] focus:ring-[#2874f0] border-gray-300"
-                  />
-                  <span className="text-[14px] text-gray-700">Work</span>
-                </label>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="pt-8 flex items-center gap-6">
-              <button
-                onClick={handleSave}
-                disabled={loading}
-                className="bg-[#2874f0] text-white px-10 py-3 rounded-sm font-medium text-[14px] min-w-[150px] hover:bg-[#2874f0]/90 transition-colors"
-              >
-                {loading ? 'SAVING...' : 'SAVE'}
-              </button>
-              <button
-                onClick={() => router.back()}
-                className="text-[#2874f0] font-medium text-[14px] px-4 py-3 hover:bg-gray-50 rounded-sm transition-colors"
-              >
-                CANCEL
-              </button>
-            </div>
-
           </div>
+
+          {/* Address Type */}
+          <div style={{ borderTop: `1px solid ${BORDER}`, paddingTop: '20px', marginBottom: '4px' }}>
+            <p style={{ fontSize: '12px', color: TEXT_MUTED, margin: '0 0 14px 0', letterSpacing: '0.3px', textTransform: 'uppercase' }}>
+              Address Type
+            </p>
+            <div style={{ display: 'flex', gap: '24px' }}>
+              {(['Home', 'Work', 'Other'] as const).map((type) => (
+                <label key={type} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <input
+                    type="radio"
+                    name="addressType"
+                    value={type}
+                    checked={addressType === type}
+                    onChange={() => setAddressType(type)}
+                    style={{ accentColor: BLUE, width: '16px', height: '16px' }}
+                  />
+                  <span style={{ fontSize: '14px', color: TEXT_MAIN }}>{type}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Error message */}
+      {error && (
+        <div style={{ maxWidth: '860px', margin: '0 auto 16px', padding: '0 20px' }}>
+          <div style={{ background: '#fff3f3', border: '1px solid #ffcdd2', borderRadius: '2px', padding: '12px 16px', color: '#c62828', fontSize: '13px' }}>
+            ⚠️ {error}
+          </div>
+        </div>
+      )}
+
+      {/* Sticky Save Button (mobile-friendly) */}
+      <div style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0,
+        background: '#fff', borderTop: `1px solid ${BORDER}`,
+        padding: '14px 20px',
+        display: 'flex', alignItems: 'center', gap: '20px',
+        zIndex: 20,
+        boxShadow: '0 -2px 8px rgba(0,0,0,0.08)',
+      }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', display: 'flex', gap: '16px', width: '100%' }}>
+          <button
+            onClick={handleSave}
+            disabled={loading}
+            style={{
+              background: loading ? '#90b8f8' : BLUE,
+              color: '#fff',
+              border: 'none',
+              borderRadius: '2px',
+              padding: '0 40px',
+              height: '48px',
+              fontSize: '14px',
+              fontWeight: 700,
+              cursor: loading ? 'not-allowed' : 'pointer',
+              letterSpacing: '0.5px',
+              minWidth: '160px',
+              fontFamily: 'inherit',
+              transition: 'background 0.15s',
+            }}
+          >
+            {loading ? 'SAVING...' : 'SAVE ADDRESS'}
+          </button>
+          <button
+            onClick={() => router.back()}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: BLUE,
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              letterSpacing: '0.3px',
+              fontFamily: 'inherit',
+              padding: '0 8px',
+            }}
+          >
+            CANCEL
+          </button>
         </div>
       </div>
     </div>

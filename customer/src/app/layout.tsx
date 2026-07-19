@@ -131,7 +131,6 @@ const organizationJsonLd = {
 };
 
 import AuthProvider from '../components/AuthProvider';
-import AuthSplash from '../components/AuthSplash';
 
 // ── Root Layout ──────────────────────────────────────────────
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -150,7 +149,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <AuthProvider>
-          <AuthSplash />
           {children}
         </AuthProvider>
       </body>
