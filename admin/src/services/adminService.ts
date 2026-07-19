@@ -69,6 +69,8 @@ export class AdminService {
     if (!isServer) {
       return clientCall('checkAccessStatus');
     }
+    // Initialize the client so isServiceRoleReal is evaluated
+    getSupabaseClient();
     return { data: isServiceRoleReal, error: null, status: 200 };
   }
 

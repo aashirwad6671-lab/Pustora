@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { AdminService, adminSupabase } from '../services/adminService';
 import { Product, Order, Profile, Coupon } from '../types';
 
+export const dynamic = 'force-dynamic';
+
 export default function AdminControlPanel() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
