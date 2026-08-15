@@ -45,7 +45,7 @@ export default function CartBar() {
 
       {/* Sticky Bottom Cart Bar */}
       <div 
-        className="fixed bottom-0 left-0 right-0 z-[999] p-3 md:p-4 transition-all duration-300 transform translate-y-0"
+        className="fixed bottom-16 md:bottom-0 left-0 right-0 z-[999] p-3 md:p-4 transition-all duration-300"
         style={{ pointerEvents: 'none' }}
       >
         <div className="max-w-4xl mx-auto relative" style={{ pointerEvents: 'auto' }}>
