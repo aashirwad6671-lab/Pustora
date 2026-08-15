@@ -2,6 +2,9 @@
 // SSR page for a specific school — lists all available class combos
 // URL: /school/cms | /school/la-martiniere | /school/dps-lucknow
 // ──────────────────────────────────────────────────────────────
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';

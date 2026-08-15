@@ -2,7 +2,8 @@
 // SSR page: School + Class → shows combo with all products
 // URL: /school/cms/class-8 | /school/la-martiniere/class-10
 
-
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 // ──────────────────────────────────────────────────────────────
 import type { Metadata } from 'next';

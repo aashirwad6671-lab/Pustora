@@ -1,6 +1,7 @@
+export const runtime = 'edge';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import crypto from 'crypto';
 
 const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const rawKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key';
@@ -18,11 +19,18 @@ const OTP_EXPIRY_MINUTES = 10;
 const MAX_RESENDS_PER_HOUR = 3;
 
 function generateOTP(): string {
-  return crypto.randomInt(100000, 999999).toString();
+  const array = new Uint32Array(1);
+  crypto.getRandomValues(array);
+  const num = (array[0] % 900000) + 100000;
+  return num.toString();
 }
 
-function hashOTP(otp: string): string {
-  return crypto.createHash('sha256').update(otp).digest('hex');
+async function hashOTP(otp: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(otp);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
 async function sendEmailViaResend(toEmail: string, otp: string): Promise<boolean> {
@@ -107,7 +115,7 @@ export async function POST(request: NextRequest) {
 
     // Generate OTP
     const otp = generateOTP();
-    const otpHash = hashOTP(otp);
+    const otpHash = await hashOTP(otp);
     const expiresAt = new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000).toISOString();
 
     // Store in Supabase

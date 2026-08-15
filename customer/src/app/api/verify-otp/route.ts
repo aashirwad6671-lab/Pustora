@@ -1,6 +1,7 @@
+export const runtime = 'edge';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import crypto from 'crypto';
 
 const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const rawKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key';
@@ -14,8 +15,12 @@ const supabaseAdmin = createClient(
 
 const MAX_ATTEMPTS = 5;
 
-function hashOTP(otp: string): string {
-  return crypto.createHash('sha256').update(otp).digest('hex');
+async function hashOTP(otp: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(otp);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
 export async function POST(request: NextRequest) {
@@ -27,7 +32,7 @@ export async function POST(request: NextRequest) {
     }
 
     const normalizedEmail = email.toLowerCase().trim();
-    const otpHash = hashOTP(String(otp).trim());
+    const otpHash = await hashOTP(String(otp).trim());
     const now = new Date().toISOString();
 
     // Find latest unused, unexpired OTP for this email
