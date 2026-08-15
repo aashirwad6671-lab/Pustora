@@ -35,25 +35,64 @@ export default function CartBar() {
 
   return (
     <>
+      <style dangerouslySetInnerHTML={{__html: `
+        .cart-bar-overlay {
+          position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 998;
+        }
+        .cart-bar-wrapper {
+          position: fixed; left: 0; right: 0; z-index: 999; padding: 12px; transition: all 0.3s ease;
+          bottom: 64px; /* Default for mobile (above bottom nav) */
+        }
+        @media (min-width: 768px) {
+          .cart-bar-wrapper {
+            bottom: 0; padding: 16px;
+          }
+        }
+        .cart-bar-drawer {
+          background: white; border-radius: 16px; padding: 16px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+          border: 1px solid #f3f4f6; max-height: 380px; overflow-y: auto; margin-bottom: 12px;
+        }
+        .cart-bar-main {
+          background-color: #1E1B4B; color: white; border-radius: 16px; padding: 12px;
+          box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); display: flex; align-items: center; justify-content: space-between;
+          gap: 12px; border: 1px solid rgba(49,46,129,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        }
+        @media (min-width: 768px) { .cart-bar-main { padding: 16px; } }
+        .cart-bar-toggle {
+          position: relative; background-color: #6C3FD6; color: white; padding: 10px; border-radius: 12px;
+          display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: none; cursor: pointer;
+        }
+        .cart-bar-badge {
+          position: absolute; top: -6px; right: -6px; background-color: #FBBF24; color: #030712; font-size: 10px;
+          font-weight: 900; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center;
+          justify-content: center; border: 2px solid #1E1B4B;
+        }
+        .cart-bar-cta {
+          background-color: #10B981; color: white; font-weight: bold; font-size: 14px; padding: 10px 16px;
+          border-radius: 12px; display: flex; align-items: center; gap: 6px; text-decoration: none; cursor: pointer;
+        }
+        .cart-bar-cta:hover { background-color: #059669; }
+      `}} />
+
       {/* Expanded Mini-Cart Modal Overlay */}
       {expanded && (
         <div 
-          className="fixed inset-0 bg-black/40 backdrop-blur-xs z-[998] transition-opacity"
+          className="cart-bar-overlay"
           onClick={() => setExpanded(false)}
         />
       )}
 
       {/* Sticky Bottom Cart Bar */}
       <div 
-        className="fixed bottom-16 md:bottom-0 left-0 right-0 z-[999] p-3 md:p-4 transition-all duration-300"
+        className="cart-bar-wrapper"
         style={{ pointerEvents: 'none' }}
       >
-        <div className="max-w-4xl mx-auto relative" style={{ pointerEvents: 'auto' }}>
+        <div style={{ maxWidth: '896px', margin: '0 auto', position: 'relative', pointerEvents: 'auto' }}>
 
           {/* Expandable Items List Drawer */}
           {expanded && (
-            <div className="mb-3 bg-white rounded-2xl p-4 shadow-2xl border border-gray-100 max-h-[380px] overflow-y-auto animate-in slide-in-from-bottom-5 duration-200">
-              <div className="flex items-center justify-between pb-3 border-b border-gray-100 mb-3">
+            <div className="cart-bar-drawer">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '12px', borderBottom: '1px solid #f3f4f6', marginBottom: '12px' }}>
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-gray-900 text-base">Your Basket Items</span>
                   <span className="bg-[#6C3FD6]/10 text-[#6C3FD6] text-xs font-semibold px-2.5 py-0.5 rounded-full">
@@ -126,24 +165,24 @@ export default function CartBar() {
           )}
 
           {/* Main Bottom Floating Bar */}
-          <div className="bg-[#1E1B4B] text-white rounded-2xl p-3 md:p-4 shadow-2xl flex items-center justify-between gap-3 border border-indigo-900/50 backdrop-blur-md">
+          <div className="cart-bar-main">
             
             {/* Left: Cart Info & Item Drawer Toggle */}
-            <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0, flex: 1 }}>
               <button
                 onClick={() => setExpanded(!expanded)}
-                className="relative bg-[#6C3FD6] hover:bg-[#5b32be] text-white p-2.5 rounded-xl flex items-center justify-center transition-transform active:scale-95 shrink-0 shadow-md"
+                className="cart-bar-toggle"
                 aria-label="Toggle cart items"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5" strokeWidth={2}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style={{ width: '20px', height: '20px' }} strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
-                <span className="absolute -top-1.5 -right-1.5 bg-amber-400 text-gray-950 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#1E1B4B]">
+                <span className="cart-bar-badge">
                   {totalItems}
                 </span>
               </button>
 
-              <div className="min-w-0 flex-1 cursor-pointer" onClick={() => setExpanded(!expanded)}>
+              <div style={{ minWidth: 0, flex: 1, cursor: 'pointer' }} onClick={() => setExpanded(!expanded)}>
                 <div className="flex items-center gap-1.5">
                   <span className="font-bold text-xs md:text-sm text-amber-300 truncate">
                     {summaryText}
@@ -159,20 +198,20 @@ export default function CartBar() {
             </div>
 
             {/* Right: Total Price & Checkout CTA */}
-            <div className="flex items-center gap-3 shrink-0">
-              <div className="text-right hidden sm:block">
-                <div className="text-[10px] text-gray-300 uppercase tracking-wider font-semibold">Subtotal</div>
-                <div className="text-base md:text-lg font-black text-white">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
+              <div style={{ textAlign: 'right' }} className="hidden sm:block">
+                <div style={{ fontSize: '10px', color: '#d1d5db', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Subtotal</div>
+                <div style={{ fontSize: '16px', fontWeight: 900, color: 'white' }}>
                   ₹{totalPrice.toLocaleString('en-IN')}
                 </div>
               </div>
 
               <Link
                 href="/cart"
-                className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs md:text-sm px-4 py-2.5 rounded-xl shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center gap-1.5 active:scale-95"
+                className="cart-bar-cta"
               >
                 <span>View Cart (₹{totalPrice.toLocaleString('en-IN')})</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-4 h-4" strokeWidth={2.5}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style={{ width: '16px', height: '16px' }} strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </Link>
