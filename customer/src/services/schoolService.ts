@@ -8,8 +8,8 @@ import type { School, SchoolClass, Combo, ComboItem, Product } from '../types';
 
 // ── Server-side Supabase (for SSR / generateStaticParams) ───
 function getServerClient() {
-  const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  const rawKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+  const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://erhuepjjtuwnpzcgduxz.supabase.co';
+  const rawKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyaHVlcGpqdHV3bnB6Y2dkdXh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MTMwOTIsImV4cCI6MjA5NTk4OTA5Mn0.Dea4Uz-HfCjdxbmlyEI1DFXlhOCzsz2e0H5HA7LKhS0';
   const isValidUrl = (u: string) => {
     try { return new URL(u).protocol.startsWith('http'); } catch { return false; }
   };
