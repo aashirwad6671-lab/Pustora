@@ -13,8 +13,8 @@ const supabaseAdmin = createClient(
   rawKey
 );
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
-const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'Pustora <onboarding@resend.dev>';
+const BREVO_API_KEY = process.env.BREVO_API_KEY || '';
+const BREVO_FROM_EMAIL = process.env.BREVO_FROM_EMAIL || 'aashirwad6671@gmail.com';
 const OTP_EXPIRY_MINUTES = 10;
 const MAX_RESENDS_PER_HOUR = 3;
 
@@ -33,25 +33,28 @@ async function hashOTP(otp: string): Promise<string> {
   return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-async function sendEmailViaResend(toEmail: string, otp: string): Promise<boolean> {
-  if (!RESEND_API_KEY || RESEND_API_KEY === 'your_resend_api_key') {
-    console.log(`[Resend Dev Fallback] OTP for ${toEmail}: ${otp}`);
+async function sendEmailViaBrevo(toEmail: string, otp: string): Promise<boolean> {
+  if (!BREVO_API_KEY) {
+    console.log(`[Brevo API Key Missing] OTP for ${toEmail}: ${otp}`);
     return true;
   }
 
   try {
-    const res = await fetch('https://api.resend.com/emails', {
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'api-key': BREVO_API_KEY,
       },
       body: JSON.stringify({
-        from: RESEND_FROM_EMAIL,
-        to: [toEmail],
-        reply_to: 'aashirwad6671@gmail.com',
+        sender: {
+          name: 'Pustora',
+          email: BREVO_FROM_EMAIL
+        },
+        to: [{ email: toEmail }],
+        replyTo: { email: 'aashirwad6671@gmail.com' },
         subject: `${otp} — Your Pustora verification code`,
-        html: `
+        htmlContent: `
           <!DOCTYPE html>
           <html>
             <body style="font-family: 'DM Sans', Arial, sans-serif; background: #f8f4ff; margin: 0; padding: 40px 16px;">
@@ -83,14 +86,14 @@ async function sendEmailViaResend(toEmail: string, otp: string): Promise<boolean
 
     if (!res.ok) {
       const errText = await res.text();
-      console.warn('[Resend Email Notice]:', res.status, errText);
+      console.warn('[Brevo Email Notice]:', res.status, errText);
       console.log(`[OTP Console Active] Code for ${toEmail}: ${otp}`);
-      return true;
+      return true; // Still return true so UI shows next step, while user can check console
     }
 
     return true;
   } catch (err) {
-    console.error('Error sending via Resend:', err);
+    console.error('Error sending via Brevo:', err);
     console.log(`[OTP Console Active on Fallback] Code for ${toEmail}: ${otp}`);
     return true;
   }
@@ -141,8 +144,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to generate OTP. Please try again.' }, { status: 500 });
     }
 
-    // Send via Resend
-    const sent = await sendEmailViaResend(normalizedEmail, otp);
+    // Send via Brevo
+    const sent = await sendEmailViaBrevo(normalizedEmail, otp);
 
     if (!sent) {
       return NextResponse.json({ error: 'Failed to send email. Please try again.' }, { status: 502 });
