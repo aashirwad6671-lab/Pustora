@@ -9,6 +9,8 @@ import { createClient } from '@supabase/supabase-js';
 import JsonLd from '../../../components/JsonLd';
 import ProductDetailsClient from './ProductDetailsClient';
 
+export const runtime = 'edge';
+
 // ── UUID detection regex ──────────────────────────────────────
 const UUID_REGEX =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

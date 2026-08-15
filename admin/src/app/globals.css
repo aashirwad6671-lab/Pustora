@@ -863,3 +863,140 @@ a { text-decoration: none; color: inherit; }
   .admin-stat-value { font-size: 1.375rem; }
   .admin-support-grid { grid-template-columns: 1fr; height: auto; }
 }
+
+/* ================================
+   MOBILE SPECIFIC CLASSES (Pustora)
+   ================================ */
+
+/* Hamburger menu button */
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Sidebar Layout */
+.admin-layout-sidebar {
+  width: 260px;
+  background: #130624;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; bottom: 0; left: 0;
+  z-index: 90;
+  transition: transform 0.3s ease;
+}
+
+.admin-layout-main {
+  margin-left: 260px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+/* Grids */
+.grid-4-to-1 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.grid-2-to-1 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.grid-products-split {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 24px;
+  align-items: start;
+}
+
+.grid-fleet-split {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+.mobile-overlay {
+  display: none;
+}
+
+/* Form layouts */
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.table-responsive-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Media Query for Mobile */
+@media (max-width: 1024px) {
+  .hamburger-btn {
+    display: block;
+  }
+
+  .admin-layout-sidebar {
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+
+  .admin-layout-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .admin-layout-main {
+    margin-left: 0;
+  }
+
+  .mobile-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+  }
+
+  .mobile-overlay.hidden {
+    display: none;
+  }
+
+  .grid-4-to-1 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-2-to-1 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-products-split {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-fleet-split {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-row-2 {
+    grid-template-columns: 1fr;
+  }
+}
+

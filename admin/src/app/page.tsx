@@ -6,6 +6,7 @@ import { Product, Order, Profile, Coupon, DeliveryPartner } from '../types';
 
 export default function AdminControlPanel() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   
   const [activeModule, setActiveModule] = useState<
@@ -504,17 +505,14 @@ export default function AdminControlPanel() {
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#0D041A', color: '#E2D9F3', fontFamily: '"DM Sans", sans-serif' }}>
       
+      {/* ── MOBILE OVERLAY ── */}
+      <div 
+        className={`mobile-overlay ${isSidebarOpen ? '' : 'hidden'}`}
+        onClick={() => setIsSidebarOpen(false)}
+      />
+
       {/* ── SIDEBAR NAVIGATION ── */}
-      <aside style={{
-        width: '260px',
-        background: '#130624',
-        borderRight: '1px solid rgba(255,255,255,0.08)',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'fixed',
-        top: 0, bottom: 0, left: 0,
-        zIndex: 90,
-      }}>
+      <aside className={`admin-layout-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         {/* Brand */}
         <div style={{ padding: '24px 20px', display: 'flex', alignItems: 'center', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'linear-gradient(135deg, #7C3AED 0%, #A855F7 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', boxShadow: '0 4px 12px rgba(124,58,237,0.4)' }}>
@@ -596,7 +594,7 @@ export default function AdminControlPanel() {
       </aside>
 
       {/* ── MAIN WORKSPACE ── */}
-      <main style={{ marginLeft: '260px', flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <main className="admin-layout-main">
         
         {/* Top Header */}
         <header style={{
@@ -612,7 +610,10 @@ export default function AdminControlPanel() {
           top: 0,
           zIndex: 80,
         }}>
-          <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <button className="hamburger-btn" onClick={() => setIsSidebarOpen(true)}>
+              ☰
+            </button>
             <h1 style={{ color: '#fff', fontSize: '17px', fontWeight: 800, margin: 0, fontFamily: 'Sora, sans-serif', textTransform: 'capitalize' }}>
               {activeModule.replace('-', ' ')}
             </h1>
@@ -658,7 +659,7 @@ export default function AdminControlPanel() {
           {activeModule === 'dashboard' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               {/* Stat Widgets */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+              <div className="grid-4-to-1" style={{ gap: '16px' }}>
                 {[
                   { label: "Today's Delivered Sales", val: `₹${metrics.todayRevenue}`, trend: '+18.4% vs yesterday', color: '#10B981', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.2)' },
                   { label: 'Pending Dispatches', val: `${metrics.pendingOrdersCount} Orders`, trend: `${deliveryPartners.filter(d=>d.status==='active').length} Riders Active`, color: '#F59E0B', bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.2)' },
@@ -674,7 +675,7 @@ export default function AdminControlPanel() {
               </div>
 
               {/* Warehouse & Live Fleet Summary */}
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
+              <div className="grid-2-to-1" style={{ gap: '20px' }}>
                 <div style={{ background: '#160829', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '24px' }}>
                   <h3 style={{ color: '#fff', fontSize: '15px', fontWeight: 700, margin: '0 0 16px 0', fontFamily: 'Sora, sans-serif' }}>
                     📍 Active Lucknow Hub Coordinates
@@ -1019,13 +1020,13 @@ export default function AdminControlPanel() {
               MODULE 3: DELIVERY FLEET MANAGER (NEW DEDICATED)
              ══════════════════════════════════════════════════════════ */}
           {activeModule === 'fleet' && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '24px', alignItems: 'start' }}>
+            <div className="grid-fleet-split" style={{ gap: '24px', alignItems: 'start' }}>
               {/* Riders Grid */}
               <div>
                 <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: 700, margin: '0 0 16px 0', fontFamily: 'Sora, sans-serif' }}>
                   Registered Delivery Riders ({deliveryPartners.length})
                 </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                <div className="form-row-2" style={{ gap: '14px' }}>
                   {deliveryPartners.map((dp) => (
                     <div key={dp.id} style={{ background: '#160829', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -1116,7 +1117,7 @@ export default function AdminControlPanel() {
              ══════════════════════════════════════════════════════════ */}
           {activeModule === 'products' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: editingProductId ? '1fr 420px' : '1fr 420px', gap: '24px', alignItems: 'start' }}>
+              <div className="grid-products-split" style={{ gap: '24px', alignItems: 'start' }}>
 
                 {/* ── Product Table ── */}
                 <div style={{ background: '#160829', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '20px' }}>
@@ -1242,7 +1243,7 @@ export default function AdminControlPanel() {
                             />
                             <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', margin: '4px 0 0 0' }}>Paste a direct image link. It will appear in the store for customers.</p>
                           </div>
-                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                          <div className="form-row-2" style={{ gap: '10px' }}>
                             <div>
                               <label style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', fontWeight: 700, display: 'block', marginBottom: '4px' }}>Price (₹) *</label>
                               <input type="number" required value={editPrice} onChange={e => setEditPrice(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.06)', color: '#fff', boxSizing: 'border-box', outline: 'none' }} />
@@ -1252,7 +1253,7 @@ export default function AdminControlPanel() {
                               <input type="number" required value={editMrp} onChange={e => setEditMrp(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.06)', color: '#fff', boxSizing: 'border-box', outline: 'none' }} />
                             </div>
                           </div>
-                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                          <div className="form-row-2" style={{ gap: '10px' }}>
                             <div>
                               <label style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', fontWeight: 700, display: 'block', marginBottom: '4px' }}>Category</label>
                               <select value={editCat} onChange={e => setEditCat(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: '#240C3E', color: '#fff', boxSizing: 'border-box' }}>
@@ -1358,6 +1359,7 @@ export default function AdminControlPanel() {
               <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: 700, margin: '0 0 16px 0', fontFamily: 'Sora, sans-serif' }}>
                 Stock Replenishment Monitor
               </h3>
+              <div className="table-responsive-wrapper">
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)', textAlign: 'left' }}>
@@ -1390,6 +1392,7 @@ export default function AdminControlPanel() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
           )}
 
@@ -1401,6 +1404,7 @@ export default function AdminControlPanel() {
               <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: 700, margin: '0 0 16px 0', fontFamily: 'Sora, sans-serif' }}>
                 Customer & Staff Directory ({users.length})
               </h3>
+              <div className="table-responsive-wrapper">
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)', textAlign: 'left' }}>
@@ -1431,6 +1435,7 @@ export default function AdminControlPanel() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
           )}
 
@@ -1438,7 +1443,7 @@ export default function AdminControlPanel() {
               MODULE 7: HELPDESK & SUPPORT
              ══════════════════════════════════════════════════════════ */}
           {activeModule === 'support' && (
-            <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: '20px', height: 'calc(100vh - 160px)' }}>
+            <div className="grid-fleet-split" style={{ gap: '20px', height: 'calc(100vh - 160px)' }}>
               <div style={{ background: '#160829', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '16px', overflowY: 'auto' }}>
                 <h3 style={{ color: '#fff', fontSize: '14px', fontWeight: 700, margin: '0 0 12px 0' }}>Tickets ({tickets.length})</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -1488,12 +1493,12 @@ export default function AdminControlPanel() {
               MODULE 8: MARKETING COUPONS
              ══════════════════════════════════════════════════════════ */}
           {activeModule === 'marketing' && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '24px' }}>
+            <div className="grid-fleet-split" style={{ gap: '24px' }}>
               <div style={{ background: '#160829', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '24px' }}>
                 <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: 700, margin: '0 0 16px 0', fontFamily: 'Sora, sans-serif' }}>
                   Active Promotional Coupons ({coupons.length})
                 </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="form-row-2" style={{ gap: '12px' }}>
                   {coupons.map(c => (
                     <div key={c.id} style={{ background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', borderRadius: '12px', padding: '16px' }}>
                       <div style={{ fontSize: '16px', fontWeight: 800, color: '#C4B5FD', letterSpacing: '1px' }}>{c.code}</div>
