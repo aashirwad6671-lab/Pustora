@@ -1,14 +1,16 @@
 'use client';
 
-export const runtime = 'edge';
+
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Product, Category } from '../../../types';
 import { ProductService } from '../../../services/productService';
 import { useCartStore } from '../../../store/cartStore';
+import { useWishlistStore } from '../../../store/wishlistStore';
 import { useLocationStore } from '../../../store/locationStore';
 import Navbar from '../../../components/Navbar';
+import CartBar from '../../../components/CartBar';
 
 const CATALOG_SNAPSHOT: Product[] = [
   {
@@ -17,7 +19,7 @@ const CATALOG_SNAPSHOT: Product[] = [
     description: 'Standard textbook for Class 6 mathematics published by NCERT.',
     price: 150, mrp: 150, stock_quantity: 45, grade_suitability: 'Class 6',
     subject_tag: 'Mathematics', image_url: 'linear-gradient(135deg, #6C3FD6 0%, #9B5DE5 100%)',
-    is_featured: true, is_bestseller: true, is_active: true,
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'mathematics-class-6-ncert',
     created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
   },
   {
@@ -26,7 +28,7 @@ const CATALOG_SNAPSHOT: Product[] = [
     description: 'Official science textbook for CBSE Class 10 published by NCERT.',
     price: 195, mrp: 195, stock_quantity: 30, grade_suitability: 'Class 10',
     subject_tag: 'Science', image_url: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-    is_featured: true, is_bestseller: true, is_active: true,
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'science-class-10-ncert',
     created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
   },
   {
@@ -35,7 +37,7 @@ const CATALOG_SNAPSHOT: Product[] = [
     description: 'Premium quality softcover single line notebooks, 172 pages.',
     price: 360, mrp: 390, stock_quantity: 25, grade_suitability: 'All Grades',
     subject_tag: 'General', image_url: 'linear-gradient(135deg, #F5A623 0%, #D97706 100%)',
-    is_featured: true, is_bestseller: true, is_active: true,
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'classmate-notebook-pack-6',
     created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
   },
   {
@@ -44,7 +46,7 @@ const CATALOG_SNAPSHOT: Product[] = [
     description: 'Medium creative brick box featuring 35 colors. Endless builders fun.',
     price: 1599, mrp: 1799, stock_quantity: 12, grade_suitability: 'Age 4+',
     subject_tag: 'Creative', image_url: 'linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)',
-    is_featured: true, is_bestseller: true, is_active: true,
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'lego-creative-bricks-484',
     created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
   },
 ];
@@ -70,6 +72,7 @@ const GRADE_OPTIONS = ['all', 'Class 6', 'Class 10', 'Age 4+', 'All Grades'];
 
 export default function CategoryProductsPage({ params }: { params: { id: string } }) {
   const { addItem } = useCartStore();
+  const { addItem: addWish, removeItem: removeWish, isInWishlist } = useWishlistStore();
   const { availableStores, nearestStore, fetchStores } = useLocationStore();
 
   const [products, setProducts] = useState<Product[]>([]);

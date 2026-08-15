@@ -18,6 +18,7 @@ import Footer from '../components/Footer';
 import BestSellers from '../components/BestSellers';
 import Testimonials from '../components/Testimonials';
 import AppBanner from '../components/AppBanner';
+import CartBar from '../components/CartBar';
 
 export default function HomePage() {
   const { user, isAuthenticated, setSession } = useAuthStore();
@@ -45,6 +46,7 @@ export default function HomePage() {
       price: 150, mrp: 150, stock_quantity: 45, grade_suitability: 'Class 6',
       subject_tag: 'Mathematics', image_url: 'linear-gradient(135deg, #6C3FD6 0%, #9B5DE5 100%)',
       is_featured: true, is_bestseller: true, is_active: true,
+      slug: 'mathematics-class-6-ncert',
       created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     },
     {
@@ -54,6 +56,7 @@ export default function HomePage() {
       price: 195, mrp: 195, stock_quantity: 30, grade_suitability: 'Class 10',
       subject_tag: 'Science', image_url: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
       is_featured: true, is_bestseller: true, is_active: true,
+      slug: 'science-class-10-ncert',
       created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     },
     {
@@ -63,6 +66,7 @@ export default function HomePage() {
       price: 360, mrp: 390, stock_quantity: 25, grade_suitability: 'All Grades',
       subject_tag: 'General', image_url: 'linear-gradient(135deg, #F5A623 0%, #D97706 100%)',
       is_featured: true, is_bestseller: true, is_active: true,
+      slug: 'classmate-notebook-pack-6',
       created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     },
     {
@@ -72,6 +76,7 @@ export default function HomePage() {
       price: 1599, mrp: 1799, stock_quantity: 12, grade_suitability: 'Age 4+',
       subject_tag: 'Creative', image_url: 'linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)',
       is_featured: true, is_bestseller: true, is_active: true,
+      slug: 'lego-creative-bricks-484',
       created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     },
   ];
@@ -339,7 +344,7 @@ export default function HomePage() {
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '2rem', justifyItems: 'center' }}>
                     {demoProducts.filter((p) => p.category_id === 'books').map((book) => (
                       <div key={book.id} className="book-3d" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                        <Link href={`/product/${book.id}`} style={{ display: 'block' }}>
+                        <Link href={`/product/${(book as any).slug || book.id}`} style={{ display: 'block' }}>
                           <div className="book-3d-cover" style={{ background: book.image_url || 'var(--primary-gradient)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '12px' }}>
                             <span style={{ fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.85)', fontWeight: 800, borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '4px' }}>
                               {book.brand}
@@ -405,6 +410,9 @@ export default function HomePage() {
 
       {/* ── FOOTER ── */}
       <Footer />
+
+      {/* ── STICKY CART BAR ── */}
+      <CartBar />
 
       {/* ── AI VOICE OVERLAY (modal only, no floating FAB) ── */}
       <VoiceAssistantOverlay

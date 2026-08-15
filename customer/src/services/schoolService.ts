@@ -8,11 +8,13 @@ import type { School, SchoolClass, Combo, ComboItem, Product } from '../types';
 
 // ── Server-side Supabase (for SSR / generateStaticParams) ───
 function getServerClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const key =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-  return createClient(url, key);
+  const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  const rawKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+  const isValidUrl = (u: string) => {
+    try { return new URL(u).protocol.startsWith('http'); } catch { return false; }
+  };
+  const url = isValidUrl(rawUrl) ? rawUrl : 'https://placeholder-pustora.supabase.co';
+  return createClient(url, rawKey);
 }
 
 // ── All active schools ───────────────────────────────────────

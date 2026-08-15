@@ -28,7 +28,7 @@ const NAV_LINKS = [
   { label: 'Books', href: '/category/books' },
   { label: 'Stationery', href: '/category/stationery' },
   { label: 'Toys & Gifts', href: '/category/toys' },
-  { label: 'Track Order', href: '/cart' },
+  { label: 'Track Order', href: '/orders' },
 ];
 
 function SearchIcon() {

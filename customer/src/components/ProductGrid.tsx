@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Product } from '../types';
+import { useWishlistStore } from '../store/wishlistStore';
 
 interface ProductGridProps {
   products: Product[];
@@ -38,43 +40,28 @@ function SkeletonCard() {
   );
 }
 
-export default function ProductGrid({ products, loading, onAddToCart }: ProductGridProps) {
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [priceMax, setPriceMax] = useState(2000);
-  const [selectedGrades, setSelectedGrades] = useState<string[]>([]);
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const overlayRef = useRef<HTMLDivElement>(null);
+interface FilterContentProps {
+  activeFilterCount: number;
+  clearFilters: () => void;
+  priceMax: number;
+  setPriceMax: (v: number) => void;
+  selectedGrades: string[];
+  toggleGrade: (g: string) => void;
+  selectedBrands: string[];
+  toggleBrand: (b: string) => void;
+}
 
-  // Close filter on overlay click
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === overlayRef.current) setFilterOpen(false);
-  };
-
-  // Lock body scroll when filter open on mobile
-  useEffect(() => {
-    if (filterOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => { document.body.style.overflow = ''; };
-  }, [filterOpen]);
-
-  const toggleGrade = (g: string) =>
-    setSelectedGrades((prev) => prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]);
-
-  const toggleBrand = (b: string) =>
-    setSelectedBrands((prev) => prev.includes(b) ? prev.filter((x) => x !== b) : [...prev, b]);
-
-  const clearFilters = () => {
-    setPriceMax(2000);
-    setSelectedGrades([]);
-    setSelectedBrands([]);
-  };
-
-  const activeFilterCount = selectedGrades.length + selectedBrands.length + (priceMax < 2000 ? 1 : 0);
-
-  const FilterContent = () => (
+function FilterContent({
+  activeFilterCount,
+  clearFilters,
+  priceMax,
+  setPriceMax,
+  selectedGrades,
+  toggleGrade,
+  selectedBrands,
+  toggleBrand,
+}: FilterContentProps) {
+  return (
     <>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ fontFamily: 'Sora, sans-serif', fontWeight: 700, fontSize: '0.875rem', color: 'var(--deep-text)' }}>
@@ -156,6 +143,55 @@ export default function ProductGrid({ products, loading, onAddToCart }: ProductG
       </div>
     </>
   );
+}
+
+export default function ProductGrid({ products, loading, onAddToCart }: ProductGridProps) {
+  const { addItem: addWish, removeItem: removeWish, isInWishlist } = useWishlistStore();
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [priceMax, setPriceMax] = useState(2000);
+  const [selectedGrades, setSelectedGrades] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  // Close filter on overlay click
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === overlayRef.current) setFilterOpen(false);
+  };
+
+  // Lock body scroll when filter open on mobile
+  useEffect(() => {
+    if (filterOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [filterOpen]);
+
+  const toggleGrade = (g: string) =>
+    setSelectedGrades((prev) => prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]);
+
+  const toggleBrand = (b: string) =>
+    setSelectedBrands((prev) => prev.includes(b) ? prev.filter((x) => x !== b) : [...prev, b]);
+
+  const clearFilters = () => {
+    setPriceMax(2000);
+    setSelectedGrades([]);
+    setSelectedBrands([]);
+  };
+
+  const activeFilterCount = selectedGrades.length + selectedBrands.length + (priceMax < 2000 ? 1 : 0);
+
+  const filterProps = {
+    activeFilterCount,
+    clearFilters,
+    priceMax,
+    setPriceMax,
+    selectedGrades,
+    toggleGrade,
+    selectedBrands,
+    toggleBrand,
+  };
 
   return (
     <section aria-label="Product catalog">
@@ -193,7 +229,7 @@ export default function ProductGrid({ products, loading, onAddToCart }: ProductG
       <div className="browse-layout">
         {/* ── DESKTOP SIDEBAR ── */}
         <aside className="filter-sidebar" aria-label="Filter panel">
-          <FilterContent />
+          <FilterContent {...filterProps} />
         </aside>
 
         {/* ── PRODUCT GRID ── */}
@@ -214,62 +250,100 @@ export default function ProductGrid({ products, loading, onAddToCart }: ProductG
             </div>
           ) : (
             <div className="product-grid product-grid-4">
-              {products.map((prod) => (
-                <article
-                  key={prod.id}
-                  className="product-card"
-                  id={`product-card-${prod.id}`}
-                  aria-label={prod.name}
-                >
-                  {/* Image area */}
-                  <Link href={`/product/${prod.id}`} style={{ display: 'block', textDecoration: 'none' }}>
-                    <div className="product-card-img-area">
-                      <div
-                        className="product-card-img-bg"
-                        style={{ background: prod.image_url || 'var(--primary-gradient)' }}
-                      />
-                      <span className="product-card-emoji">
-                        {CATEGORY_EMOJI[prod.category_id] || '🛍️'}
-                      </span>
-                      {prod.is_bestseller && (
-                        <span className="product-card-bestseller">⚡ Bestseller</span>
-                      )}
-                    </div>
-                  </Link>
-
-                  {/* Body */}
-                  <div className="product-card-body">
-                    <span className="product-card-cat">
-                      {prod.category_id} {prod.grade_suitability ? `• ${prod.grade_suitability}` : ''}
-                    </span>
-                    <Link href={`/product/${prod.id}`} style={{ textDecoration: 'none' }}>
-                      <h3 className="product-card-name">{prod.name}</h3>
-                    </Link>
-                    <p className="product-card-meta">{prod.brand}</p>
-                  </div>
-
-                  {/* Footer */}
-                  <div className="product-card-footer">
-                    <div>
-                      <span className="product-price-main">₹{prod.price}</span>
-                      {prod.mrp > prod.price && (
-                        <span className="product-price-mrp">₹{prod.mrp}</span>
-                      )}
-                    </div>
+              {products.map((prod) => {
+                const wishlisted = isInWishlist(prod.id);
+                return (
+                  <article
+                    key={prod.id}
+                    className="product-card"
+                    id={`product-card-${prod.id}`}
+                    aria-label={prod.name}
+                    style={{ position: 'relative' }}
+                  >
+                    {/* Wishlist Button */}
                     <button
-                      onClick={() => onAddToCart(prod)}
-                      className="product-add-btn"
-                      id={`add-to-cart-${prod.id}`}
-                      aria-label={`Add ${prod.name} to cart`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        wishlisted ? removeWish(prod.id) : addWish(prod);
+                      }}
+                      style={{
+                        position: 'absolute', top: '8px', right: '8px', zIndex: 5,
+                        background: wishlisted ? '#EF4444' : 'rgba(255,255,255,0.92)',
+                        border: 'none', borderRadius: '50%', width: '32px', height: '32px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                        transition: 'all 0.2s ease',
+                      }}
+                      aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                     >
-                      Add
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                      <svg viewBox="0 0 24 24" fill={wishlisted ? '#fff' : 'none'} stroke={wishlisted ? '#fff' : '#EF4444'} width="15" height="15">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                       </svg>
                     </button>
-                  </div>
-                </article>
-              ))}
+                    {/* Image area */}
+                    <Link href={`/product/${(prod as any).slug || prod.id}`} style={{ display: 'block', textDecoration: 'none' }}>
+                      <div className="product-card-img-area">
+                        {prod.image_url && prod.image_url.startsWith('http') ? (
+                          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                            <Image
+                              src={prod.image_url}
+                              alt={prod.name}
+                              fill
+                              sizes="(max-width: 600px) 50vw, 200px"
+                              style={{ objectFit: 'cover', borderRadius: '12px' }}
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            <div
+                              className="product-card-img-bg"
+                              style={{ background: prod.image_url || 'var(--primary-gradient)' }}
+                            />
+                            <span className="product-card-emoji">
+                              {CATEGORY_EMOJI[prod.category_id] || '🛍️'}
+                            </span>
+                          </>
+                        )}
+                        {prod.is_bestseller && (
+                          <span className="product-card-bestseller">⚡ Bestseller</span>
+                        )}
+                      </div>
+                    </Link>
+
+                    {/* Body */}
+                    <div className="product-card-body">
+                      <span className="product-card-cat">
+                        {prod.category_id} {prod.grade_suitability ? `• ${prod.grade_suitability}` : ''}
+                      </span>
+                      <Link href={`/product/${(prod as any).slug || prod.id}`} style={{ textDecoration: 'none' }}>
+                        <h3 className="product-card-name">{prod.name}</h3>
+                      </Link>
+                      <p className="product-card-meta">{prod.brand}</p>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="product-card-footer">
+                      <div>
+                        <span className="product-price-main">₹{prod.price}</span>
+                        {prod.mrp > prod.price && (
+                          <span className="product-price-mrp">₹{prod.mrp}</span>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => onAddToCart(prod)}
+                        className="product-add-btn"
+                        id={`add-to-cart-${prod.id}`}
+                        aria-label={`Add ${prod.name} to cart`}
+                      >
+                        Add
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                        </svg>
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           )}
         </div>
@@ -297,7 +371,7 @@ export default function ProductGrid({ products, loading, onAddToCart }: ProductG
             ✕
           </button>
         </div>
-        <FilterContent />
+        <FilterContent {...filterProps} />
         <button
           className="stitch-btn"
           style={{ width: '100%', marginTop: 'auto', justifyContent: 'center' }}
@@ -322,7 +396,7 @@ export default function ProductGrid({ products, loading, onAddToCart }: ProductG
           </button>
         </div>
         <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          <FilterContent />
+          <FilterContent {...filterProps} />
         </div>
         <button
           className="stitch-btn"

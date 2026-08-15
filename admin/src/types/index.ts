@@ -78,6 +78,7 @@ export interface Order {
   id: string; // UUID
   user_id: string;
   store_id: string;
+  address_id: string;
   status: OrderStatus;
   delivery_address: string;
   delivery_latitude: number;
@@ -91,10 +92,29 @@ export interface Order {
   payment_status: PaymentStatus;
   razorpay_order_id: string | null;
   razorpay_payment_id: string | null;
+  delivery_partner_id: string | null;
   rider_name: string | null;
   rider_phone: string | null;
   created_at: string;
   updated_at: string;
+}
+
+// 11. Delivery Partner Profile
+export interface DeliveryPartner {
+  id: string; // UUID — delivery_partners table PK
+  profile_id: string;
+  vehicle_type: string; // 'Bicycle' | 'Bike'
+  vehicle_number: string | null;
+  status: 'active' | 'busy' | 'offline';
+  current_latitude: number | null;
+  current_longitude: number | null;
+  created_at: string;
+  updated_at: string;
+  // joined from profiles
+  profiles?: {
+    full_name: string | null;
+    phone_number: string;
+  } | null;
 }
 
 // 7. Core Order Items list

@@ -2,7 +2,7 @@
 // Handles SEO-friendly slug URLs (e.g., /product/apsara-platinum-pencils)
 // Also handles legacy UUID URLs as fallback (resolves to slug and redirects)
 
-export const runtime = 'edge';
+
 
 // This is a SERVER COMPONENT wrapper that provides SSR metadata, then
 // renders the existing client-side ProductDetailsPage.
@@ -19,30 +19,75 @@ const UUID_REGEX =
 
 // ── Supabase server client ─────────────────────────────────────
 function getServerClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const key =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-  return createClient(url, key);
+  const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  const rawKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+  const isValidUrl = (u: string) => {
+    try { return new URL(u).protocol.startsWith('http'); } catch { return false; }
+  };
+  const url = isValidUrl(rawUrl) ? rawUrl : 'https://placeholder-pustora.supabase.co';
+  return createClient(url, rawKey);
 }
+
+const DEMO_PRODUCTS = [
+  {
+    id: 'tb-ncert-m6', slug: 'mathematics-class-6-ncert', category_id: 'books', sub_category: 'textbooks',
+    name: 'Mathematics Class VI (NCERT)', brand: 'NCERT',
+    description: 'Official CBSE Class 6 Mathematics textbook by NCERT.',
+    price: 150, mrp: 150, stock_quantity: 45, grade_suitability: 'Class 6',
+    subject_tag: 'Mathematics', image_url: 'linear-gradient(135deg, #6C3FD6 0%, #9B5DE5 100%)',
+    is_featured: true, is_bestseller: true, is_active: true,
+  },
+  {
+    id: 'tb-ncert-s10', slug: 'science-class-10-ncert', category_id: 'books', sub_category: 'textbooks',
+    name: 'Science Class X (NCERT)', brand: 'NCERT',
+    description: 'Official CBSE Class 10 Science textbook by NCERT.',
+    price: 195, mrp: 195, stock_quantity: 30, grade_suitability: 'Class 10',
+    subject_tag: 'Science', image_url: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+    is_featured: true, is_bestseller: true, is_active: true,
+  },
+  {
+    id: 'nb-classmate-s6', slug: 'classmate-notebook-pack-6', category_id: 'stationery', sub_category: 'notebooks',
+    name: 'Classmate Notebook Pack of 6', brand: 'Classmate',
+    description: 'Premium quality softcover single line notebooks for school use.',
+    price: 360, mrp: 390, stock_quantity: 25, grade_suitability: 'All Grades',
+    subject_tag: 'General', image_url: 'linear-gradient(135deg, #F5A623 0%, #D97706 100%)',
+    is_featured: true, is_bestseller: true, is_active: true,
+  },
+  {
+    id: 'toy-lego-classic', slug: 'lego-creative-bricks-484', category_id: 'toys', sub_category: 'building-blocks',
+    name: 'LEGO Creative Bricks (484 Pcs)', brand: 'LEGO',
+    description: 'Medium creative brick box featuring 484 pieces in 35 vibrant colors.',
+    price: 1599, mrp: 1799, stock_quantity: 12, grade_suitability: 'Age 4+',
+    subject_tag: 'Creative', image_url: 'linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)',
+    is_featured: true, is_bestseller: true, is_active: true,
+  },
+];
 
 // ── Fetch product by slug OR uuid ──────────────────────────────
 async function fetchProduct(slugOrId: string) {
-  const supabase = getServerClient();
-  const isUuid = UUID_REGEX.test(slugOrId);
+  try {
+    const supabase = getServerClient();
+    const isUuid = UUID_REGEX.test(slugOrId);
 
-  const query = supabase
-    .from('products')
-    .select('*')
-    .eq('is_active', true);
+    const query = supabase
+      .from('products')
+      .select('*')
+      .eq('is_active', true);
 
-  const { data, error } = await (isUuid
-    ? query.eq('id', slugOrId)
-    : query.eq('slug', slugOrId)
-  ).single();
+    const { data, error } = await (isUuid
+      ? query.eq('id', slugOrId)
+      : query.eq('slug', slugOrId)
+    ).single();
 
-  if (error || !data) return null;
-  return data as any;
+    if (!error && data) return data as any;
+  } catch {
+    // Fallback below
+  }
+
+  // Fallback to DEMO_PRODUCTS array
+  return (DEMO_PRODUCTS.find(
+    (p) => p.slug === slugOrId || p.id === slugOrId
+  ) as any) ?? null;
 }
 
 // ── generateMetadata ───────────────────────────────────────────

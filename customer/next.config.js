@@ -22,9 +22,18 @@ const nextConfig = {
         hostname: '*.supabase.in',
         pathname: '/storage/v1/object/public/**',
       },
+      {
+        protocol: 'https',
+        hostname: '**', // allow any HTTPS image URL (product images, avatar URLs)
+      },
     ],
   },
 };
 
-module.exports = nextConfig;
+const withPWA = require('@ducanh2912/next-pwa').default({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+});
+
+module.exports = withPWA(nextConfig);
 

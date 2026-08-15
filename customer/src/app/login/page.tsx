@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { AuthService } from '../../services/authService';
@@ -22,6 +22,7 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loadingLocal, setLoadingLocal] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
 
   const formatPhoneNumber = (num: string) => {
     let cleaned = num.replace(/\D/g, '');
@@ -30,6 +31,12 @@ export default function LoginPage() {
     }
     return '+' + cleaned;
   };
+
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = setTimeout(() => setResendCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [resendCooldown]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,23 +64,47 @@ export default function LoginPage() {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null); setSuccess(null);
-    
     if (!email || !password || phoneNumber.length < 10) {
       setError('Please fill in all fields (Email, Password, and 10-digit phone).'); return;
     }
-
     setLoadingLocal(true); setLoading(true);
     try {
       const formattedPhone = formatPhoneNumber(phoneNumber);
       const res = await AuthService.signUpWithEmail(email, password, formattedPhone);
       if (res.error) throw new Error(res.error);
-      
-      setSuccess('Signup successful! Check your email for the verification code.');
+      // Send OTP via Brevo
+      const otpRes = await fetch('/api/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const otpData = await otpRes.json();
+      if (!otpRes.ok) throw new Error(otpData.error || 'Failed to send OTP');
+      setSuccess('Account created! Check your email for the 6-digit code.');
       setMode('otp');
+      setResendCooldown(60);
     } catch (err: any) {
       setError(err.message || 'Failed to sign up.');
     } finally {
       setLoadingLocal(false); setLoading(false);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    if (resendCooldown > 0 || !email) return;
+    setError(null);
+    try {
+      const otpRes = await fetch('/api/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await otpRes.json();
+      if (!otpRes.ok) throw new Error(data.error || 'Failed to resend OTP');
+      setSuccess('New verification code sent to your email.');
+      setResendCooldown(60);
+    } catch (err: any) {
+      setError(err.message);
     }
   };
 
@@ -83,20 +114,24 @@ export default function LoginPage() {
     if (otpToken.length !== 6) {
       setError('Please enter a valid 6-digit OTP code.'); return;
     }
-
     setLoadingLocal(true); setLoading(true);
     try {
+      // Verify via Brevo OTP endpoint
+      const verifyRes = await fetch('/api/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp: otpToken }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok) throw new Error(verifyData.error || 'Verification failed');
+      // Complete Supabase account activation
       const res = await AuthService.verifyEmailOTP(email, otpToken);
-      if (res.error || !res.data) throw new Error(res.error || 'Verification failed');
-      
+      if (res.error || !res.data) throw new Error(res.error || 'Account activation failed');
       setSuccess('Email verified successfully!');
       const data = res.data;
       setTimeout(() => {
-        if (data?.isNewUser) {
-          router.push('/setup');
-        } else {
-          router.push('/');
-        }
+        if (data?.isNewUser) router.push('/setup');
+        else router.push('/');
       }, 1000);
     } catch (err: any) {
       setError(err.message || 'Verification failed. Please check your OTP.');
@@ -212,15 +247,39 @@ export default function LoginPage() {
 
         {mode === 'otp' && (
           <form onSubmit={handleVerifyOTP} className="space-y-4">
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-2">
+              <span className="text-amber-500 text-base flex-shrink-0">&#8987;</span>
+              <p className="text-amber-800 text-xs font-medium">
+                Code sent to <strong>{email}</strong>. Expires in <strong>10 minutes</strong>. Check spam if not found.
+              </p>
+            </div>
             <div>
               <label className="block text-xs uppercase tracking-wider font-bold mb-1.5" style={{ color: 'var(--primary)' }}>6-Digit OTP Code</label>
-              <input type="text" placeholder="Enter code sent to email" maxLength={6} value={otpToken} onChange={e => setOtpToken(e.target.value.replace(/\D/g, ''))} className="stitch-input text-center text-lg font-bold w-full" required />
+              <input
+                type="text"
+                placeholder="_ _ _ _ _ _"
+                maxLength={6}
+                value={otpToken}
+                onChange={e => setOtpToken(e.target.value.replace(/\D/g, ''))}
+                className="stitch-input text-center text-2xl font-black w-full"
+                style={{ letterSpacing: '0.4em' }}
+                required
+              />
             </div>
             <button type="submit" disabled={loadingLocal} className="stitch-btn w-full justify-center min-h-[48px]">
               {loadingLocal ? 'Verifying...' : 'Verify & Continue'}
             </button>
-            <button type="button" onClick={() => { setMode('signup'); setError(null); setSuccess(null); }} className="w-full text-center text-xs font-bold hover:underline py-2 block" style={{ color: 'var(--primary)' }}>
-              Change Email
+            <div className="text-center">
+              {resendCooldown > 0 ? (
+                <p className="text-xs text-gray-500">Resend in <span className="font-bold" style={{ color: 'var(--primary)' }}>{resendCooldown}s</span></p>
+              ) : (
+                <button type="button" onClick={handleResendOTP} className="text-xs font-bold hover:underline" style={{ color: 'var(--primary)' }}>
+                  Didn&apos;t receive the code? Resend OTP
+                </button>
+              )}
+            </div>
+            <button type="button" onClick={() => { setMode('signup'); setError(null); setSuccess(null); }} className="w-full text-center text-xs font-bold hover:underline py-1 block text-gray-400">
+              &larr; Change Email
             </button>
           </form>
         )}

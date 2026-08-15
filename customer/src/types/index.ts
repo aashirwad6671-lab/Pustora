@@ -56,7 +56,14 @@ export interface Product {
   image_url: string | null;
   is_featured: boolean;
   is_bestseller: boolean;
-  is_active: boolean;
+  is_active?: boolean;
+  slug?: string | null;
+  author?: string | null;
+  publisher?: string | null;
+  isbn?: string | null;
+  edition?: string | null;
+  language?: string | null;
+  format?: string | null;
   created_at: string;
   updated_at: string;
 }

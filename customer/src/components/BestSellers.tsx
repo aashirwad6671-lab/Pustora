@@ -47,7 +47,7 @@ export default function BestSellers({ products, onAddToCart }: BestSellersProps)
               aria-label={p.name}
             >
               {/* Image area */}
-              <Link href={`/product/${p.id}`} className="bs-card-img" style={{ background: cat.bg }} tabIndex={-1} aria-hidden="true">
+              <Link href={`/product/${(p as any).slug || p.id}`} className="bs-card-img" style={{ background: cat.bg }} tabIndex={-1} aria-hidden="true">
                 <span className="bs-card-emoji" role="img" aria-label={p.category_id}>
                   {cat.emoji}
                 </span>
@@ -61,7 +61,7 @@ export default function BestSellers({ products, onAddToCart }: BestSellersProps)
               {/* Body */}
               <div className="bs-card-body">
                 <span className="bs-card-brand">{p.brand}</span>
-                <Link href={`/product/${p.id}`} className="bs-card-name">
+                <Link href={`/product/${(p as any).slug || p.id}`} className="bs-card-name">
                   {p.name}
                 </Link>
                 <div className="bs-card-footer">

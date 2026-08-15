@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useAuthStore } from '../../store/authStore';
 import Link from 'next/link';
 import {
@@ -95,11 +96,15 @@ export default function ProfilePage() {
         
         {/* 1. Top Header */}
         <div className="bg-white px-4 pt-8 pb-8 flex flex-col items-center justify-center border-b border-gray-100">
-          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-4 border-2 border-gray-100 shadow-inner overflow-hidden">
+          <div className="w-24 h-24 rounded-full flex items-center justify-center mb-4 border-2 border-gray-100 shadow-inner overflow-hidden"
+            style={{
+              background: user.avatar_url ? 'transparent' : `hsl(${(user.full_name?.charCodeAt(0) || 80) * 5 % 360}, 65%, 55%)`,
+            }}
+          >
             {user.avatar_url ? (
-              <img src={user.avatar_url} alt="Profile" className="w-full h-full rounded-full object-cover" />
+              <Image src={user.avatar_url} alt="Profile" width={96} height={96} style={{ borderRadius: '50%', objectFit: 'cover' }} />
             ) : (
-              <span className="text-3xl text-gray-500 font-medium">
+              <span className="text-white text-3xl font-black" style={{ fontFamily: 'Sora, sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
                 {user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
               </span>
             )}
@@ -118,14 +123,14 @@ export default function ProfilePage() {
               <Package className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
               <span className="text-xs font-medium text-gray-800 text-center leading-tight">Your orders</span>
             </Link>
-            <button className="flex-1 flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-gray-200 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
+            <Link href="/wallet" className="flex-1 flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-gray-200 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
               <Wallet className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
               <span className="text-xs font-medium text-gray-800 text-center leading-tight">Pustora Wallet</span>
-            </button>
-            <button className="flex-1 flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-gray-200 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
+            </Link>
+            <Link href="/help" className="flex-1 flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-gray-200 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
               <MessageCircleQuestion className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
               <span className="text-xs font-medium text-gray-800 text-center leading-tight">Need help?</span>
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -134,7 +139,7 @@ export default function ProfilePage() {
         <div className="bg-white border-y border-gray-100">
           <ListItem icon={BookUser} title="Address book" href="/addresses" />
           <ListItem icon={GraduationCap} title="My Students / School Details" subtitle="Save school & class to quickly find combos" href="/setup" />
-          <ListItem icon={Heart} title="Your wishlist" />
+          <ListItem icon={Heart} title="Your wishlist" href="/wishlist" />
           <ListItem icon={ReceiptText} title="GST details" />
         </div>
 
@@ -158,7 +163,6 @@ export default function ProfilePage() {
         
         <div className="text-center py-8">
           <h4 className="text-gray-400 font-bold tracking-widest text-lg">PUSTORA</h4>
-          <p className="text-xs text-gray-400 mt-1">v1.0.0</p>
         </div>
       </div>
     </div>

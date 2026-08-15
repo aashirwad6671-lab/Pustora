@@ -1,0 +1,100 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
+
+const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const rawKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key';
+const validUrl = (url: string) => {
+  try { return new URL(url).protocol.startsWith('http'); } catch { return false; }
+};
+const supabaseAdmin = createClient(
+  validUrl(rawUrl) ? rawUrl : 'https://placeholder-pustora.supabase.co',
+  rawKey
+);
+
+const MAX_ATTEMPTS = 5;
+
+function hashOTP(otp: string): string {
+  return crypto.createHash('sha256').update(otp).digest('hex');
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const { email, otp } = await request.json();
+
+    if (!email || !otp) {
+      return NextResponse.json({ error: 'Email and OTP are required.' }, { status: 400 });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+    const otpHash = hashOTP(String(otp).trim());
+    const now = new Date().toISOString();
+
+    // Find latest unused, unexpired OTP for this email
+    const { data: records, error: fetchError } = await supabaseAdmin
+      .from('otp_codes')
+      .select('*')
+      .eq('email', normalizedEmail)
+      .is('used_at', null)
+      .gte('expires_at', now)
+      .order('created_at', { ascending: false })
+      .limit(1);
+
+    if (fetchError) {
+      console.error('DB fetch error:', fetchError);
+      return NextResponse.json({ error: 'Server error. Please try again.' }, { status: 500 });
+    }
+
+    if (!records || records.length === 0) {
+      return NextResponse.json(
+        { error: 'OTP has expired. Please request a new one.', expired: true },
+        { status: 400 }
+      );
+    }
+
+    const record = records[0];
+
+    // Check attempt count
+    if (record.attempt_count >= MAX_ATTEMPTS) {
+      return NextResponse.json(
+        { error: 'Too many incorrect attempts. Please request a new OTP.', maxAttemptsReached: true },
+        { status: 429 }
+      );
+    }
+
+    // Verify OTP hash
+    if (record.otp_hash !== otpHash) {
+      // Increment attempt count
+      await supabaseAdmin
+        .from('otp_codes')
+        .update({ attempt_count: record.attempt_count + 1 })
+        .eq('id', record.id);
+
+      const remaining = MAX_ATTEMPTS - record.attempt_count - 1;
+      return NextResponse.json(
+        {
+          error: remaining > 0
+            ? `Incorrect OTP. ${remaining} attempt${remaining === 1 ? '' : 's'} remaining.`
+            : 'Incorrect OTP. No attempts remaining. Please request a new code.',
+          remaining,
+        },
+        { status: 400 }
+      );
+    }
+
+    // ✅ OTP is correct — mark as used
+    await supabaseAdmin
+      .from('otp_codes')
+      .update({ used_at: now })
+      .eq('id', record.id);
+
+    return NextResponse.json({
+      success: true,
+      message: 'OTP verified successfully.',
+    });
+
+  } catch (err: any) {
+    console.error('verify-otp error:', err);
+    return NextResponse.json({ error: 'Internal server error.' }, { status: 500 });
+  }
+}

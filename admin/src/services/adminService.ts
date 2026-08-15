@@ -1,20 +1,27 @@
 import { createClient } from '@supabase/supabase-js';
 import { ApiResponse } from './api.types';
-import { Product, Order, Profile, Coupon, Store } from '../types';
+import { Product, Order, Profile, Coupon, Store, DeliveryPartner } from '../types';
 
 const isServer = typeof window === 'undefined';
 
 // Module-level flag so AdminService methods can reference it
 let isServiceRoleReal = false;
 
+const isValidUrl = (url: string) => {
+  try {
+    const parsed = new URL(url);
+    return (parsed.protocol === 'http:' || parsed.protocol === 'https:') && !url.includes('your-supabase-project');
+  } catch {
+    return false;
+  }
+};
+
 function getAdminSupabase() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
   const serviceRoleKey = isServer ? (process.env.SUPABASE_SERVICE_ROLE_KEY || '') : '';
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
-  if (!supabaseUrl) {
-    throw new Error('NEXT_PUBLIC_SUPABASE_URL environment variable is not set.');
-  }
+  const supabaseUrl = isValidUrl(rawUrl) ? rawUrl : 'https://placeholder-pustora.supabase.co';
 
   // Use service role key if it's set and not a placeholder, otherwise fall back to anon key
   isServiceRoleReal =
@@ -22,7 +29,9 @@ function getAdminSupabase() {
     !serviceRoleKey.includes('placeholder') &&
     !serviceRoleKey.includes('your-supabase');
 
-  const activeKey = isServer && isServiceRoleReal ? serviceRoleKey : anonKey;
+  const activeKey = isServer && isServiceRoleReal 
+    ? serviceRoleKey 
+    : (anonKey || 'placeholder-anon-key');
 
   return createClient(supabaseUrl, activeKey, {
     auth: {
@@ -193,6 +202,53 @@ export class AdminService {
     }
   }
 
+  static async updateProduct(id: string, productData: Partial<Product>, stockQuantity?: number): Promise<ApiResponse<Product>> {
+    if (!isServer) {
+      return clientCall('updateProduct', id, productData, stockQuantity);
+    }
+    try {
+      const updatePayload: any = {};
+      if (productData.name !== undefined) updatePayload.name = productData.name;
+      if (productData.brand !== undefined) updatePayload.brand = productData.brand;
+      if (productData.description !== undefined) updatePayload.description = productData.description;
+      if (productData.price !== undefined) updatePayload.price = Number(productData.price);
+      if (productData.mrp !== undefined) updatePayload.mrp = Number(productData.mrp);
+      if (productData.category_id !== undefined) updatePayload.category_id = productData.category_id;
+      if (productData.sub_category !== undefined) updatePayload.sub_category = productData.sub_category;
+      if (productData.grade_suitability !== undefined) updatePayload.grade_suitability = productData.grade_suitability;
+      if (productData.subject_tag !== undefined) updatePayload.subject_tag = productData.subject_tag;
+      if (productData.image_url !== undefined) updatePayload.image_url = productData.image_url;
+      if (stockQuantity !== undefined && !isNaN(Number(stockQuantity))) {
+        updatePayload.stock_quantity = Number(stockQuantity);
+      }
+
+      const { data: updatedProduct, error: updErr } = await adminSupabase
+        .from('products')
+        .update(updatePayload)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (updErr) return { data: null, error: updErr.message, status: 400 };
+
+      // Update inventory table if stock changed
+      if (stockQuantity !== undefined && !isNaN(Number(stockQuantity))) {
+        try {
+          await adminSupabase
+            .from('inventory')
+            .update({ stock_quantity: Number(stockQuantity) })
+            .eq('product_id', id);
+        } catch (invErr) {
+          console.warn('Inventory update error:', invErr);
+        }
+      }
+
+      return { data: updatedProduct as Product, error: null, status: 200 };
+    } catch (err: any) {
+      return { data: null, error: err.message, status: 500 };
+    }
+  }
+
   static async deleteProduct(id: string): Promise<ApiResponse<boolean>> {
     if (!isServer) {
       return clientCall('deleteProduct', id);
@@ -216,7 +272,15 @@ export class AdminService {
     try {
       const { data, error } = await adminSupabase
         .from('orders')
-        .select('*')
+        .select(`
+          *,
+          profiles:user_id (full_name, phone_number, id),
+          order_items (
+            quantity,
+            price_at_purchase,
+            products:product_id (name, image_url)
+          )
+        `)
         .order('created_at', { ascending: false });
 
       if (error) return { data: null, error: error.message, status: 400 };
@@ -487,4 +551,82 @@ export class AdminService {
       return { data: null, error: err.message, status: 500 };
     }
   }
+
+  // ------------------------------------------
+  // 8. ORDER CANCELLATION
+  // ------------------------------------------
+  static async cancelOrder(orderId: string): Promise<ApiResponse<boolean>> {
+    if (!isServer) {
+      return clientCall('cancelOrder', orderId);
+    }
+    try {
+      const { error } = await adminSupabase
+        .from('orders')
+        .update({ status: 'cancelled' })
+        .eq('id', orderId);
+
+      if (error) return { data: null, error: error.message, status: 400 };
+      return { data: true, error: null, status: 200 };
+    } catch (err: any) {
+      return { data: null, error: err.message, status: 500 };
+    }
+  }
+
+  // ------------------------------------------
+  // 9. DELIVERY PARTNER MANAGEMENT
+  // ------------------------------------------
+  static async getDeliveryPartners(): Promise<ApiResponse<DeliveryPartner[]>> {
+    if (!isServer) {
+      return clientCall('getDeliveryPartners');
+    }
+    try {
+      const { data, error } = await adminSupabase
+        .from('delivery_partners')
+        .select(`
+          *,
+          profiles:profile_id (full_name, phone_number)
+        `)
+        .order('created_at', { ascending: true });
+
+      if (error) return { data: null, error: error.message, status: 400 };
+      return { data: data as DeliveryPartner[], error: null, status: 200 };
+    } catch (err: any) {
+      return { data: null, error: err.message, status: 500 };
+    }
+  }
+
+  /**
+   * Assigns a delivery partner to an order and sets status to out_for_delivery in one call.
+   * This is the single admin action that triggers the delivery partner portal to show the order.
+   */
+  static async assignAndDispatch(
+    orderId: string,
+    deliveryPartnerId: string
+  ): Promise<ApiResponse<boolean>> {
+    if (!isServer) {
+      return clientCall('assignAndDispatch', orderId, deliveryPartnerId);
+    }
+    try {
+      const { error } = await adminSupabase
+        .from('orders')
+        .update({
+          delivery_partner_id: deliveryPartnerId,
+          status: 'out_for_delivery',
+        })
+        .eq('id', orderId);
+
+      if (error) return { data: null, error: error.message, status: 400 };
+
+      // Also set delivery partner status to 'busy'
+      await adminSupabase
+        .from('delivery_partners')
+        .update({ status: 'busy' })
+        .eq('id', deliveryPartnerId);
+
+      return { data: true, error: null, status: 200 };
+    } catch (err: any) {
+      return { data: null, error: err.message, status: 500 };
+    }
+  }
 }
+
