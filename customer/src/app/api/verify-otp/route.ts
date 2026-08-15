@@ -93,6 +93,19 @@ export async function POST(request: NextRequest) {
       .update({ used_at: now })
       .eq('id', record.id);
 
+    // Auto-confirm user in Supabase Auth if present
+    try {
+      const { data: usersData } = await supabaseAdmin.auth.admin.listUsers();
+      const userMatch = usersData?.users?.find((u) => u.email?.toLowerCase() === normalizedEmail);
+      if (userMatch) {
+        await supabaseAdmin.auth.admin.updateUserById(userMatch.id, {
+          email_confirm: true,
+        });
+      }
+    } catch (authErr) {
+      console.warn('Auto email confirm notice:', authErr);
+    }
+
     return NextResponse.json({
       success: true,
       message: 'OTP verified successfully.',

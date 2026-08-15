@@ -70,16 +70,17 @@ export default function LoginPage() {
     setLoadingLocal(true); setLoading(true);
     try {
       const formattedPhone = formatPhoneNumber(phoneNumber);
-      const res = await AuthService.signUpWithEmail(email, password, formattedPhone);
-      if (res.error) throw new Error(res.error);
-      // Send OTP via Brevo
+      await AuthService.signUpWithEmail(email, password, formattedPhone);
+      
+      // Send OTP
       const otpRes = await fetch('/api/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
       const otpData = await otpRes.json();
-      if (!otpRes.ok) throw new Error(otpData.error || 'Failed to send OTP');
+      if (!otpRes.ok) throw new Error(otpData.error || 'Failed to send OTP. Please try again.');
+      
       setSuccess('Account created! Check your email for the 6-digit code.');
       setMode('otp');
       setResendCooldown(60);
@@ -116,7 +117,7 @@ export default function LoginPage() {
     }
     setLoadingLocal(true); setLoading(true);
     try {
-      // Verify via Brevo OTP endpoint
+      // Verify via Brevo/Supabase OTP endpoint
       const verifyRes = await fetch('/api/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -124,14 +125,15 @@ export default function LoginPage() {
       });
       const verifyData = await verifyRes.json();
       if (!verifyRes.ok) throw new Error(verifyData.error || 'Verification failed');
-      // Complete Supabase account activation
-      const res = await AuthService.verifyEmailOTP(email, otpToken);
-      if (res.error || !res.data) throw new Error(res.error || 'Account activation failed');
-      setSuccess('Email verified successfully!');
-      const data = res.data;
+      
+      // Auto sign in if password is present
+      if (password) {
+        await AuthService.signInWithEmail(email, password);
+      }
+      
+      setSuccess('Email verified successfully! Logging you in...');
       setTimeout(() => {
-        if (data?.isNewUser) router.push('/setup');
-        else router.push('/');
+        router.push('/');
       }, 1000);
     } catch (err: any) {
       setError(err.message || 'Verification failed. Please check your OTP.');

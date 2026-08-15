@@ -4,9 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '../../store/authStore';
 import Link from 'next/link';
-import { ArrowLeft, MapPin, Plus } from 'lucide-react';
+import { ArrowLeft, MapPin, Plus, Trash2, Home, Building2, Check } from 'lucide-react';
 import { supabase } from '../../services/supabaseClient';
 import { Address } from '../../types';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import CartBar from '../../components/CartBar';
 
 export default function AddressesPage() {
   const router = useRouter();
@@ -45,84 +48,180 @@ export default function AddressesPage() {
     return null;
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex justify-center">
-      <div className="w-full max-w-lg bg-gray-50 min-h-screen sm:border-x sm:border-gray-200 sm:shadow-sm flex flex-col" style={{ fontFamily: 'var(--font-sans, sans-serif)' }}>
-        
-        {/* Header */}
-        <div className="flex items-center px-4 py-4 bg-[#2874f0] text-white sticky top-0 z-10 shadow-sm">
-          <button onClick={() => router.back()} className="mr-4 p-1 rounded-full hover:bg-white/10 transition-colors">
-            <ArrowLeft className="w-6 h-6 text-white" />
-          </button>
-          <h1 className="text-[16px] font-semibold tracking-wide">My Addresses</h1>
-        </div>
+  const handleDelete = async (id: string) => {
+    if (confirm('Are you sure you want to remove this address?')) {
+      await supabase.from('addresses').delete().eq('id', id);
+      setAddresses((prev) => prev.filter((a) => a.id !== id));
+    }
+  };
 
-        {/* Add Address Button (Always visible at top if we want, or in empty state) */}
-        <div className="p-3 bg-gray-50">
-          <Link href="/addresses/new" className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 shadow-sm text-[#2874f0] font-semibold text-sm hover:bg-gray-50 transition-colors">
-            <Plus className="w-5 h-5" />
-            <span>Add a new address</span>
+  return (
+    <div style={{ backgroundColor: 'var(--background)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Navbar searchQuery="" onSearchChange={() => {}} selectedStoreId="" onStoreChange={() => {}} availableStores={[]} />
+
+      <main style={{ flex: 1, maxWidth: '800px', width: '100%', margin: '80px auto 60px', padding: '0 16px' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <button
+              onClick={() => router.back()}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '38px',
+                height: '38px',
+                borderRadius: '12px',
+                background: '#fff',
+                border: '1px solid var(--outline)',
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(108,63,214,0.06)',
+              }}
+              aria-label="Go Back"
+            >
+              <ArrowLeft size={18} color="var(--deep-text)" />
+            </button>
+            <div>
+              <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--deep-text)', fontFamily: 'Sora, sans-serif', margin: 0 }}>
+                Delivery Addresses
+              </h1>
+              <p style={{ fontSize: '12px', color: 'var(--on-surface-variant)', margin: 0 }}>
+                Manage your saved home & school delivery addresses in Lucknow
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href="/addresses/new"
+            className="stitch-btn"
+            style={{ fontSize: '13px', minHeight: '40px', padding: '0 16px', gap: '6px' }}
+          >
+            <Plus size={16} />
+            <span>Add New Address</span>
           </Link>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 flex flex-col">
-          {loading ? (
-            <div className="p-8 text-center text-sm text-gray-500">Loading addresses...</div>
-          ) : addresses.length > 0 ? (
-            <div className="px-3 pb-8 space-y-3">
-              {addresses.map((address) => (
-                <div key={address.id} className="bg-white p-4 border border-gray-200 shadow-sm">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
-                        {address.label}
-                      </span>
-                      {address.is_default && (
-                        <span className="text-[#2874f0] text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-                          Default
-                        </span>
-                      )}
+        {/* Address Cards List */}
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '60px 16px', color: 'var(--on-surface-variant)' }}>
+            Loading your addresses...
+          </div>
+        ) : addresses.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            {addresses.map((address) => (
+              <div
+                key={address.id}
+                style={{
+                  background: '#fff',
+                  borderRadius: '18px',
+                  border: address.is_default ? '2px solid var(--primary)' : '1px solid var(--outline)',
+                  padding: '20px',
+                  boxShadow: '0 4px 20px rgba(108,63,214,0.04)',
+                  position: 'relative',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '8px',
+                      background: 'var(--tint-chip)',
+                      color: 'var(--primary)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                      {address.label?.toLowerCase() === 'work' ? <Building2 size={16} /> : <Home size={16} />}
                     </div>
-                    <button
-                      onClick={async () => {
-                        if (confirm('Are you sure you want to delete this address?')) {
-                          await supabase.from('addresses').delete().eq('id', address.id);
-                          setAddresses(prev => prev.filter(a => a.id !== address.id));
-                        }
-                      }}
-                      className="p-1 text-gray-400 hover:text-red-600 transition-colors"
-                      aria-label="Delete address"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                    </button>
+                    <span style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--deep-text)' }}>
+                      {address.label || 'Home'}
+                    </span>
+                    {address.is_default && (
+                      <span style={{
+                        fontSize: '10px',
+                        fontWeight: 800,
+                        textTransform: 'uppercase',
+                        background: '#ECFDF5',
+                        color: '#059669',
+                        padding: '2px 8px',
+                        borderRadius: '12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '3px',
+                      }}>
+                        <Check size={12} /> Default
+                      </span>
+                    )}
                   </div>
-                  <p className="text-sm text-gray-800 font-medium mb-1">
-                    {user.full_name || 'Your Name'} <span className="font-normal text-gray-500 ml-2">{user.phone_number}</span>
-                  </p>
-                  <p className="text-[13px] text-gray-600 leading-relaxed">
-                    {address.address_line1}
-                    {address.address_line2 ? `, ${address.address_line2}` : ''}
-                    <br />
-                    {address.area}, {address.city}, {address.state} - <span className="font-medium text-black">{address.pincode}</span>
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex-1 flex flex-col items-center justify-center p-6 text-center pb-32">
-              <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6">
-                <MapPin className="w-16 h-16 text-gray-300 stroke-[1.5]" />
-              </div>
-              <h2 className="text-[18px] font-bold text-gray-900 mb-2">No Addresses found</h2>
-              <p className="text-[13px] text-gray-500 mb-8 max-w-[250px] mx-auto">
-                You haven't saved any addresses yet. Add a new address to proceed with your orders faster.
-              </p>
-            </div>
-          )}
-        </div>
 
-      </div>
+                  <button
+                    onClick={() => handleDelete(address.id)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      color: '#9CA3AF',
+                      padding: '4px',
+                      borderRadius: '8px',
+                      transition: 'color 0.15s ease',
+                    }}
+                    title="Delete Address"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+
+                <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--deep-text)', marginBottom: '4px' }}>
+                  {user.full_name || 'Customer'} <span style={{ fontWeight: 500, color: 'var(--on-surface-variant)', marginLeft: '6px' }}>{user.phone_number}</span>
+                </div>
+
+                <p style={{ fontSize: '13px', color: 'var(--on-surface-variant)', lineHeight: 1.5, margin: 0 }}>
+                  {address.address_line1}
+                  {address.address_line2 ? `, ${address.address_line2}` : ''}
+                  <br />
+                  {address.area}, {address.city}, {address.state} — <strong>{address.pincode}</strong>
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{
+            background: '#fff',
+            borderRadius: '20px',
+            border: '1px solid var(--outline)',
+            padding: '48px 24px',
+            textAlign: 'center',
+            boxShadow: '0 4px 24px rgba(108,63,214,0.04)',
+          }}>
+            <div style={{
+              width: '64px',
+              height: '64px',
+              borderRadius: '20px',
+              background: 'var(--tint-chip)',
+              color: 'var(--primary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px',
+            }}>
+              <MapPin size={32} />
+            </div>
+            <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--deep-text)', fontFamily: 'Sora, sans-serif', marginBottom: '6px' }}>
+              No Addresses Saved Yet
+            </h2>
+            <p style={{ fontSize: '13px', color: 'var(--on-surface-variant)', maxWidth: '320px', margin: '0 auto 20px', lineHeight: 1.5 }}>
+              Add your delivery location in Lucknow to enjoy superfast 10-minute book & stationery doorstep delivery.
+            </p>
+            <Link href="/addresses/new" className="stitch-btn" style={{ display: 'inline-flex', gap: '6px' }}>
+              <Plus size={16} /> Add First Address
+            </Link>
+          </div>
+        )}
+      </main>
+
+      <Footer />
+      <CartBar />
     </div>
   );
 }

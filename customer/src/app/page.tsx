@@ -17,7 +17,6 @@ import FlashDealsBanner from '../components/FlashDealsBanner';
 import Footer from '../components/Footer';
 import BestSellers from '../components/BestSellers';
 import Testimonials from '../components/Testimonials';
-import AppBanner from '../components/AppBanner';
 import CartBar from '../components/CartBar';
 
 export default function HomePage() {
@@ -404,9 +403,6 @@ export default function HomePage() {
           </div>
         </div>
       </main>
-
-      {/* ── APP BANNER ── */}
-      <AppBanner />
 
       {/* ── FOOTER ── */}
       <Footer />

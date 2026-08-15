@@ -268,10 +268,10 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
       <Navbar searchQuery="" onSearchChange={() => {}} selectedStoreId="" onStoreChange={() => {}} availableStores={availableStores} />
 
       {/* Main Content */}
-      <main style={{ flex: 1, maxWidth: '1200px', width: '100%', margin: '76px auto 60px', padding: '0 16px' }}>
+      <main className="pdp-main-wrapper">
         
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" style={{ marginBottom: '16px', fontSize: '12px', color: 'var(--on-surface-variant)', display: 'flex', gap: '8px', alignItems: 'center' }}>
+        <nav aria-label="Breadcrumb" style={{ marginBottom: '16px', fontSize: '12px', color: 'var(--on-surface-variant)', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
           <Link href="/" style={{ color: 'var(--on-surface-variant)', textDecoration: 'none' }}>Home</Link>
           <span>/</span>
           <Link href={`/category/${product.category_id}`} style={{ color: 'var(--on-surface-variant)', textDecoration: 'none', textTransform: 'capitalize' }}>
@@ -282,43 +282,24 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
         </nav>
 
         {/* Product Card Container */}
-        <div style={{
-          background: '#fff',
-          borderRadius: '20px',
-          border: '1px solid var(--outline)',
-          boxShadow: '0 4px 24px rgba(108,63,214,0.06)',
-          overflow: 'hidden',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '32px',
-          padding: '24px',
-          marginBottom: '24px',
-        }}>
+        <div className="pdp-card-grid">
 
           {/* LEFT: Image Gallery */}
-          <div style={{ display: 'flex', gap: '16px', position: 'relative' }} className="flex-col-reverse sm:flex-row">
+          <div className="pdp-gallery-container">
             
             {/* Thumbnails list */}
-            <div style={{ display: 'flex', gap: '10px', overflowX: 'auto' }} className="sm:flex-col flex-row">
+            <div className="pdp-thumbs-list">
               {mockImages.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveImageIndex(idx)}
                   onMouseEnter={() => setActiveImageIndex(idx)}
+                  className="pdp-thumb-btn"
                   style={{
-                    width: '64px',
-                    height: '64px',
-                    borderRadius: '12px',
                     border: activeImageIndex === idx ? '2px solid var(--primary)' : '1px solid var(--outline)',
                     padding: '2px',
-                    cursor: 'pointer',
                     background: img.startsWith('linear') ? img : '#f9f9f9',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'all 0.2s ease',
                     transform: activeImageIndex === idx ? 'scale(1.05)' : 'scale(1)',
-                    flexShrink: 0,
                   }}
                   aria-label={`View image angle ${idx + 1}`}
                 >
@@ -336,24 +317,14 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
             </div>
 
             {/* Main Stage Image */}
-            <div style={{
-              flex: 1,
-              height: '380px',
-              borderRadius: '16px',
-              position: 'relative',
-              overflow: 'hidden',
-              background: currentImage.startsWith('linear') ? currentImage : '#f9f9f9',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+            <div className="pdp-main-image-stage" style={{ background: currentImage.startsWith('linear') ? currentImage : '#F9F8FD' }}>
               {/* Wishlist Button */}
               <button
                 onClick={() => wishlisted ? removeWish(product.id) : addWish(product)}
                 style={{
                   position: 'absolute', top: '14px', right: '14px', zIndex: 10,
-                  background: wishlisted ? '#EF4444' : 'rgba(255,255,255,0.9)',
-                  border: 'none', borderRadius: '50%', width: '38px', height: '38px',
+                  background: wishlisted ? '#EF4444' : 'rgba(255,255,255,0.92)',
+                  border: 'none', borderRadius: '50%', width: '40px', height: '40px',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                   transition: 'all 0.2s ease',
@@ -364,13 +335,20 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
               </button>
 
               {!currentImage.startsWith('linear') ? (
-                <Image src={currentImage} alt={product.name} fill priority style={{ objectFit: 'contain' }} sizes="(max-width: 768px) 100vw, 500px" />
+                <Image
+                  src={currentImage}
+                  alt={product.name}
+                  fill
+                  priority
+                  style={{ objectFit: 'contain', padding: '16px' }}
+                  sizes="(max-width: 768px) 100vw, 500px"
+                />
               ) : (
-                <div style={{ textAlign: 'center', color: '#fff' }}>
-                  <span style={{ fontSize: '7rem', display: 'block', filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.2))' }}>
+                <div style={{ textAlign: 'center', color: '#fff', padding: '20px' }}>
+                  <span style={{ fontSize: '6rem', display: 'block', filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.2))' }}>
                     {product.category_id === 'books' ? '📚' : product.category_id === 'toys' ? '🎁' : '✏️'}
                   </span>
-                  <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', opacity: 0.9 }}>
+                  <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', opacity: 0.95 }}>
                     Official {product.brand} Edition
                   </span>
                 </div>
@@ -381,12 +359,12 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
           {/* RIGHT: Info & Actions */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {/* Brand & Bestseller */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
               <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" style={{ backgroundColor: 'var(--tint-chip)', color: 'var(--primary)' }}>
                 {product.brand}
               </span>
               {product.is_bestseller && (
-                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
+                <span style={{ fontSize: '12px', fontWeight: 700, padding: '4px 10px', borderRadius: '20px', background: '#FEF3C7', color: '#92400E', border: '1px solid #FDE68A', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                   ⚡ Bestseller
                 </span>
               )}
@@ -397,7 +375,7 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
             </h1>
 
             {/* Rating badge */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
               <div style={{ background: '#10B981', color: '#fff', padding: '3px 8px', borderRadius: '8px', fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <Star size={13} fill="#fff" />
                 {avgRating.toFixed(1)}
@@ -408,7 +386,7 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
             </div>
 
             {/* Pricing */}
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '16px', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '2.25rem', fontWeight: 900, color: 'var(--deep-text)', fontFamily: 'Sora, sans-serif' }}>
                 ₹{product.price}
               </span>
@@ -429,39 +407,47 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
               {product.description}
             </p>
 
+            {/* Hub Banner */}
+            <div className="pdp-hub-banner">
+              <div className="pdp-hub-icon">⚡</div>
+              <div>
+                <div className="pdp-hub-title">Dispatched from Lucknow Central Hub</div>
+                <div className="pdp-hub-subtitle">Fast direct delivery right to your doorstep</div>
+              </div>
+            </div>
+
             {/* Specs Grid */}
-            <div style={{
-              display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px',
-              padding: '16px', background: '#F8F4FF', borderRadius: '14px', marginBottom: '24px'
-            }}>
+            <div className="pdp-specs-grid">
               {product.author && (
-                <div>
-                  <span className="text-[11px] text-gray-500 block font-medium">Author / Authoring Body</span>
-                  <span className="text-[13px] font-bold text-gray-900">{product.author}</span>
+                <div className="pdp-spec-item">
+                  <span className="pdp-spec-label">Author</span>
+                  <span className="pdp-spec-value">{product.author}</span>
                 </div>
               )}
               {product.publisher && (
-                <div>
-                  <span className="text-[11px] text-gray-500 block font-medium">Publisher</span>
-                  <span className="text-[13px] font-bold text-gray-900">{product.publisher}</span>
+                <div className="pdp-spec-item">
+                  <span className="pdp-spec-label">Publisher</span>
+                  <span className="pdp-spec-value">{product.publisher}</span>
                 </div>
               )}
               {product.isbn && (
-                <div>
-                  <span className="text-[11px] text-gray-500 block font-medium">ISBN</span>
-                  <span className="text-[13px] font-bold text-gray-900">{product.isbn}</span>
+                <div className="pdp-spec-item">
+                  <span className="pdp-spec-label">ISBN</span>
+                  <span className="pdp-spec-value">{product.isbn}</span>
                 </div>
               )}
-              <div>
-                <span className="text-[11px] text-gray-500 block font-medium">Dispatched From</span>
-                <span className="text-[13px] font-bold text-green-700">Lucknow Central Hub ⚡</span>
+              <div className="pdp-spec-item">
+                <span className="pdp-spec-label">Availability</span>
+                <span className="pdp-spec-value" style={{ color: '#059669' }}>In Stock (Lucknow)</span>
               </div>
             </div>
 
             {/* Editions / Variants */}
             <div style={{ marginBottom: '24px' }}>
-              <span className="text-[12px] font-bold uppercase tracking-wider text-gray-500 block mb-2">Select Edition</span>
-              <div style={{ display: 'flex', gap: '10px' }}>
+              <span style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', color: '#7C6F9B', display: 'block', marginBottom: '8px' }}>
+                Select Edition
+              </span>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 {variants.map((v, idx) => (
                   <button
                     key={idx}
@@ -485,25 +471,28 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
             </div>
 
             {/* Delivery Guarantees */}
-            <div style={{ display: 'flex', gap: '16px', marginBottom: '28px', flexWrap: 'wrap' }}>
-              <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                <Truck size={16} className="text-purple-600" /> Fast Lucknow Delivery
+            <div style={{ display: 'flex', gap: '16px', marginBottom: '24px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 600, color: 'var(--deep-text)' }}>
+                <Truck size={16} color="var(--primary)" /> Express Lucknow Delivery
               </div>
-              <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                <ShieldCheck size={16} className="text-green-600" /> 100% Original Guarantee
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 600, color: 'var(--deep-text)' }}>
+                <ShieldCheck size={16} color="#10B981" /> 100% Original
               </div>
-              <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                <RotateCcw size={16} className="text-blue-600" /> 10 Days Easy Return
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 600, color: 'var(--deep-text)' }}>
+                <RotateCcw size={16} color="#3B82F6" /> 10 Days Easy Return
               </div>
             </div>
 
             {/* CTA Buttons */}
-            <div style={{ display: 'flex', gap: '12px', marginTop: 'auto' }}>
+            <div className="pdp-actions-row">
               <button
                 onClick={handleAddToCart}
                 disabled={animState !== 'idle'}
-                className="stitch-btn flex-1 justify-center min-h-[50px] text-base"
+                className="stitch-btn"
                 style={{
+                  flex: 1,
+                  minHeight: '48px',
+                  fontSize: '15px',
                   background: (isItemInCart || animState === 'success') ? '#10B981' : 'var(--primary-gradient)',
                 }}
               >
@@ -515,7 +504,7 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
                   <span>View in Cart →</span>
                 ) : (
                   <>
-                    <ShoppingBag size={18} />
+                    <ShoppingBag size={18} style={{ marginRight: '6px' }} />
                     Add to Cart
                   </>
                 )}
@@ -523,7 +512,16 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
 
               <button
                 onClick={() => { addItem(product, 1); router.push('/cart'); }}
-                className="stitch-btn-secondary min-h-[50px] px-8 text-base font-bold text-white bg-amber-500 border-none hover:bg-amber-600"
+                className="stitch-btn-secondary"
+                style={{
+                  minHeight: '48px',
+                  padding: '0 24px',
+                  fontSize: '15px',
+                  fontWeight: 700,
+                  color: '#fff',
+                  background: '#F59E0B',
+                  borderColor: '#F59E0B',
+                }}
               >
                 Buy Now
               </button>
@@ -605,7 +603,7 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
             </button>
           </div>
 
-          <div style={{ display: 'flex', gap: '40px', marginBottom: '32px', borderBottom: '1px solid var(--outline)', paddingBottom: '24px' }} className="flex-col md:flex-row">
+          <div style={{ display: 'flex', gap: '28px', marginBottom: '32px', borderBottom: '1px solid var(--outline)', paddingBottom: '24px', flexWrap: 'wrap', alignItems: 'center' }}>
             {/* Score */}
             <div style={{ textAlign: 'center', minWidth: '120px' }}>
               <div style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--deep-text)', fontFamily: 'Sora, sans-serif', lineHeight: 1 }}>
@@ -620,7 +618,7 @@ export default function ProductDetailsClient({ slugOrId, initialProduct }: Props
             </div>
 
             {/* Distribution */}
-            <div style={{ flex: 1, maxWidth: '320px' }}>
+            <div style={{ flex: 1, minWidth: '220px', maxWidth: '360px' }}>
               {[5, 4, 3, 2, 1].map((star) => (
                 <div key={star} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
                   <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--deep-text)', width: '24px' }}>{star} ★</span>

@@ -2,7 +2,6 @@
 // Handles SEO-friendly slug URLs (e.g., /product/apsara-platinum-pencils)
 // Also handles legacy UUID URLs as fallback (resolves to slug and redirects)
 
-export const runtime = 'edge';
 
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
