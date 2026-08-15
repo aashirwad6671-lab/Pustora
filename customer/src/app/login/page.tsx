@@ -70,7 +70,15 @@ export default function LoginPage() {
     setLoadingLocal(true); setLoading(true);
     try {
       const formattedPhone = formatPhoneNumber(phoneNumber);
-      await AuthService.signUpWithEmail(email, password, formattedPhone);
+      const signUpRes = await AuthService.signUpWithEmail(email, password, formattedPhone);
+      
+      if (signUpRes.error) {
+        if (signUpRes.error.toLowerCase().includes('already registered')) {
+          setMode('login');
+          throw new Error('Account already exists. Please sign in instead.');
+        }
+        throw new Error(signUpRes.error);
+      }
       
       // Send OTP
       const otpRes = await fetch('/api/send-otp', {
@@ -128,7 +136,10 @@ export default function LoginPage() {
       
       // Auto sign in if password is present
       if (password) {
-        await AuthService.signInWithEmail(email, password);
+        const signInRes = await AuthService.signInWithEmail(email, password);
+        if (signInRes.error) {
+          throw new Error('Verified, but auto-login failed: ' + signInRes.error);
+        }
       }
       
       setSuccess('Email verified successfully! Logging you in...');
