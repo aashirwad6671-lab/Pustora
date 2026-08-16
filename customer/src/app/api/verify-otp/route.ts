@@ -93,14 +93,30 @@ export async function POST(request: NextRequest) {
       .update({ used_at: now })
       .eq('id', record.id);
 
-    // Auto-confirm user in Supabase Auth if present
+    // Auto-confirm user in Supabase Auth — fast direct REST lookup (avoids slow listUsers)
+    let confirmedUserId: string | null = null;
     try {
-      const { data: usersData } = await supabaseAdmin.auth.admin.listUsers();
-      const userMatch = usersData?.users?.find((u) => u.email?.toLowerCase() === normalizedEmail);
-      if (userMatch) {
-        await supabaseAdmin.auth.admin.updateUserById(userMatch.id, {
-          email_confirm: true,
-        });
+      // Use Supabase Auth Admin REST API directly to lookup by email
+      const authRes = await fetch(
+        `${rawUrl}/auth/v1/admin/users?email=${encodeURIComponent(normalizedEmail)}`,
+        {
+          headers: {
+            apikey: rawKey,
+            Authorization: `Bearer ${rawKey}`,
+          },
+        }
+      );
+      if (authRes.ok) {
+        const authData = await authRes.json();
+        const userMatch = authData?.users?.[0];
+        if (userMatch) {
+          confirmedUserId = userMatch.id;
+          if (!userMatch.email_confirmed_at) {
+            await supabaseAdmin.auth.admin.updateUserById(userMatch.id, {
+              email_confirm: true,
+            });
+          }
+        }
       }
     } catch (authErr) {
       console.warn('Auto email confirm notice:', authErr);
@@ -109,6 +125,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'OTP verified successfully.',
+      userId: confirmedUserId,
     });
 
   } catch (err: any) {

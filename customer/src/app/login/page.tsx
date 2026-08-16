@@ -123,9 +123,9 @@ export default function LoginPage() {
     if (otpToken.length !== 6) {
       setError('Please enter a valid 6-digit OTP code.'); return;
     }
-    setLoadingLocal(true); setLoading(true);
+    setLoadingLocal(true);
     try {
-      // Verify via Brevo/Supabase OTP endpoint
+      // Step 1: Verify OTP via our server-side API
       const verifyRes = await fetch('/api/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -134,22 +134,35 @@ export default function LoginPage() {
       const verifyData = await verifyRes.json();
       if (!verifyRes.ok) throw new Error(verifyData.error || 'Verification failed');
       
-      // Auto sign in if password is present
+      setSuccess('Email verified! Signing you in...');
+      
+      // Step 2: Auto sign in — retry up to 3 times with short delay
+      // (Supabase email_confirm propagation can take ~300ms)
       if (password) {
-        const signInRes = await AuthService.signInWithEmail(email, password);
+        let signInRes = await AuthService.signInWithEmail(email, password);
         if (signInRes.error) {
-          throw new Error('Verified, but auto-login failed: ' + signInRes.error);
+          // Brief wait for email_confirm to propagate, then retry
+          await new Promise(r => setTimeout(r, 600));
+          signInRes = await AuthService.signInWithEmail(email, password);
+        }
+        if (signInRes.error) {
+          await new Promise(r => setTimeout(r, 800));
+          signInRes = await AuthService.signInWithEmail(email, password);
+        }
+        if (signInRes.error) {
+          // Still failed — show success but ask to log in manually
+          setSuccess('Email verified! Please sign in with your credentials.');
+          setTimeout(() => setMode('login'), 1500);
+          return;
         }
       }
       
-      setSuccess('Email verified successfully! Logging you in...');
-      setTimeout(() => {
-        router.push('/');
-      }, 1000);
+      setSuccess('Logged in successfully! Redirecting...');
+      setTimeout(() => { router.push('/'); }, 800);
     } catch (err: any) {
       setError(err.message || 'Verification failed. Please check your OTP.');
     } finally {
-      setLoadingLocal(false); setLoading(false);
+      setLoadingLocal(false);
     }
   };
 

@@ -810,15 +810,20 @@ export default function AdminControlPanel() {
                       const isDelivered = o.status === 'delivered';
                       const currentStepIdx = STATUS_STEPS.indexOf(o.status);
                       const assignedPartner = deliveryPartners.find(dp => dp.id === (o as any).delivery_partner_id);
+                      const isNewOrder = o.status === 'placed';
+                      const orderTime = new Date((o as any).created_at).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hour12: true });
+                      const statusLabel: Record<string, string> = { placed: '🛒 New Order', confirmed: '✅ Confirmed', packed: '📦 Packed', out_for_delivery: '🚴 Out for Delivery', delivered: '✅ Delivered', cancelled: '❌ Cancelled' };
+                      const statusBg: Record<string, string> = { placed: 'rgba(124,58,237,0.3)', confirmed: 'rgba(59,130,246,0.2)', packed: 'rgba(245,158,11,0.2)', out_for_delivery: 'rgba(16,185,129,0.2)', delivered: 'rgba(16,185,129,0.15)', cancelled: 'rgba(239,68,68,0.15)' };
+                      const statusColor: Record<string, string> = { placed: '#C4B5FD', confirmed: '#93C5FD', packed: '#FCD34D', out_for_delivery: '#6EE7B7', delivered: '#34D399', cancelled: '#FCA5A5' };
 
                       return (
                         <div key={o.id} style={{
                           background: '#160829',
-                          border: '1px solid rgba(255,255,255,0.08)',
+                          border: isNewOrder ? '2px solid rgba(124,58,237,0.65)' : '1px solid rgba(255,255,255,0.08)',
                           borderRadius: '16px',
                           overflow: 'hidden',
                           opacity: isCancelled ? 0.6 : 1,
-                          boxShadow: o.status === 'placed' ? '0 0 0 2px rgba(124,58,237,0.4)' : 'none',
+                          boxShadow: isNewOrder ? '0 0 24px rgba(124,58,237,0.3)' : 'none',
                         }}>
                           {/* Order Header */}
                           <div style={{
@@ -838,21 +843,26 @@ export default function AdminControlPanel() {
                                 <div style={{ color: '#fff', fontWeight: 700, fontSize: '15px', fontFamily: 'Sora, sans-serif' }}>
                                   {customer?.full_name || 'Guest Customer'}
                                 </div>
-                                <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>
-                                  📞 {customer?.phone_number || '—'} · #{o.id.substring(0, 8)}
+                                <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                                  <span>📞 {customer?.phone_number || '—'}</span>
+                                  <span>· #{o.id.substring(0, 8).toUpperCase()}</span>
+                                  <span>· 🕐 {orderTime}</span>
                                 </div>
                               </div>
                             </div>
-                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                              <span style={{ padding: '4px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: 700, background: statusBg[o.status] || statusBg.placed, color: statusColor[o.status] || statusColor.placed }}>
+                                {statusLabel[o.status] || o.status}
+                              </span>
                               <span style={{
-                                padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700,
+                                padding: '4px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: 700,
                                 background: o.payment_method === 'COD' ? 'rgba(245,158,11,0.2)' : 'rgba(16,185,129,0.2)',
                                 color: o.payment_method === 'COD' ? '#FCD34D' : '#6EE7B7',
                                 border: `1px solid ${o.payment_method === 'COD' ? 'rgba(245,158,11,0.4)' : 'rgba(16,185,129,0.4)'}`,
                               }}>
-                                {o.payment_method === 'COD' ? '💵 COD' : `✅ ${o.payment_method}`}
+                                {o.payment_method === 'COD' ? '💵 Cash on Delivery' : `✅ Paid Online`}
                               </span>
-                              <span style={{ color: '#C4B5FD', fontSize: '14px', fontWeight: 800 }}>₹{o.grand_total}</span>
+                              <span style={{ color: '#fff', fontSize: '16px', fontWeight: 900, fontFamily: 'Sora, sans-serif' }}>₹{o.grand_total}</span>
                             </div>
                           </div>
 
@@ -896,23 +906,33 @@ export default function AdminControlPanel() {
                             </div>
 
                             {/* Itemized Products */}
-                            <div>
-                              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px' }}>
-                                📦 Books & Items Ordered ({items.length})
+                            <div style={{ border: '1px solid rgba(255,255,255,0.07)', borderRadius: '10px', overflow: 'hidden' }}>
+                              <div style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between' }}>
+                                <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase' }}>📦 Items Ordered ({items.length})</span>
+                                <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)' }}>Qty × Price</span>
                               </div>
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                {items.map((item: any, idx: number) => (
-                                  <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: 'rgba(255,255,255,0.04)', borderRadius: '8px' }}>
-                                    <div>
-                                      <div style={{ color: '#E2D9F3', fontSize: '13px', fontWeight: 600 }}>{item.products?.name || 'Item'}</div>
-                                      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '11px' }}>{item.products?.brand || ''} · Qty: {item.quantity}</div>
+                              {items.length === 0 ? (
+                                <div style={{ padding: '10px 12px', color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>No items found</div>
+                              ) : (
+                                items.map((item: any, idx: number) => (
+                                  <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 12px', borderBottom: idx < items.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', background: idx % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
+                                    <div style={{ flex: 1, minWidth: 0 }}>
+                                      <div style={{ color: '#E2D9F3', fontSize: '13px', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.products?.name || 'Item'}</div>
+                                      {item.products?.brand && <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: '11px' }}>{item.products.brand}</div>}
                                     </div>
-                                    <div style={{ textAlign: 'right' }}>
-                                      <div style={{ color: '#C4B5FD', fontSize: '13px', fontWeight: 700 }}>₹{item.price_at_purchase * item.quantity}</div>
-                                      <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>₹{item.price_at_purchase} each</div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, marginLeft: '10px' }}>
+                                      <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', background: 'rgba(255,255,255,0.07)', padding: '2px 8px', borderRadius: '6px' }}>×{item.quantity}</span>
+                                      <div style={{ textAlign: 'right' }}>
+                                        <div style={{ color: '#C4B5FD', fontSize: '13px', fontWeight: 700 }}>₹{item.price_at_purchase * item.quantity}</div>
+                                        <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>₹{item.price_at_purchase} each</div>
+                                      </div>
                                     </div>
                                   </div>
-                                ))}
+                                ))
+                              )}
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 12px', borderTop: '1px solid rgba(255,255,255,0.08)', background: 'rgba(124,58,237,0.08)' }}>
+                                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', fontWeight: 700 }}>ORDER TOTAL</span>
+                                <span style={{ fontSize: '15px', color: '#fff', fontWeight: 900, fontFamily: 'Sora, sans-serif' }}>₹{o.grand_total}</span>
                               </div>
                             </div>
 

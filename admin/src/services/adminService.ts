@@ -278,12 +278,15 @@ export class AdminService {
           order_items (
             quantity,
             price_at_purchase,
-            products:product_id (name, image_url)
+            products:product_id (name, brand, image_url)
           )
         `)
         .order('created_at', { ascending: false });
 
-      if (error) return { data: null, error: error.message, status: 400 };
+      if (error) {
+        console.error('getOrders error:', error.message, error.details, error.hint);
+        return { data: null, error: error.message, status: 400 };
+      }
       return { data: data as Order[], error: null, status: 200 };
     } catch (err: any) {
       return { data: null, error: err.message, status: 500 };
