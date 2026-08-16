@@ -277,7 +277,7 @@ export class AdminService {
           .in('id', userIds);
           
         if (profilesData) {
-          profilesData.forEach((p) => profilesMap.set(p.id, p));
+          profilesData.forEach((p: any) => profilesMap.set(p.id, p));
         }
       }
       
