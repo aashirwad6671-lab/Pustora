@@ -281,7 +281,7 @@ export class AdminService {
         }
       }
       
-      const enrichedOrders = ordersData.map((o) => ({
+      const enrichedOrders = ordersData.map((o: any) => ({
         ...o,
         profiles: profilesMap.get(o.user_id) || { full_name: 'Unknown', phone_number: 'N/A', id: o.user_id }
       }));
