@@ -253,7 +253,6 @@ export class AdminService {
         .from('orders')
         .select(`
           *,
-          profiles:user_id (full_name, phone_number, id),
           order_items (
             quantity,
             price_at_purchase,
@@ -266,7 +265,28 @@ export class AdminService {
         console.error('getOrders error:', error.message, error.details, error.hint);
         return { data: null, error: error.message, status: 400 };
       }
-      return { data: data as Order[], error: null, status: 200 };
+      
+      const ordersData = data || [];
+      const userIds = [...new Set(ordersData.map((o) => o.user_id))].filter(Boolean);
+      
+      let profilesMap = new Map();
+      if (userIds.length > 0) {
+        const { data: profilesData } = await adminSupabase
+          .from('profiles')
+          .select('id, full_name, phone_number')
+          .in('id', userIds);
+          
+        if (profilesData) {
+          profilesData.forEach((p) => profilesMap.set(p.id, p));
+        }
+      }
+      
+      const enrichedOrders = ordersData.map((o) => ({
+        ...o,
+        profiles: profilesMap.get(o.user_id) || { full_name: 'Unknown', phone_number: 'N/A', id: o.user_id }
+      }));
+      
+      return { data: enrichedOrders as Order[], error: null, status: 200 };
     } catch (err: any) {
       return { data: null, error: err.message, status: 500 };
     }
