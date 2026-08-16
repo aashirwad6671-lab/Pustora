@@ -241,6 +241,31 @@ export default function AdminControlPanel() {
     }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, setUrl: (url: string) => void) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setActionLoading(true);
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const res = await fetch('/api/upload-image', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to upload image');
+      
+      setUrl(data.url);
+    } catch (err: any) {
+      alert(err.message || 'Error uploading image');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   const handleAddProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!prodName || !prodPrice || !prodMrp) return;
@@ -1254,14 +1279,20 @@ export default function AdminControlPanel() {
                           </div>
                           <div>
                             <label style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', fontWeight: 700, display: 'block', marginBottom: '4px' }}>🖼️ Image URL</label>
-                            <input
-                              type="url"
-                              value={editImageUrl}
-                              onChange={e => setEditImageUrl(e.target.value)}
-                              placeholder="https://example.com/image.jpg"
-                              style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.06)', color: '#fff', boxSizing: 'border-box', outline: 'none' }}
-                            />
-                            <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', margin: '4px 0 0 0' }}>Paste a direct image link. It will appear in the store for customers.</p>
+                            <div style={{ display: 'flex', gap: '8px' }}>
+                              <input
+                                type="url"
+                                value={editImageUrl}
+                                onChange={e => setEditImageUrl(e.target.value)}
+                                placeholder="https://example.com/image.jpg"
+                                style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.06)', color: '#fff', boxSizing: 'border-box', outline: 'none' }}
+                              />
+                              <label style={{ padding: '10px 16px', borderRadius: '8px', background: 'rgba(124,58,237,0.2)', color: '#A78BFA', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(124,58,237,0.4)', fontWeight: 600, fontSize: '12px', whiteSpace: 'nowrap' }}>
+                                📷 Upload
+                                <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, setEditImageUrl)} style={{ display: 'none' }} />
+                              </label>
+                            </div>
+                            <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', margin: '4px 0 0 0' }}>Paste a link or upload from your device/camera.</p>
                           </div>
                           <div className="form-row-2" style={{ gap: '10px' }}>
                             <div>
@@ -1315,14 +1346,21 @@ export default function AdminControlPanel() {
                         <input type="text" value={prodBrand} onChange={e => setProdBrand(e.target.value)} placeholder="e.g. Navneet, Camlin, Generic" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.05)', color: '#fff', boxSizing: 'border-box', outline: 'none' }} />
                       </div>
                       <div>
-                        <label style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', fontWeight: 700, display: 'block', marginBottom: '4px' }}>🖼️ Image URL</label>
-                        <input
-                          type="url"
-                          value={prodImageUrl}
-                          onChange={e => setProdImageUrl(e.target.value)}
-                          placeholder="https://example.com/product-image.jpg"
-                          style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.05)', color: '#fff', boxSizing: 'border-box', outline: 'none' }}
-                        />
+                        <label style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', fontWeight: 700, display: 'block', marginBottom: '4px' }}>🖼️ Image</label>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <input
+                            type="url"
+                            value={prodImageUrl}
+                            onChange={e => setProdImageUrl(e.target.value)}
+                            placeholder="https://example.com/product-image.jpg"
+                            style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.05)', color: '#fff', boxSizing: 'border-box', outline: 'none' }}
+                          />
+                          <label style={{ padding: '10px 16px', borderRadius: '8px', background: 'rgba(124,58,237,0.2)', color: '#A78BFA', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(124,58,237,0.4)', fontWeight: 600, fontSize: '12px', whiteSpace: 'nowrap' }}>
+                            📷 Upload
+                            <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, setProdImageUrl)} style={{ display: 'none' }} />
+                          </label>
+                        </div>
+                        <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', margin: '4px 0 0 0' }}>Paste a link or upload from your device/camera.</p>
                         {prodImageUrl && prodImageUrl.startsWith('http') && (
                           <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                             <img
