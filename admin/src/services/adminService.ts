@@ -267,7 +267,7 @@ export class AdminService {
       }
       
       const ordersData = data || [];
-      const userIds = [...new Set(ordersData.map((o) => o.user_id))].filter(Boolean);
+      const userIds = Array.from(new Set(ordersData.map((o) => o.user_id))).filter(Boolean);
       
       let profilesMap = new Map();
       if (userIds.length > 0) {
