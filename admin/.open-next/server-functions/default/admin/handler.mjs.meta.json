@@ -3246,13 +3246,18 @@
       "imports": [],
       "format": "cjs"
     },
+    ".open-next/server-functions/default/admin/.next/server/app/api/upload-image/route_client-reference-manifest.js": {
+      "bytes": 6447,
+      "imports": [],
+      "format": "cjs"
+    },
     ".open-next/server-functions/default/admin/.next/server/app/api/admin/route_client-reference-manifest.js": {
-      "bytes": 5412,
+      "bytes": 6433,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/admin/node_modules/next/dist/server/load-manifest.external.js": {
-      "bytes": 26006,
+      "bytes": 28548,
       "imports": [
         {
           "path": "path",
@@ -3275,9 +3280,14 @@
           "original": "../shared/lib/deep-freeze"
         },
         {
+          "path": ".open-next/server-functions/default/admin/.next/server/app/api/upload-image/route_client-reference-manifest.js",
+          "kind": "require-call",
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\app\\api\\upload-image\\route_client-reference-manifest.js"
+        },
+        {
           "path": ".open-next/server-functions/default/admin/.next/server/app/api/admin/route_client-reference-manifest.js",
           "kind": "require-call",
-          "original": "C:\\Users\\Nikhil\\Downloads\\PUSTORA\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\app\\api\\admin\\route_client-reference-manifest.js"
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\app\\api\\admin\\route_client-reference-manifest.js"
         }
       ],
       "format": "cjs"
@@ -3504,7 +3514,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/admin/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js": {
-      "bytes": 519236,
+      "bytes": 519341,
       "imports": [
         {
           "path": "url",
@@ -3624,17 +3634,17 @@
         {
           "path": ".open-next/server-functions/default/admin/composable-cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
         },
         {
           "path": ".open-next/server-functions/default/admin/composable-cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
         },
         {
           "path": ".open-next/server-functions/default/admin/cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/cache.cjs"
         }
       ],
       "format": "cjs"
@@ -3661,116 +3671,8 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/admin/.next/server/chunks/331.js": {
-      "bytes": 127834,
-      "imports": [],
-      "format": "cjs"
-    },
-    ".open-next/server-functions/default/admin/.next/server/chunks/611.js": {
-      "bytes": 69113,
-      "imports": [
-        {
-          "path": "@builder.io/partytown/integration",
-          "kind": "require-call",
-          "external": true
-        }
-      ],
-      "format": "cjs"
-    },
-    ".open-next/server-functions/default/admin/.next/server/chunks/792.js": {
-      "bytes": 224512,
-      "imports": [],
-      "format": "cjs"
-    },
-    ".open-next/server-functions/default/admin/.next/server/webpack-runtime.js": {
-      "bytes": 1718,
-      "imports": [
-        {
-          "path": ".open-next/server-functions/default/admin/.next/server/chunks/331.js",
-          "kind": "require-call",
-          "original": "./chunks/331.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/admin/.next/server/chunks/611.js",
-          "kind": "require-call",
-          "original": "./chunks/611.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/admin/.next/server/chunks/792.js",
-          "kind": "require-call",
-          "original": "./chunks/792.js"
-        }
-      ],
-      "format": "cjs"
-    },
-    ".open-next/server-functions/default/admin/.next/server/app/_not-found/page.js": {
-      "bytes": 16514,
-      "imports": [
-        {
-          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
-          "kind": "require-call",
-          "original": "next/dist/shared/lib/router/utils/app-paths"
-        },
-        {
-          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js",
-          "kind": "require-call",
-          "original": "next/dist/compiled/next-server/app-page.runtime.prod.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/dynamic-access-async-storage.external.js",
-          "kind": "require-call",
-          "original": "next/dist/server/app-render/dynamic-access-async-storage.external.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/work-unit-async-storage.external.js",
-          "kind": "require-call",
-          "original": "next/dist/server/app-render/work-unit-async-storage.external.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/after-task-async-storage.external.js",
-          "kind": "require-call",
-          "original": "next/dist/server/app-render/after-task-async-storage.external.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/shared/lib/no-fallback-error.external.js",
-          "kind": "require-call",
-          "original": "next/dist/shared/lib/no-fallback-error.external"
-        },
-        {
-          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/shared/lib/router/utils/is-bot.js",
-          "kind": "require-call",
-          "original": "next/dist/shared/lib/router/utils/is-bot"
-        },
-        {
-          "path": "util",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/action-async-storage.external.js",
-          "kind": "require-call",
-          "original": "next/dist/server/app-render/action-async-storage.external.js"
-        },
-        {
-          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/work-async-storage.external.js",
-          "kind": "require-call",
-          "original": "next/dist/server/app-render/work-async-storage.external.js"
-        },
-        {
-          "path": "path",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": ".open-next/server-functions/default/admin/.next/server/webpack-runtime.js",
-          "kind": "require-call",
-          "original": "../../webpack-runtime.js"
-        }
-      ],
-      "format": "cjs"
-    },
     ".open-next/server-functions/default/admin/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js": {
-      "bytes": 161442,
+      "bytes": 161547,
       "imports": [
         {
           "path": "url",
@@ -3855,17 +3757,17 @@
         {
           "path": ".open-next/server-functions/default/admin/composable-cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
         },
         {
           "path": ".open-next/server-functions/default/admin/composable-cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
         },
         {
           "path": ".open-next/server-functions/default/admin/cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/cache.cjs"
         },
         {
           "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/after-task-async-storage.external.js",
@@ -3885,8 +3787,66 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/admin/.next/server/app/api/admin/route.js": {
-      "bytes": 251276,
+    ".open-next/server-functions/default/admin/.next/server/chunks/331.js": {
+      "bytes": 127834,
+      "imports": [],
+      "format": "cjs"
+    },
+    ".open-next/server-functions/default/admin/.next/server/chunks/346.js": {
+      "bytes": 237524,
+      "imports": [
+        {
+          "path": "@opentelemetry/api",
+          "kind": "dynamic-import",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    ".open-next/server-functions/default/admin/.next/server/chunks/433.js": {
+      "bytes": 224352,
+      "imports": [],
+      "format": "cjs"
+    },
+    ".open-next/server-functions/default/admin/.next/server/chunks/611.js": {
+      "bytes": 69109,
+      "imports": [
+        {
+          "path": "@builder.io/partytown/integration",
+          "kind": "require-call",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    ".open-next/server-functions/default/admin/.next/server/webpack-runtime.js": {
+      "bytes": 1773,
+      "imports": [
+        {
+          "path": ".open-next/server-functions/default/admin/.next/server/chunks/331.js",
+          "kind": "require-call",
+          "original": "./chunks/331.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/.next/server/chunks/346.js",
+          "kind": "require-call",
+          "original": "./chunks/346.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/.next/server/chunks/433.js",
+          "kind": "require-call",
+          "original": "./chunks/433.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/.next/server/chunks/611.js",
+          "kind": "require-call",
+          "original": "./chunks/611.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    ".open-next/server-functions/default/admin/.next/server/app/api/upload-image/route.js": {
+      "bytes": 8256,
       "imports": [
         {
           "path": ".open-next/server-functions/default/admin/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -3894,9 +3854,121 @@
           "original": "next/dist/shared/lib/router/utils/app-paths"
         },
         {
-          "path": "@opentelemetry/api",
-          "kind": "dynamic-import",
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js",
+          "kind": "require-call",
+          "original": "next/dist/compiled/next-server/app-page.runtime.prod.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/work-unit-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/work-unit-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/after-task-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/after-task-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js",
+          "kind": "require-call",
+          "original": "next/dist/compiled/next-server/app-route.runtime.prod.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/shared/lib/no-fallback-error.external.js",
+          "kind": "require-call",
+          "original": "next/dist/shared/lib/no-fallback-error.external"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/action-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/action-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/work-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/work-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/.next/server/webpack-runtime.js",
+          "kind": "require-call",
+          "original": "../../../webpack-runtime.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    ".open-next/server-functions/default/admin/.next/server/app/_not-found/page.js": {
+      "bytes": 17409,
+      "imports": [
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
+          "kind": "require-call",
+          "original": "next/dist/shared/lib/router/utils/app-paths"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js",
+          "kind": "require-call",
+          "original": "next/dist/compiled/next-server/app-page.runtime.prod.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/dynamic-access-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/dynamic-access-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/work-unit-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/work-unit-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/after-task-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/after-task-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/shared/lib/no-fallback-error.external.js",
+          "kind": "require-call",
+          "original": "next/dist/shared/lib/no-fallback-error.external"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/shared/lib/router/utils/is-bot.js",
+          "kind": "require-call",
+          "original": "next/dist/shared/lib/router/utils/is-bot"
+        },
+        {
+          "path": "util",
+          "kind": "require-call",
           "external": true
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/action-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/action-async-storage.external.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/work-async-storage.external.js",
+          "kind": "require-call",
+          "original": "next/dist/server/app-render/work-async-storage.external.js"
+        },
+        {
+          "path": "path",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": ".open-next/server-functions/default/admin/.next/server/webpack-runtime.js",
+          "kind": "require-call",
+          "original": "../../webpack-runtime.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    ".open-next/server-functions/default/admin/.next/server/app/api/admin/route.js": {
+      "bytes": 16450,
+      "imports": [
+        {
+          "path": ".open-next/server-functions/default/admin/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
+          "kind": "require-call",
+          "original": "next/dist/shared/lib/router/utils/app-paths"
         },
         {
           "path": ".open-next/server-functions/default/admin/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js",
@@ -4046,7 +4118,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/admin/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js": {
-      "bytes": 129398,
+      "bytes": 129503,
       "imports": [
         {
           "path": "url",
@@ -4146,17 +4218,17 @@
         {
           "path": ".open-next/server-functions/default/admin/composable-cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
         },
         {
           "path": ".open-next/server-functions/default/admin/composable-cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
         },
         {
           "path": ".open-next/server-functions/default/admin/cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/cache.cjs"
         },
         {
           "path": ".open-next/server-functions/default/node_modules/react/jsx-runtime.js",
@@ -4265,7 +4337,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/admin/.next/server/app/page.js": {
-      "bytes": 267468,
+      "bytes": 291965,
       "imports": [
         {
           "path": ".open-next/server-functions/default/admin/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -4336,7 +4408,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/admin/node_modules/next/dist/server/require.js": {
-      "bytes": 12871,
+      "bytes": 13112,
       "imports": [
         {
           "path": "path",
@@ -4384,34 +4456,39 @@
           "external": true
         },
         {
+          "path": ".open-next/server-functions/default/admin/.next/server/app/api/upload-image/route.js",
+          "kind": "require-call",
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\app\\api\\upload-image\\route.js"
+        },
+        {
           "path": ".open-next/server-functions/default/admin/.next/server/app/_not-found/page.js",
           "kind": "require-call",
-          "original": "C:\\Users\\Nikhil\\Downloads\\PUSTORA\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\app\\_not-found\\page.js"
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\app\\_not-found\\page.js"
         },
         {
           "path": ".open-next/server-functions/default/admin/.next/server/app/api/admin/route.js",
           "kind": "require-call",
-          "original": "C:\\Users\\Nikhil\\Downloads\\PUSTORA\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\app\\api\\admin\\route.js"
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\app\\api\\admin\\route.js"
         },
         {
           "path": ".open-next/server-functions/default/admin/.next/server/pages/_document.js",
           "kind": "require-call",
-          "original": "C:\\Users\\Nikhil\\Downloads\\PUSTORA\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_document.js"
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_document.js"
         },
         {
           "path": ".open-next/server-functions/default/admin/.next/server/pages/_error.js",
           "kind": "require-call",
-          "original": "C:\\Users\\Nikhil\\Downloads\\PUSTORA\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_error.js"
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_error.js"
         },
         {
           "path": ".open-next/server-functions/default/admin/.next/server/pages/_app.js",
           "kind": "require-call",
-          "original": "C:\\Users\\Nikhil\\Downloads\\PUSTORA\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_app.js"
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_app.js"
         },
         {
           "path": ".open-next/server-functions/default/admin/.next/server/app/page.js",
           "kind": "require-call",
-          "original": "C:\\Users\\Nikhil\\Downloads\\PUSTORA\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\app\\page.js"
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\app\\page.js"
         }
       ],
       "format": "cjs"
@@ -4898,22 +4975,22 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/admin/node_modules/next/dist/server/lib/module-loader/node-module-loader.js": {
-      "bytes": 965,
+      "bytes": 1079,
       "imports": [
         {
           "path": ".open-next/server-functions/default/admin/.next/server/pages/_document.js",
           "kind": "require-call",
-          "original": "C:\\Users\\Nikhil\\Downloads\\PUSTORA\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_document.js"
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_document.js"
         },
         {
           "path": ".open-next/server-functions/default/admin/.next/server/pages/_error.js",
           "kind": "require-call",
-          "original": "C:\\Users\\Nikhil\\Downloads\\PUSTORA\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_error.js"
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_error.js"
         },
         {
           "path": ".open-next/server-functions/default/admin/.next/server/pages/_app.js",
           "kind": "require-call",
-          "original": "C:\\Users\\Nikhil\\Downloads\\PUSTORA\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_app.js"
+          "original": "C:\\Users\\Nikhil\\OneDrive\\New cloud folder\\OneDrive\\Documents\\Pustora\\admin\\.open-next\\server-functions\\default\\admin\\.next\\server\\pages\\_app.js"
         }
       ],
       "format": "cjs"
@@ -4992,7 +5069,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/admin/node_modules/next/dist/server/next-server.js": {
-      "bytes": 52390,
+      "bytes": 52495,
       "imports": [
         {
           "path": ".open-next/server-functions/default/admin/node_modules/next/dist/server/node-environment.js",
@@ -5297,17 +5374,17 @@
         {
           "path": ".open-next/server-functions/default/admin/composable-cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
         },
         {
           "path": ".open-next/server-functions/default/admin/composable-cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/composable-cache.cjs"
         },
         {
           "path": ".open-next/server-functions/default/admin/cache.cjs",
           "kind": "require-call",
-          "original": "C:/Users/Nikhil/Downloads/PUSTORA/admin/.open-next/server-functions/default/admin/cache.cjs"
+          "original": "C:/Users/Nikhil/OneDrive/New cloud folder/OneDrive/Documents/Pustora/admin/.open-next/server-functions/default/admin/cache.cjs"
         },
         {
           "path": ".open-next/server-functions/default/admin/node_modules/next/dist/experimental/testmode/server.js",
@@ -5323,7 +5400,7 @@
       "format": "esm"
     },
     ".open-next/server-functions/default/admin/index.mjs": {
-      "bytes": 82392,
+      "bytes": 82516,
       "imports": [
         {
           "path": "node:module",
@@ -5553,21 +5630,6 @@
           "external": true
         },
         {
-          "path": "@builder.io/partytown/integration",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": "util",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": "path",
-          "kind": "require-call",
-          "external": true
-        },
-        {
           "path": "url",
           "kind": "require-call",
           "external": true
@@ -5595,6 +5657,21 @@
         {
           "path": "@opentelemetry/api",
           "kind": "dynamic-import",
+          "external": true
+        },
+        {
+          "path": "@builder.io/partytown/integration",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "util",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "path",
+          "kind": "require-call",
           "external": true
         },
         {
@@ -6422,11 +6499,14 @@
         ".open-next/server-functions/default/admin/node_modules/next/dist/shared/lib/deep-freeze.js": {
           "bytesInOutput": 592
         },
+        ".open-next/server-functions/default/admin/.next/server/app/api/upload-image/route_client-reference-manifest.js": {
+          "bytesInOutput": 6117
+        },
         ".open-next/server-functions/default/admin/.next/server/app/api/admin/route_client-reference-manifest.js": {
-          "bytesInOutput": 5075
+          "bytesInOutput": 6097
         },
         ".open-next/server-functions/default/admin/node_modules/next/dist/server/load-manifest.external.js": {
-          "bytesInOutput": 19264
+          "bytesInOutput": 21462
         },
         ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/action-async-storage-instance.js": {
           "bytesInOutput": 507
@@ -6488,26 +6568,32 @@
         ".open-next/server-functions/default/admin/node_modules/next/dist/server/app-render/dynamic-access-async-storage.external.js": {
           "bytesInOutput": 522
         },
-        ".open-next/server-functions/default/admin/.next/server/chunks/331.js": {
-          "bytesInOutput": 132496
-        },
-        ".open-next/server-functions/default/admin/.next/server/chunks/611.js": {
-          "bytesInOutput": 71848
-        },
-        ".open-next/server-functions/default/admin/.next/server/chunks/792.js": {
-          "bytesInOutput": 233602
-        },
-        ".open-next/server-functions/default/admin/.next/server/webpack-runtime.js": {
-          "bytesInOutput": 1802
-        },
-        ".open-next/server-functions/default/admin/.next/server/app/_not-found/page.js": {
-          "bytesInOutput": 16703
-        },
         ".open-next/server-functions/default/admin/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js": {
           "bytesInOutput": 170959
         },
+        ".open-next/server-functions/default/admin/.next/server/chunks/331.js": {
+          "bytesInOutput": 132496
+        },
+        ".open-next/server-functions/default/admin/.next/server/chunks/346.js": {
+          "bytesInOutput": 248187
+        },
+        ".open-next/server-functions/default/admin/.next/server/chunks/433.js": {
+          "bytesInOutput": 233442
+        },
+        ".open-next/server-functions/default/admin/.next/server/chunks/611.js": {
+          "bytesInOutput": 71844
+        },
+        ".open-next/server-functions/default/admin/.next/server/webpack-runtime.js": {
+          "bytesInOutput": 1834
+        },
+        ".open-next/server-functions/default/admin/.next/server/app/api/upload-image/route.js": {
+          "bytesInOutput": 8395
+        },
+        ".open-next/server-functions/default/admin/.next/server/app/_not-found/page.js": {
+          "bytesInOutput": 17608
+        },
         ".open-next/server-functions/default/admin/.next/server/app/api/admin/route.js": {
-          "bytesInOutput": 263510
+          "bytesInOutput": 16729
         },
         "optional-deps-missing-dependency:/critters": {
           "bytesInOutput": 141
@@ -6555,10 +6641,10 @@
           "bytesInOutput": 3581
         },
         ".open-next/server-functions/default/admin/.next/server/app/page.js": {
-          "bytesInOutput": 278699
+          "bytesInOutput": 303862
         },
         ".open-next/server-functions/default/admin/node_modules/next/dist/server/require.js": {
-          "bytesInOutput": 10299
+          "bytesInOutput": 10065
         },
         ".open-next/server-functions/default/admin/node_modules/next/dist/lib/wait.js": {
           "bytesInOutput": 347
@@ -6666,10 +6752,10 @@
           "bytesInOutput": 618
         },
         ".open-next/server-functions/default/admin/index.mjs": {
-          "bytesInOutput": 56265
+          "bytesInOutput": 56387
         }
       },
-      "bytes": 2901390
+      "bytes": 2946352
     }
   }
 }
