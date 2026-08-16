@@ -75,9 +75,6 @@ export class AdminService {
   // ACCESS STATUS
   // ------------------------------------------
   static async checkAccessStatus(): Promise<ApiResponse<boolean>> {
-    if (!isServer) {
-      return clientCall('checkAccessStatus');
-    }
     // Initialize the client so isServiceRoleReal is evaluated
     getSupabaseClient();
     return { data: isServiceRoleReal, error: null, status: 200 };
@@ -93,9 +90,6 @@ export class AdminService {
     lowStockCount: number;
     hourlySales: number[];
   }>> {
-    if (!isServer) {
-      return clientCall('getOverviewMetrics');
-    }
     try {
       // Run concurrent aggregated counts on Supabase
       const [ordersRes, usersRes, stockRes] = await Promise.all([
@@ -136,9 +130,6 @@ export class AdminService {
   // 2. PRODUCT CRUD MODULE
   // ------------------------------------------
   static async getProducts(): Promise<ApiResponse<Product[]>> {
-    if (!isServer) {
-      return clientCall('getProducts');
-    }
     try {
       const { data, error } = await adminSupabase
         .from('products')
@@ -153,9 +144,6 @@ export class AdminService {
   }
 
   static async addProduct(productData: Partial<Product>, initialStock: number): Promise<ApiResponse<Product>> {
-    if (!isServer) {
-      return clientCall('addProduct', productData, initialStock);
-    }
     try {
       const priceNum = Number(productData.price);
       const mrpNum = Number(productData.mrp);
@@ -203,9 +191,6 @@ export class AdminService {
   }
 
   static async updateProduct(id: string, productData: Partial<Product>, stockQuantity?: number): Promise<ApiResponse<Product>> {
-    if (!isServer) {
-      return clientCall('updateProduct', id, productData, stockQuantity);
-    }
     try {
       const updatePayload: any = {};
       if (productData.name !== undefined) updatePayload.name = productData.name;
@@ -250,9 +235,6 @@ export class AdminService {
   }
 
   static async deleteProduct(id: string): Promise<ApiResponse<boolean>> {
-    if (!isServer) {
-      return clientCall('deleteProduct', id);
-    }
     try {
       const { error } = await adminSupabase.from('products').delete().eq('id', id);
       if (error) return { data: null, error: error.message, status: 400 };
@@ -266,9 +248,6 @@ export class AdminService {
   // 3. LIVE ORDER DISPATCH MODULE
   // ------------------------------------------
   static async getOrders(): Promise<ApiResponse<Order[]>> {
-    if (!isServer) {
-      return clientCall('getOrders');
-    }
     try {
       const { data, error } = await adminSupabase
         .from('orders')
@@ -294,9 +273,6 @@ export class AdminService {
   }
 
   static async updateOrderStatus(orderId: string, status: Order['status']): Promise<ApiResponse<boolean>> {
-    if (!isServer) {
-      return clientCall('updateOrderStatus', orderId, status);
-    }
     try {
       const { error } = await adminSupabase
         .from('orders')
@@ -314,9 +290,6 @@ export class AdminService {
   // 4. INVENTORY STOCK MANAGEMENT MODULE
   // ------------------------------------------
   static async getInventoryLevels(): Promise<ApiResponse<any[]>> {
-    if (!isServer) {
-      return clientCall('getInventoryLevels');
-    }
     try {
       const { data, error } = await adminSupabase
         .from('inventory')
@@ -340,9 +313,6 @@ export class AdminService {
   }
 
   static async restockProduct(inventoryId: string, quantityToAdd: number): Promise<ApiResponse<boolean>> {
-    if (!isServer) {
-      return clientCall('restockProduct', inventoryId, quantityToAdd);
-    }
     try {
       // Fetch current stock
       const { data: inv } = await adminSupabase
@@ -371,9 +341,6 @@ export class AdminService {
   // 5. USER MANAGEMENT MODULE
   // ------------------------------------------
   static async getUsers(): Promise<ApiResponse<Profile[]>> {
-    if (!isServer) {
-      return clientCall('getUsers');
-    }
     try {
       const { data, error } = await adminSupabase
         .from('profiles')
@@ -388,9 +355,6 @@ export class AdminService {
   }
 
   static async updateRole(profileId: string, role: Profile['role']): Promise<ApiResponse<boolean>> {
-    if (!isServer) {
-      return clientCall('updateRole', profileId, role);
-    }
     try {
       const { error } = await adminSupabase
         .from('profiles')
@@ -408,9 +372,6 @@ export class AdminService {
   // 6. CUSTOMER SUPPORT MODULE
   // ------------------------------------------
   static async getSupportTickets(): Promise<ApiResponse<any[]>> {
-    if (!isServer) {
-      return clientCall('getSupportTickets');
-    }
     try {
       const { data, error } = await adminSupabase
         .from('support_tickets')
@@ -432,9 +393,6 @@ export class AdminService {
 
   static async getTicketMessages(ticketId: string | null): Promise<ApiResponse<any[]>> {
     if (!ticketId) return { data: null, error: 'No ticket selected', status: 400 };
-    if (!isServer) {
-      return clientCall('getTicketMessages', ticketId);
-    }
     try {
       const { data, error } = await adminSupabase
         .from('support_messages')
@@ -450,9 +408,6 @@ export class AdminService {
   }
 
   static async replyToTicket(ticketId: string, senderId: string, message: string): Promise<ApiResponse<boolean>> {
-    if (!isServer) {
-      return clientCall('replyToTicket', ticketId, senderId, message);
-    }
     try {
       // 1. Insert chat reply
       const { error: msgErr } = await adminSupabase.from('support_messages').insert({
@@ -477,9 +432,6 @@ export class AdminService {
 
   static async resolveTicket(ticketId: string | null): Promise<ApiResponse<boolean>> {
     if (!ticketId) return { data: null, error: 'No ticket selected', status: 400 };
-    if (!isServer) {
-      return clientCall('resolveTicket', ticketId);
-    }
     try {
       const { error } = await adminSupabase
         .from('support_tickets')
@@ -495,9 +447,6 @@ export class AdminService {
 
   static async assignTicket(ticketId: string | null, adminId: string | null): Promise<ApiResponse<boolean>> {
     if (!ticketId) return { data: null, error: 'No ticket selected', status: 400 };
-    if (!isServer) {
-      return clientCall('assignTicket', ticketId, adminId);
-    }
     try {
       const { error } = await adminSupabase
         .from('support_tickets')
@@ -515,9 +464,6 @@ export class AdminService {
   // 7. MARKETING CAMPAIGNS MODULE
   // ------------------------------------------
   static async getCoupons(): Promise<ApiResponse<Coupon[]>> {
-    if (!isServer) {
-      return clientCall('getCoupons');
-    }
     try {
       const { data, error } = await adminSupabase
         .from('coupons')
@@ -532,9 +478,6 @@ export class AdminService {
   }
 
   static async addCoupon(couponData: Partial<Coupon>): Promise<ApiResponse<Coupon>> {
-    if (!isServer) {
-      return clientCall('addCoupon', couponData);
-    }
     try {
       const { data, error } = await adminSupabase
         .from('coupons')
@@ -559,9 +502,6 @@ export class AdminService {
   // 8. ORDER CANCELLATION
   // ------------------------------------------
   static async cancelOrder(orderId: string): Promise<ApiResponse<boolean>> {
-    if (!isServer) {
-      return clientCall('cancelOrder', orderId);
-    }
     try {
       const { error } = await adminSupabase
         .from('orders')
@@ -579,9 +519,6 @@ export class AdminService {
   // 9. DELIVERY PARTNER MANAGEMENT
   // ------------------------------------------
   static async getDeliveryPartners(): Promise<ApiResponse<DeliveryPartner[]>> {
-    if (!isServer) {
-      return clientCall('getDeliveryPartners');
-    }
     try {
       const { data, error } = await adminSupabase
         .from('delivery_partners')
@@ -606,9 +543,6 @@ export class AdminService {
     orderId: string,
     deliveryPartnerId: string
   ): Promise<ApiResponse<boolean>> {
-    if (!isServer) {
-      return clientCall('assignAndDispatch', orderId, deliveryPartnerId);
-    }
     try {
       const { error } = await adminSupabase
         .from('orders')
@@ -632,4 +566,5 @@ export class AdminService {
     }
   }
 }
+
 
