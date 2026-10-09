@@ -9,10 +9,16 @@ interface FlashDealsBannerProps {
 }
 
 const CATEGORY_EMOJI: Record<string, string> = {
-  books: '📚',
-  stationery: '✏️',
-  toys: '🎁',
-  art: '🎨',
+  'atta-rice-dal':        '🌾',
+  'oil-ghee-masala':      '🫒',
+  'dairy-bread-eggs':     '🥛',
+  'instant-frozen':       '🍜',
+  'chocolates-sweets':    '🍫',
+  'bakery-biscuits':      '🍪',
+  'drinks-juices':        '🥤',
+  'chips-namkeen':        '🥨',
+  'cleaning-essentials':  '🧼',
+  'tea-coffee':           '☕',
 };
 
 function useCountdown(targetMs: number) {
@@ -47,8 +53,8 @@ export default function FlashDealsBanner({ products, onAddToCart }: FlashDealsBa
         <div className="flash-banner-left">
           <div className="flash-icon-wrap" aria-hidden="true">⚡</div>
           <div>
-            <h2 className="flash-title">Flash Deals</h2>
-            <p className="flash-sub">Get extra 15% off on selected items — limited time only</p>
+            <h2 className="flash-title">Pantry Flash Deals</h2>
+            <p className="flash-sub">Get extra 15% off on cooking oils, dairy, snacks &amp; beverages</p>
           </div>
         </div>
 

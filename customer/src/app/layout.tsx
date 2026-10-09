@@ -2,15 +2,15 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 // ── Site-wide constants ──────────────────────────────────────
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pustora.in';
-const SITE_NAME = 'Pustora';
-const DEFAULT_TITLE = 'Pustora — School Books & Stationery Delivered Fast in Lucknow';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://xyzgrocery.in';
+const SITE_NAME = 'XYZ Grocery';
+const DEFAULT_TITLE = 'XYZ Grocery — Fresh Groceries Delivered in 10-15 Minutes';
 const DEFAULT_DESCRIPTION =
-  'Order original NCERT & CBSE textbooks, school combos, premium stationery, and toys with fast delivery across Lucknow. CMS, La Martiniere, DPS book sets available.';
+  'Order fresh dairy, atta, dal, cooking oil, snacks, cold drinks, cleaning essentials and household needs with instant 10-15 minute delivery by XYZ Grocery.';
 
 // ── Viewport (separate export required in Next.js 14 App Router) ──
 export const viewport: Viewport = {
-  themeColor: '#6C3FD6',
+  themeColor: '#0C831F',
   colorScheme: 'light',
   width: 'device-width',
   initialScale: 1,
@@ -27,11 +27,11 @@ export const metadata: Metadata = {
   },
   description: DEFAULT_DESCRIPTION,
 
-  // ── Keywords (still useful for some search engines) ──
+  // ── Keywords ──
   keywords: [
-    'school books Lucknow', 'NCERT textbooks delivery', 'CMS book set',
-    'La Martiniere school books', 'DPS Lucknow books', 'stationery delivery Lucknow',
-    'Pustora', 'fast book delivery Lucknow', 'CBSE books online Lucknow',
+    'grocery delivery', 'instant grocery 10 mins', 'XYZ Grocery',
+    'atta rice dal delivery', 'fresh milk bread eggs', 'snacks and chips delivery',
+    'quick commerce grocery', 'supermarket delivery Lucknow',
   ],
 
   // ── Canonical & alternates ──
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'Pustora — School Books Delivered Fast in Lucknow',
+        alt: 'XYZ Grocery — Groceries Delivered in 10-15 Minutes',
       },
     ],
   },
@@ -110,7 +110,7 @@ export const metadata: Metadata = {
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Pustora',
+  name: 'XYZ Grocery',
   url: SITE_URL,
   logo: `${SITE_URL}/icons/icon-512x512.png`,
   description: DEFAULT_DESCRIPTION,
@@ -125,8 +125,8 @@ const organizationJsonLd = {
     availableLanguage: ['English', 'Hindi'],
   },
   sameAs: [
-    'https://www.instagram.com/pustora',
-    'https://twitter.com/pustora',
+    'https://www.instagram.com/xyzgrocery',
+    'https://twitter.com/xyzgrocery',
   ],
 };
 

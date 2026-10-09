@@ -25,9 +25,10 @@ interface NavbarProps {
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
-  { label: 'Books', href: '/category/books' },
-  { label: 'Stationery', href: '/category/stationery' },
-  { label: 'Toys & Gifts', href: '/category/toys' },
+  { label: 'Categories', href: '/category/all' },
+  { label: 'Atta & Dal', href: '/category/atta-rice-dal' },
+  { label: 'Dairy & Bread', href: '/category/dairy-bread-eggs' },
+  { label: 'Snacks & Munchies', href: '/category/chips-namkeen' },
   { label: 'Track Order', href: '/orders' },
 ];
 
@@ -97,12 +98,12 @@ export default function Navbar({
       <SearchIcon />
       <input
         type="text"
-        placeholder="Search books, stationery, toys…"
+        placeholder="Search 'milk', 'atta', 'bread', 'chips', 'oil'…"
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         className="navbar-search-input"
         id={id}
-        aria-label="Search products"
+        aria-label="Search grocery items"
       />
       {searchQuery && (
         <button onClick={() => onSearchChange('')} className="navbar-search-clear" aria-label="Clear search">×</button>
@@ -116,9 +117,9 @@ export default function Navbar({
       <header className={`navbar-desktop${scrolled ? ' navbar-scrolled' : ''}`} role="banner">
         <div className="navbar-inner page-container">
           {/* Logo */}
-          <Link href="/" className="navbar-logo" id="nav-logo-desktop">
-            <span className="navbar-logo-text">PUSTORA</span>
-            <span className="navbar-badge">FAST</span>
+          <Link href="/" className="navbar-logo" id="nav-logo-desktop" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span className="navbar-logo-text" style={{ color: 'var(--primary)', fontWeight: 800, letterSpacing: '-0.5px' }}>XYZ GROCERY</span>
+            <span className="navbar-badge" style={{ backgroundColor: 'var(--accent)', color: '#1A1A1A', fontWeight: 800 }}>⚡ 10 MINS</span>
           </Link>
 
           {/* Nav links */}
@@ -189,8 +190,9 @@ export default function Navbar({
       {/* ── MOBILE TOP BAR ── */}
       <header className={`navbar-mobile-top${scrolled ? ' navbar-scrolled' : ''}`} role="banner">
         <div className="navbar-mobile-row1">
-          <Link href="/" className="navbar-logo" id="nav-logo-mobile">
-            <span className="navbar-logo-text navbar-logo-text-sm">PUSTORA</span>
+          <Link href="/" className="navbar-logo" id="nav-logo-mobile" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span className="navbar-logo-text navbar-logo-text-sm" style={{ color: 'var(--primary)', fontWeight: 800 }}>XYZ GROCERY</span>
+            <span className="navbar-badge" style={{ backgroundColor: 'var(--accent)', color: '#1A1A1A', fontWeight: 800, fontSize: '9px', padding: '2px 5px' }}>10m</span>
           </Link>
 
           <div className="navbar-mobile-location">
@@ -234,7 +236,7 @@ export default function Navbar({
         </div>
       </header>
 
-      {/* ── MOBILE BOTTOM NAV ── */}
+      {/* ── MOBILE BOTTOM NAV (Blinkit / Quick-Commerce style) ── */}
       <nav className="bottom-nav" aria-label="Mobile navigation">
         <Link href="/" className={`bottom-nav-item${pathname === '/' ? ' active' : ''}`} id="bottom-nav-home">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="22" height="22">
@@ -244,11 +246,14 @@ export default function Navbar({
           <span>Home</span>
         </Link>
 
-        <Link href="/category/books" className={`bottom-nav-item${pathname.startsWith('/category') ? ' active' : ''}`} id="bottom-nav-browse">
+        <Link href="/category/all" className={`bottom-nav-item${pathname.startsWith('/category') ? ' active' : ''}`} id="bottom-nav-browse">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="22" height="22">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <rect x="3" y="3" width="7" height="7" rx="1.5" strokeWidth={2} />
+            <rect x="14" y="3" width="7" height="7" rx="1.5" strokeWidth={2} />
+            <rect x="3" y="14" width="7" height="7" rx="1.5" strokeWidth={2} />
+            <rect x="14" y="14" width="7" height="7" rx="1.5" strokeWidth={2} />
           </svg>
-          <span>Browse</span>
+          <span>Categories</span>
         </Link>
 
         <Link href="/cart" className={`bottom-nav-item${pathname === '/cart' ? ' active' : ''}`} id="bottom-nav-cart"
@@ -261,7 +266,7 @@ export default function Navbar({
               </span>
             )}
           </div>
-          <span>Cart</span>
+          <span>Cart / Buy</span>
         </Link>
 
         <Link

@@ -40,10 +40,10 @@ export default function VoiceAssistantOverlay({
         </button>
 
         <h3 className="text-xl font-bold mb-2 text-glow" style={{ color: 'var(--text-white)' }}>
-          Pustora Voice Assistant
+          XYZ Grocery Voice Assistant
         </h3>
         <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
-          Speak in Hindi, English or Hinglish
+          Order milk, atta, oil &amp; snacks by voice (Hindi / English)
         </p>
 
         {/* Animated wave bars and glow circle */}
@@ -120,8 +120,8 @@ export default function VoiceAssistantOverlay({
 
           {aiResponse && (
             <div className="text-left bg-purple-950/20 p-3 rounded-lg border border-purple-500/20 w-full">
-              <span className="text-[11px] uppercase tracking-wider text-purple-300 font-bold block mb-1">
-                Pustora Assistant
+              <span className="text-[11px] uppercase tracking-wider text-green-300 font-bold block mb-1">
+                XYZ Grocery Assistant
               </span>
               <p className="text-sm text-glow-accent font-medium">{aiResponse}</p>
             </div>

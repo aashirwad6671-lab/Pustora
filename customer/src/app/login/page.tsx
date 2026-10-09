@@ -180,11 +180,11 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col min-h-screen items-center justify-center p-4" style={{ backgroundColor: 'var(--background)', color: 'var(--deep-text)' }}>
       <div className="text-center mb-8 space-y-2">
-        <Link href="/" className="text-4xl font-black tracking-widest stitch-logo" style={{ color: 'var(--primary)', fontFamily: 'Sora, sans-serif' }}>
-          PUSTORA
+        <Link href="/" className="text-4xl font-black tracking-wider stitch-logo" style={{ color: 'var(--primary)', fontFamily: 'Sora, sans-serif' }}>
+          XYZ GROCERY
         </Link>
         <p className="text-[10px] uppercase tracking-widest font-bold text-gray-500">
-          "Har Zaroorat, Ek App"
+          ⚡ Groceries in 10–15 Minutes
         </p>
       </div>
 
@@ -195,8 +195,8 @@ export default function LoginPage() {
           {mode === 'otp' && 'Email Verification'}
         </h2>
         <p className="text-xs text-center mb-6 text-gray-500">
-          {mode === 'login' && 'Access Lucknow’s 10-minute school bookstore'}
-          {mode === 'signup' && 'Join the fastest school delivery network'}
+          {mode === 'login' && 'Access express grocery delivery in 10-15 minutes'}
+          {mode === 'signup' && 'Join the fastest grocery delivery network in Lucknow'}
           {mode === 'otp' && `Enter the OTP sent to ${email}`}
         </p>
 

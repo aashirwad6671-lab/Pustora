@@ -14,11 +14,11 @@ export default function AppBanner() {
         <div className="app-banner-text">
 
           <h2 className="app-banner-title" id="app-banner-heading">
-            Get the Pustora App
+            Get the XYZ Grocery App
           </h2>
           <p className="app-banner-subtitle">
-            Track orders live, get push notifications for flash deals, and
-            reorder school essentials with one tap. Available on Android &amp; iOS.
+            Track your rider live, get notifications for daily flash discounts, and
+            reorder pantry essentials with one tap. Available on Android &amp; iOS.
           </p>
 
           <div className="app-banner-badges">
@@ -63,14 +63,14 @@ export default function AppBanner() {
           <div className="app-phone-card">
             <div className="app-phone-header">
               <span style={{ fontSize: '1.5rem' }}>⚡</span>
-              <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#fff', letterSpacing: '0.1em' }}>
-                PUSTORA
+              <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#fff', letterSpacing: '0.05em' }}>
+                XYZ GROCERY
               </span>
             </div>
             <div className="app-phone-body">
               <div className="app-phone-stat">
-                <span className="app-phone-stat-num">48</span>
-                <span className="app-phone-stat-label">Hr delivery</span>
+                <span className="app-phone-stat-num">10m</span>
+                <span className="app-phone-stat-label">Express Delivery</span>
               </div>
               <div className="app-phone-divider" />
               <div className="app-phone-stat">

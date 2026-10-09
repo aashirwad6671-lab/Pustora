@@ -60,7 +60,7 @@ type JsonLdProps =
 // ── JSON-LD Builders ─────────────────────────────────────────
 
 function buildProduct(data: ProductJsonLdProps['data']) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pustora.in';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://xyzgrocery.in';
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -81,7 +81,7 @@ function buildProduct(data: ProductJsonLdProps['data']) {
         .toISOString()
         .split('T')[0],
       availability: `https://schema.org/${data.availability || 'InStock'}`,
-      seller: { '@type': 'Organization', name: 'Pustora' },
+      seller: { '@type': 'Organization', name: 'XYZ Grocery' },
     },
     ...(data.ratingValue && data.reviewCount && {
       aggregateRating: {

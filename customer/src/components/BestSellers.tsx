@@ -10,26 +10,31 @@ interface BestSellersProps {
 }
 
 const CAT_PASTEL: Record<string, { bg: string; emoji: string }> = {
-  books:      { bg: '#E6F1FB', emoji: '📚' },
-  stationery: { bg: '#FAEEDA', emoji: '✏️' },
-  toys:       { bg: '#FBEAF0', emoji: '🧸' },
-  gifts:      { bg: '#EAF3DE', emoji: '🎁' },
-  art:        { bg: '#EEEDFE', emoji: '🎨' },
+  'atta-rice-dal':        { bg: '#FEF8E7', emoji: '🌾' },
+  'oil-ghee-masala':      { bg: '#FFF4E5', emoji: '🫒' },
+  'dairy-bread-eggs':     { bg: '#EBF4FF', emoji: '🥛' },
+  'instant-frozen':       { bg: '#FFF1F2', emoji: '🍜' },
+  'chocolates-sweets':    { bg: '#FDF2F8', emoji: '🍫' },
+  'bakery-biscuits':      { bg: '#FFF7ED', emoji: '🍪' },
+  'drinks-juices':        { bg: '#F0FDF4', emoji: '🥤' },
+  'chips-namkeen':        { bg: '#FEFCE8', emoji: '🥨' },
+  'cleaning-essentials':  { bg: '#F0FDFA', emoji: '🧼' },
+  'tea-coffee':           { bg: '#FAF5FF', emoji: '☕' },
 };
 
 export default function BestSellers({ products, onAddToCart }: BestSellersProps) {
   if (!products || products.length === 0) return null;
 
-  const featured = products.slice(0, 6);
+  const featured = products.slice(0, 8);
 
   return (
     <section aria-labelledby="bestsellers-heading">
       <div className="section-header">
         <h2 className="section-title" id="bestsellers-heading">
-          🔥 Best Sellers
+          🔥 Trending in Lucknow
         </h2>
-        <Link href="/category/books" className="section-link" id="bestsellers-see-all">
-          See all →
+        <Link href="/category/all" className="section-link" id="bestsellers-see-all">
+          See all items →
         </Link>
       </div>
 

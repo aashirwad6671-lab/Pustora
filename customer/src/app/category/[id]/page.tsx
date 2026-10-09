@@ -12,62 +12,173 @@ import Navbar from '../../../components/Navbar';
 import CartBar from '../../../components/CartBar';
 
 const CATALOG_SNAPSHOT: Product[] = [
+  // 🌾 Atta, Rice & Dal
   {
-    id: 'tb-ncert-m6', category_id: 'books', sub_category: 'textbooks',
-    name: 'Mathematics Class VI (NCERT)', brand: 'NCERT',
-    description: 'Standard textbook for Class 6 mathematics published by NCERT.',
-    price: 150, mrp: 150, stock_quantity: 45, grade_suitability: 'Class 6',
-    subject_tag: 'Mathematics', image_url: 'linear-gradient(135deg, #6C3FD6 0%, #9B5DE5 100%)',
-    is_featured: true, is_bestseller: true, is_active: true, slug: 'mathematics-class-6-ncert',
+    id: 'atta-aashirvaad-5kg', category_id: 'atta-rice-dal', sub_category: 'flours',
+    name: 'Aashirvaad Shudh Chakki Atta', brand: 'Aashirvaad', unit: '5 kg',
+    description: '100% whole wheat flour with natural dietary fiber and superior aroma.',
+    price: 245, mrp: 275, stock_quantity: 50, grade_suitability: '5 kg',
+    subject_tag: 'Whole Wheat', image_url: 'linear-gradient(135deg, #FEF08A 0%, #EAB308 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'aashirvaad-shudh-chakki-atta-5kg',
     created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
   },
   {
-    id: 'tb-ncert-s10', category_id: 'books', sub_category: 'textbooks',
-    name: 'Science Class X (NCERT)', brand: 'NCERT',
-    description: 'Official science textbook for CBSE Class 10 published by NCERT.',
-    price: 195, mrp: 195, stock_quantity: 30, grade_suitability: 'Class 10',
-    subject_tag: 'Science', image_url: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-    is_featured: true, is_bestseller: true, is_active: true, slug: 'science-class-10-ncert',
+    id: 'rice-daawat-5kg', category_id: 'atta-rice-dal', sub_category: 'rice',
+    name: 'Daawat Rozana Super Basmati Rice', brand: 'Daawat', unit: '5 kg',
+    description: 'Fluffy, long grain aromatic basmati rice for daily royal meals.',
+    price: 380, mrp: 450, stock_quantity: 40, grade_suitability: '5 kg',
+    subject_tag: 'Basmati', image_url: 'linear-gradient(135deg, #FDE68A 0%, #D97706 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'daawat-rozana-super-basmati-rice-5kg',
     created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
   },
   {
-    id: 'nb-classmate-s6', category_id: 'stationery', sub_category: 'notebooks',
-    name: 'Classmate Notebook Pack of 6', brand: 'Classmate',
-    description: 'Premium quality softcover single line notebooks, 172 pages.',
-    price: 360, mrp: 390, stock_quantity: 25, grade_suitability: 'All Grades',
-    subject_tag: 'General', image_url: 'linear-gradient(135deg, #F5A623 0%, #D97706 100%)',
-    is_featured: true, is_bestseller: true, is_active: true, slug: 'classmate-notebook-pack-6',
+    id: 'dal-tata-toor-1kg', category_id: 'atta-rice-dal', sub_category: 'pulses',
+    name: 'Tata Sampann Unpolished Toor Dal', brand: 'Tata Sampann', unit: '1 kg',
+    description: 'Rich in natural protein, unpolished arhar dal with no artificial colors.',
+    price: 175, mrp: 195, stock_quantity: 60, grade_suitability: '1 kg',
+    subject_tag: 'Toor Dal', image_url: 'linear-gradient(135deg, #FED7AA 0%, #EA580C 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'tata-sampann-toor-dal-1kg',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+
+  // 🫒 Oil, Ghee & Masala
+  {
+    id: 'oil-fortune-sunflower-1l', category_id: 'oil-ghee-masala', sub_category: 'cooking-oil',
+    name: 'Fortune Sunlite Refined Sunflower Oil', brand: 'Fortune', unit: '1 L',
+    description: 'Light, healthy cooking oil enriched with Vitamin A and Vitamin D.',
+    price: 135, mrp: 160, stock_quantity: 45, grade_suitability: '1 L Pouch',
+    subject_tag: 'Cooking Oil', image_url: 'linear-gradient(135deg, #FDE047 0%, #CA8A04 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'fortune-sunlite-sunflower-oil-1l',
     created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
   },
   {
-    id: 'toy-lego-classic', category_id: 'toys', sub_category: 'building-blocks',
-    name: 'LEGO Creative Bricks (484 Pcs)', brand: 'LEGO',
-    description: 'Medium creative brick box featuring 35 colors. Endless builders fun.',
-    price: 1599, mrp: 1799, stock_quantity: 12, grade_suitability: 'Age 4+',
-    subject_tag: 'Creative', image_url: 'linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)',
-    is_featured: true, is_bestseller: true, is_active: true, slug: 'lego-creative-bricks-484',
+    id: 'ghee-amul-1l', category_id: 'oil-ghee-masala', sub_category: 'ghee',
+    name: 'Amul Pure Desi Ghee', brand: 'Amul', unit: '1 L',
+    description: 'Traditional granular rich aroma pure cow and buffalo milk ghee.',
+    price: 595, mrp: 650, stock_quantity: 35, grade_suitability: '1 L Carton',
+    subject_tag: 'Pure Ghee', image_url: 'linear-gradient(135deg, #FEF08A 0%, #B45309 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'amul-pure-desi-ghee-1l',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'masala-catch-garam-100g', category_id: 'oil-ghee-masala', sub_category: 'spices',
+    name: 'Catch Super Garam Masala', brand: 'Catch', unit: '100 g',
+    description: 'Authentic blend of aromatic spices for rich Indian curries.',
+    price: 75, mrp: 85, stock_quantity: 80, grade_suitability: '100 g Box',
+    subject_tag: 'Spices', image_url: 'linear-gradient(135deg, #FCA5A5 0%, #DC2626 100%)',
+    is_featured: false, is_bestseller: true, is_active: true, slug: 'catch-garam-masala-100g',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+
+  // 🥛 Dairy, Bread & Eggs
+  {
+    id: 'milk-amul-taaza-1l', category_id: 'dairy-bread-eggs', sub_category: 'milk',
+    name: 'Amul Taaza Toned Fresh Milk', brand: 'Amul', unit: '1 L',
+    description: 'Fresh homogenised toned milk, rich in calcium and essential vitamins.',
+    price: 54, mrp: 56, stock_quantity: 100, grade_suitability: '1 L Tetra',
+    subject_tag: 'Fresh Milk', image_url: 'linear-gradient(135deg, #93C5FD 0%, #2563EB 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'amul-taaza-toned-milk-1l',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'butter-amul-500g', category_id: 'dairy-bread-eggs', sub_category: 'butter',
+    name: 'Amul Pasteurised Salted Butter', brand: 'Amul', unit: '500 g',
+    description: 'Utterly butterly delicious creamy table butter for breakfast toasts.',
+    price: 275, mrp: 285, stock_quantity: 60, grade_suitability: '500 g',
+    subject_tag: 'Table Butter', image_url: 'linear-gradient(135deg, #FEF08A 0%, #F59E0B 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'amul-salted-butter-500g',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'bread-britannia-wheat-400g', category_id: 'dairy-bread-eggs', sub_category: 'bread',
+    name: 'Britannia 100% Whole Wheat Bread', brand: 'Britannia', unit: '400 g',
+    description: 'Zero maida, soft sliced healthy whole wheat loaf baked fresh daily.',
+    price: 50, mrp: 55, stock_quantity: 40, grade_suitability: '400 g Pack',
+    subject_tag: 'Fresh Bread', image_url: 'linear-gradient(135deg, #FDBA74 0%, #C2410C 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'britannia-whole-wheat-bread-400g',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+
+  // 🍜 Instant & Frozen
+  {
+    id: 'instant-maggi-4pack', category_id: 'instant-frozen', sub_category: 'noodles',
+    name: 'Maggi 2-Minute Masala Instant Noodles', brand: 'Maggi', unit: 'Pack of 4',
+    description: 'Iconic masala flavor instant noodles, favorite snack ready in 2 minutes.',
+    price: 56, mrp: 60, stock_quantity: 90, grade_suitability: '4 x 70g Pack',
+    subject_tag: 'Instant Noodles', image_url: 'linear-gradient(135deg, #FDE047 0%, #DC2626 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'maggi-2-minute-masala-noodles-4pack',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'clean-lizol-citrus-500ml', category_id: 'cleaning-essentials', sub_category: 'floor-cleaner',
+    name: 'Lizol Disinfectant Floor Cleaner (Citrus)', brand: 'Lizol', unit: '500 ml',
+    description: 'Kills 99.9% germs, leaves long lasting citrus freshness on all floor surfaces.',
+    price: 110, mrp: 125, stock_quantity: 40, grade_suitability: '500 ml Bottle',
+    subject_tag: 'Disinfectant', image_url: 'linear-gradient(135deg, #FCD34D 0%, #EA580C 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'lizol-disinfectant-cleaner-citrus-500ml',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'chips-lays-magic-masala-50g', category_id: 'chips-namkeen', sub_category: 'chips',
+    name: "Lay's India's Magic Masala Potato Chips", brand: "Lay's", unit: '50 g',
+    description: 'Crispy wafer thin potato chips seasoned with aromatic Indian spices.',
+    price: 20, mrp: 20, stock_quantity: 120, grade_suitability: '50 g Pouch',
+    subject_tag: 'Crisps', image_url: 'linear-gradient(135deg, #60A5FA 0%, #1E40AF 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'lays-magic-masala-chips-50g',
+    created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'drink-coke-can-300ml', category_id: 'drinks-juices', sub_category: 'cold-drinks',
+    name: 'Coca-Cola Soft Drink Can', brand: 'Coca-Cola', unit: '300 ml',
+    description: 'Chilled refreshing sparkling cola, best companion for snacks & meals.',
+    price: 40, mrp: 40, stock_quantity: 80, grade_suitability: '300 ml Can',
+    subject_tag: 'Cold Drink', image_url: 'linear-gradient(135deg, #F87171 0%, #991B1B 100%)',
+    is_featured: true, is_bestseller: true, is_active: true, slug: 'coca-cola-can-300ml',
     created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
   },
 ];
 
 const getCategoryDetails = (id: string) => {
   switch (id.toLowerCase()) {
-    case 'books':
-      return { name: 'School Textbooks', emoji: '📚', desc: 'CBSE, ICSE, NCERT syllabus guides & notebooks', color: '#6C3FD6', bg: 'linear-gradient(135deg, #6C3FD6 0%, #9B5DE5 100%)' };
-    case 'stationery':
-      return { name: 'Premium Stationery', emoji: '✏️', desc: 'Classmate notebooks, drawing sheets, boards & pencils', color: '#F5A623', bg: 'linear-gradient(135deg, #F5A623 0%, #D97706 100%)' };
-    case 'toys':
-      return { name: 'Educational Toys', emoji: '🎁', desc: 'Building blocks, science experiment kits, board games', color: '#10B981', bg: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' };
+    case 'atta-rice-dal':
+      return { name: 'Atta, Rice & Dal', emoji: '🌾', desc: 'Fresh chakki atta, premium basmati rice & unpolished dals', color: '#0C831F', bg: 'linear-gradient(135deg, #0C831F 0%, #15A029 100%)' };
+    case 'oil-ghee-masala':
+      return { name: 'Oil, Ghee & Masala', emoji: '🫒', desc: 'Refined sunflower oils, pure desi ghee & kitchen spices', color: '#CA8A04', bg: 'linear-gradient(135deg, #FDE047 0%, #CA8A04 100%)' };
+    case 'dairy-bread-eggs':
+      return { name: 'Dairy, Bread & Eggs', emoji: '🥛', desc: 'Fresh milk, amul butter, whole wheat bread & farm eggs', color: '#2563EB', bg: 'linear-gradient(135deg, #93C5FD 0%, #2563EB 100%)' };
+    case 'instant-frozen':
+      return { name: 'Instant & Frozen Food', emoji: '🍜', desc: 'Maggi noodles, french fries, ready soups & quick snacks', color: '#DC2626', bg: 'linear-gradient(135deg, #FDE047 0%, #DC2626 100%)' };
+    case 'chocolates-sweets':
+      return { name: 'Sweets & Chocolates', emoji: '🍫', desc: 'Cadbury silk chocolates, haldiram sweets & desserts', color: '#581C87', bg: 'linear-gradient(135deg, #C084FC 0%, #581C87 100%)' };
+    case 'bakery-biscuits':
+      return { name: 'Bakery & Biscuits', emoji: '🍪', desc: 'Cashew cookies, Parle-G, cream biscuits & rusks', color: '#D97706', bg: 'linear-gradient(135deg, #FDE68A 0%, #D97706 100%)' };
+    case 'drinks-juices':
+      return { name: 'Drinks & Juices', emoji: '🥤', desc: 'Chilled soft drinks, 100% real fruit juices & cold sodas', color: '#991B1B', bg: 'linear-gradient(135deg, #F87171 0%, #991B1B 100%)' };
+    case 'chips-namkeen':
+      return { name: 'Chips & Namkeen', emoji: '🥨', desc: 'Crispy potato chips, aloo bhujia & teatime savories', color: '#1E40AF', bg: 'linear-gradient(135deg, #60A5FA 0%, #1E40AF 100%)' };
+    case 'cleaning-essentials':
+      return { name: 'Cleaning Essentials', emoji: '🧼', desc: 'Surface disinfectant cleaners, dishwash gels & detergents', color: '#15803D', bg: 'linear-gradient(135deg, #86EFAC 0%, #15803D 100%)' };
+    case 'tea-coffee':
+      return { name: 'Tea, Coffee & More', emoji: '☕', desc: 'Premium black leaf tea, Nescafe coffee & beverages', color: '#78350F', bg: 'linear-gradient(135deg, #FDE68A 0%, #78350F 100%)' };
     default:
-      return { name: 'School Essentials', emoji: '✨', desc: 'Top-quality selected items delivered in 10 minutes', color: '#6C3FD6', bg: 'linear-gradient(135deg, #6C3FD6 0%, #9B5DE5 100%)' };
+      return { name: 'All Grocery Items', emoji: '🛒', desc: 'Daily kitchen essentials & groceries delivered in 10-15 mins', color: '#0C831F', bg: 'linear-gradient(135deg, #0C831F 0%, #15A029 100%)' };
   }
 };
 
 const CATEGORY_EMOJI: Record<string, string> = {
-  books: '📚', stationery: '✏️', toys: '🎁', art: '🎨',
+  'atta-rice-dal': '🌾',
+  'oil-ghee-masala': '🫒',
+  'dairy-bread-eggs': '🥛',
+  'instant-frozen': '🍜',
+  'chocolates-sweets': '🍫',
+  'bakery-biscuits': '🍪',
+  'drinks-juices': '🥤',
+  'chips-namkeen': '🥨',
+  'cleaning-essentials': '🧼',
+  'tea-coffee': '☕',
 };
 
-const GRADE_OPTIONS = ['all', 'Class 6', 'Class 10', 'Age 4+', 'All Grades'];
+const GRADE_OPTIONS = ['all', '5 kg', '1 kg', '1 L', '500 g', 'Pack of 4', 'Pouch'];
 
 export default function CategoryProductsPage({ params }: { params: { id: string } }) {
   const { addItem } = useCartStore();
@@ -109,7 +220,9 @@ export default function CategoryProductsPage({ params }: { params: { id: string 
       if (response.data && response.data.length > 0) {
         list = response.data;
       } else {
-        let filtered = CATALOG_SNAPSHOT.filter((p) => p.category_id === params.id);
+        let filtered = params.id === 'all'
+          ? CATALOG_SNAPSHOT
+          : CATALOG_SNAPSHOT.filter((p) => p.category_id === params.id);
         if (gradeFilter !== 'all') {
           filtered = filtered.filter((p) => p.grade_suitability?.toLowerCase().includes(gradeFilter.toLowerCase()));
         }
@@ -125,7 +238,7 @@ export default function CategoryProductsPage({ params }: { params: { id: string 
       else if (sortBy === 'price_desc') list.sort((a, b) => b.price - a.price);
       setProducts(list);
     } catch {
-      setProducts(CATALOG_SNAPSHOT.filter((p) => p.category_id === params.id));
+      setProducts(params.id === 'all' ? CATALOG_SNAPSHOT : CATALOG_SNAPSHOT.filter((p) => p.category_id === params.id));
     } finally {
       setLoading(false);
     }

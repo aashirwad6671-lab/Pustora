@@ -147,22 +147,22 @@ export default function AuthSplash() {
         </button>
 
         <div className="text-center mb-6 space-y-1 mt-4">
-          <div className="text-3xl font-black tracking-widest stitch-logo" style={{ color: 'var(--primary)', fontFamily: 'Sora, sans-serif' }}>
-            PUSTORA
+          <div className="text-3xl font-black tracking-wider stitch-logo" style={{ color: 'var(--primary)', fontFamily: 'Sora, sans-serif' }}>
+            XYZ GROCERY
           </div>
           <p className="text-[10px] uppercase tracking-widest font-bold text-gray-500">
-            "Har Zaroorat, Ek App"
+            ⚡ Groceries in 10–15 Minutes
           </p>
         </div>
 
         <h2 className="text-xl font-bold mb-1 text-center" style={{ fontFamily: 'Sora, sans-serif' }}>
-          {mode === 'login' && 'Sign In to your Account'}
-          {mode === 'signup' && 'Create a New Account'}
+          {mode === 'login' && 'Sign In to XYZ Grocery'}
+          {mode === 'signup' && 'Create Your Grocery Account'}
           {mode === 'otp' && 'Email Verification'}
         </h2>
         <p className="text-xs text-center mb-6 text-gray-500">
-          {mode === 'login' && 'Access Lucknow’s best school bookstore'}
-          {mode === 'signup' && 'Join the fastest school delivery network'}
+          {mode === 'login' && 'Express 10-minute grocery delivery at your doorstep'}
+          {mode === 'signup' && 'Join the fastest grocery delivery network in Lucknow'}
           {mode === 'otp' && `Enter the OTP sent to ${email}`}
         </p>
 

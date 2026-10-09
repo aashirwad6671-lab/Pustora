@@ -86,12 +86,12 @@ export class PaymentService {
   static async processUPIPayment(
     orderId: string,
     amount: number,
-    upiId: string = 'pustora@icici'
+    upiId: string = 'xyzgrocery@icici'
   ): Promise<ApiResponse<boolean>> {
     try {
       // 1. Generate E.164-compliant UPI deep-link URI
       // Format: upi://pay?pa=address&pn=name&am=amount&cu=INR&tr=orderId
-      const upiUrl = `upi://pay?pa=${upiId}&pn=Pustora%20QuickCommerce&am=${amount}&cu=INR&tr=${orderId}`;
+      const upiUrl = `upi://pay?pa=${upiId}&pn=XYZ%20Grocery&am=${amount}&cu=INR&tr=${orderId}`;
       
       console.log('Dispatched UPI Intent URL:', upiUrl);
 

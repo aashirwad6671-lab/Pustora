@@ -13,24 +13,34 @@ interface CategoryGridProps {
   onSelect: (id: string) => void;
 }
 
-// Pastel color palette per category
+// Pastel color palette per grocery category
 const CAT_COLORS: Record<string, { bg: string; border: string }> = {
-  all:       { bg: '#EDE8FF', border: '#D5CCFF' },
-  books:     { bg: '#E6F1FB', border: '#BDD9F5' },
-  stationery:{ bg: '#FAEEDA', border: '#F5DBAE' },
-  toys:      { bg: '#FBEAF0', border: '#F5C9D9' },
-  gifts:     { bg: '#EAF3DE', border: '#C3E0A0' },
-  art:       { bg: '#EEEDFE', border: '#D1CEFC' },
-  more:      { bg: '#FAECE7', border: '#F5C9B8' },
+  all:                    { bg: '#EBF7EE', border: '#C2E8C9' },
+  'atta-rice-dal':        { bg: '#FEF8E7', border: '#FCE6B2' },
+  'oil-ghee-masala':      { bg: '#FFF4E5', border: '#FFDDB3' },
+  'dairy-bread-eggs':     { bg: '#EBF4FF', border: '#BFDBFE' },
+  'instant-frozen':       { bg: '#FFF1F2', border: '#FECDD3' },
+  'chocolates-sweets':    { bg: '#FDF2F8', border: '#FBCFE8' },
+  'bakery-biscuits':      { bg: '#FFF7ED', border: '#FED7AA' },
+  'drinks-juices':        { bg: '#F0FDF4', border: '#BBF7D0' },
+  'chips-namkeen':        { bg: '#FEFCE8', border: '#FEF08A' },
+  'cleaning-essentials':  { bg: '#F0FDFA', border: '#99F6E4' },
+  'tea-coffee':           { bg: '#FAF5FF', border: '#E9D5FF' },
+  more:                   { bg: '#F3F4F6', border: '#E5E7EB' },
 };
 
 const CATEGORIES: CategoryItem[] = [
-  { id: 'all',        name: 'All Items',    emoji: '✨' },
-  { id: 'books',      name: 'NCERT Books',  emoji: '📚' },
-  { id: 'stationery', name: 'Stationery',   emoji: '✏️' },
-  { id: 'toys',       name: 'Toys',         emoji: '🧸' },
-  { id: 'gifts',      name: 'Gifts',        emoji: '🎁' },
-  { id: 'art',        name: 'Art & Craft',  emoji: '🎨' },
+  { id: 'all',                   name: 'All Items',              emoji: '🛒' },
+  { id: 'atta-rice-dal',         name: 'Atta, Rice & Dal',       emoji: '🌾' },
+  { id: 'oil-ghee-masala',       name: 'Oil, Ghee & Masala',     emoji: '🫒' },
+  { id: 'dairy-bread-eggs',      name: 'Dairy, Bread & Eggs',    emoji: '🥛' },
+  { id: 'instant-frozen',        name: 'Instant & Frozen',       emoji: '🍜' },
+  { id: 'chocolates-sweets',     name: 'Sweets & Chocolates',    emoji: '🍫' },
+  { id: 'bakery-biscuits',       name: 'Bakery & Biscuits',      emoji: '🍪' },
+  { id: 'drinks-juices',         name: 'Drinks & Juices',        emoji: '🥤' },
+  { id: 'chips-namkeen',         name: 'Chips & Namkeen',        emoji: '🥨' },
+  { id: 'cleaning-essentials',   name: 'Cleaning Essentials',    emoji: '🧼' },
+  { id: 'tea-coffee',            name: 'Tea, Coffee & More',     emoji: '☕' },
 ];
 
 export default function CategoryGrid({ selectedCategory, onSelect }: CategoryGridProps) {

@@ -125,7 +125,7 @@ export default function ProfilePage() {
             </Link>
             <Link href="/wallet" className="flex-1 flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-gray-200 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
               <Wallet className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
-              <span className="text-xs font-medium text-gray-800 text-center leading-tight">Pustora Wallet</span>
+              <span className="text-xs font-medium text-gray-800 text-center leading-tight">Grocery Wallet</span>
             </Link>
             <Link href="/help" className="flex-1 flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-gray-200 shadow-sm bg-white hover:bg-gray-50 transition-colors h-24">
               <MessageCircleQuestion className="w-7 h-7 text-gray-800 stroke-[1.5] mb-2" />
@@ -138,7 +138,6 @@ export default function ProfilePage() {
         <SectionHeader title="Your information" />
         <div className="bg-white border-y border-gray-100">
           <ListItem icon={BookUser} title="Address book" href="/addresses" />
-          <ListItem icon={GraduationCap} title="My Students / School Details" subtitle="Save school & class to quickly find combos" href="/setup" />
           <ListItem icon={Heart} title="Your wishlist" href="/wishlist" />
           <ListItem icon={ReceiptText} title="GST details" />
         </div>
@@ -162,7 +161,7 @@ export default function ProfilePage() {
         </div>
         
         <div className="text-center py-8">
-          <h4 className="text-gray-400 font-bold tracking-widest text-lg">PUSTORA</h4>
+          <h4 className="text-gray-400 font-bold tracking-wider text-lg">XYZ GROCERY</h4>
         </div>
       </div>
     </div>

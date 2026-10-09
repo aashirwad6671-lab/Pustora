@@ -4,17 +4,17 @@
    DESIGN TOKENS
    ================================ */
 :root {
-  --background: #F8F4FF;
+  --background: #F6F8F6;
   --surface: #FFFFFF;
-  --primary: #6C3FD6;
-  --primary-gradient: linear-gradient(135deg, #6C3FD6 0%, #9B5DE5 100%);
-  --secondary: #9B5DE5;
-  --accent: #F5A623;
-  --tint-chip: #EDE8FF;
-  --deep-text: #2D1B69;
-  --on-surface-variant: #6C5E94;
-  --outline: #EDE8FF;
-  --success: #10B981;
+  --primary: #0C831F;
+  --primary-gradient: linear-gradient(135deg, #0C831F 0%, #15A029 100%);
+  --secondary: #15A029;
+  --accent: #F7C325;
+  --tint-chip: #EBF7EE;
+  --deep-text: #1C241E;
+  --on-surface-variant: #536456;
+  --outline: #E5EBE6;
+  --success: #0C831F;
   --error: #EF4444;
 
   /* Spacing scale */
@@ -26,12 +26,12 @@
   --sp-6: 48px;
 
   /* Footer */
-  --footer-bg: #2D1B69;
-  --footer-text: #C4B5FD;
-  --footer-border: rgba(196, 181, 253, 0.15);
+  --footer-bg: #0C1E11;
+  --footer-text: #9EB9A2;
+  --footer-border: rgba(158, 185, 162, 0.15);
 
   /* Flash deals */
-  --flash-gradient: linear-gradient(135deg, #5B21B6 0%, #6C3FD6 45%, #7C3AED 100%);
+  --flash-gradient: linear-gradient(135deg, #074712 0%, #0C831F 45%, #19A72E 100%);
 
   /* Layout */
   --navbar-desktop-h: 64px;
@@ -269,12 +269,36 @@ input::placeholder {
 .mic-pulsing { animation: mic-pulse 2s infinite ease-in-out; }
 
 @keyframes logo-splash {
-  0% { transform: scale(0.8); opacity: 0; }
-  50% { transform: scale(1.05); opacity: 1; }
+  0% { transform: scale(0.85); opacity: 0; }
+  50% { transform: scale(1.04); opacity: 1; }
   100% { transform: scale(1); opacity: 1; }
 }
 
-.splash-logo-anim { animation: logo-splash 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.splash-logo-anim { animation: logo-splash 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+@keyframes grocery-pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 0.2; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.grocery-pulse-ring {
+  position: absolute;
+  inset: -16px;
+  border-radius: 9999px;
+  background: rgba(12, 131, 31, 0.25);
+  animation: grocery-pulse-ring 1.8s infinite ease-out;
+}
+
+@keyframes grocery-bar-fill {
+  0% { width: 0%; }
+  60% { width: 75%; }
+  100% { width: 100%; }
+}
+
+.grocery-progress-bar {
+  animation: grocery-bar-fill 1.6s ease-out forwards;
+}
 
 @keyframes particle-fade {
   0% { transform: translate(0, 0) scale(1); opacity: 1; }
@@ -283,8 +307,8 @@ input::placeholder {
 
 .splash-particle {
   position: absolute;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   background-color: var(--accent);
   border-radius: 50%;
   animation: particle-fade 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -2755,7 +2779,7 @@ body {
 .hero-v2 {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #6C3FD6 0%, #8B5CF6 55%, #B794F6 100%);
+  background: linear-gradient(135deg, #064e1b 0%, #0C831F 55%, #15A029 100%);
   border-radius: 20px;
   padding: 44px 32px 40px;
   margin-bottom: 0;
@@ -2773,7 +2797,7 @@ body {
   height: 340px;
   top: -120px;
   right: -80px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.10);
 }
 
 .hero-v2-blob-amber {
@@ -2781,7 +2805,7 @@ body {
   height: 260px;
   bottom: -100px;
   left: 20%;
-  background: rgba(245, 166, 35, 0.25);
+  background: rgba(247, 195, 37, 0.30);
 }
 
 .hero-v2-inner {

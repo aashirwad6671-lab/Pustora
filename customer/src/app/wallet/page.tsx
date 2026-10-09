@@ -128,10 +128,10 @@ export default function WalletPage() {
           </button>
           <div>
             <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--deep-text)', fontFamily: 'Sora, sans-serif', margin: 0 }}>
-              Pustora Wallet
+              XYZ Grocery Wallet
             </h1>
             <p style={{ fontSize: '12px', color: 'var(--on-surface-variant)', margin: 0 }}>
-              Instant 1-click checkout & cashback rewards
+              Instant 1-click checkout &amp; grocery cashback rewards
             </p>
           </div>
         </div>
@@ -172,7 +172,7 @@ export default function WalletPage() {
               alignItems: 'center',
               gap: '4px',
             }}>
-              <Sparkles size={13} color="#FDE047" fill="#FDE047" /> Pustora Pay
+              <Sparkles size={13} color="#FDE047" fill="#FDE047" /> Grocery Pay
             </div>
           </div>
 
@@ -468,7 +468,7 @@ export default function WalletPage() {
 
         {/* FOOTER NOTE */}
         <p style={{ textAlign: 'center', fontSize: '11px', color: '#9CA3AF', margin: '0 0 20px' }}>
-          Pustora Wallet balance is securely maintained and never expires. Need assistance? <Link href="/help" style={{ color: 'var(--primary)', fontWeight: 600 }}>Contact 24/7 Support</Link>
+          XYZ Grocery Wallet balance is securely maintained and never expires. Need assistance? <Link href="/help" style={{ color: 'var(--primary)', fontWeight: 600 }}>Contact 24/7 Support</Link>
         </p>
       </main>
 

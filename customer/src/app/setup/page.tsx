@@ -71,11 +71,11 @@ export default function SetupPage() {
     <div className="flex flex-col min-h-screen items-center justify-center p-4" style={{ backgroundColor: 'var(--background)', color: 'var(--deep-text)' }}>
       {/* Brand Header */}
       <div className="text-center mb-6 space-y-2">
-        <Link href="/" className="text-3xl font-black tracking-widest stitch-logo" style={{ color: 'var(--primary)', fontFamily: 'Sora, sans-serif' }}>
-          PUSTORA
+        <Link href="/" className="text-3xl font-black tracking-wider stitch-logo" style={{ color: 'var(--primary)', fontFamily: 'Sora, sans-serif' }}>
+          XYZ GROCERY
         </Link>
         <p className="text-[10px] uppercase tracking-widest font-bold text-gray-500">
-          Profile Settings
+          Customer Profile Settings
         </p>
       </div>
 

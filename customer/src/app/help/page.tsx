@@ -18,12 +18,16 @@ const FAQ_ITEMS = [
     a: 'Go to Your Account → Your Orders to see real-time order status. You\'ll also receive WhatsApp/SMS updates at each step.',
   },
   {
-    q: 'Are the NCERT books original?',
-    a: 'Absolutely! We only stock original NCERT books purchased directly from authorised distributors. We never sell pirated or photocopied versions.',
+    q: 'How fast will my groceries be delivered?',
+    a: 'We deliver in 10 to 15 minutes from our nearest local dark store in Lucknow.',
+  },
+  {
+    q: 'Are dairy, vegetables and packaged groceries fresh?',
+    a: 'Absolutely! We stock fresh daily batches of milk, bread, butter and authentic brand staples directly from verified distributors with strict quality checks.',
   },
   {
     q: 'What payment methods do you accept?',
-    a: 'We accept UPI (GPay, PhonePe, Paytm), Debit/Credit Cards, Net Banking, and Cash on Delivery (COD). Pustora Wallet balance can also be used.',
+    a: 'We accept UPI (GPay, PhonePe, Paytm), Debit/Credit Cards, Net Banking, and Cash on Delivery (COD). XYZ Grocery Wallet balance can also be used.',
   },
   {
     q: 'Can I order for a school book list?',
@@ -101,11 +105,11 @@ export default function HelpPage() {
               <span className="text-[11px] font-semibold text-blue-800">Call Us</span>
             </a>
             <a
-              href="mailto:support@pustora.in"
-              className="flex flex-col items-center gap-1.5 p-3 bg-purple-50 rounded-xl border border-purple-100 hover:bg-purple-100 transition-colors"
+              href="mailto:support@xyzgrocery.in"
+              className="flex flex-col items-center gap-1.5 p-3 bg-green-50 rounded-xl border border-green-100 hover:bg-green-100 transition-colors"
             >
-              <Mail className="w-5 h-5 text-purple-600" />
-              <span className="text-[11px] font-semibold text-purple-800">Email</span>
+              <Mail className="w-5 h-5 text-green-600" />
+              <span className="text-[11px] font-semibold text-green-800">Email</span>
             </a>
           </div>
           <p className="text-[11px] text-gray-500 mt-3 text-center">Available Mon–Sat, 9 AM – 7 PM IST</p>

@@ -38,71 +38,255 @@ export default function HomePage() {
   const [splashParticles, setSplashParticles] = useState<{ id: number; x: string; y: string }[]>([]);
 
   const demoProducts: Product[] = [
+    // 🌾 Atta, Rice & Dal
     {
-      id: 'tb-ncert-m6', category_id: 'books', sub_category: 'textbooks',
-      name: 'Mathematics Class VI (NCERT)', brand: 'NCERT',
-      description: 'Official CBSE Class 6 Mathematics textbook. Covers numbers, fractions, geometry, algebra, and data handling.',
-      price: 150, mrp: 150, stock_quantity: 45, grade_suitability: 'Class 6',
-      subject_tag: 'Mathematics', image_url: 'linear-gradient(135deg, #6C3FD6 0%, #9B5DE5 100%)',
-      is_featured: true, is_bestseller: true, is_active: true,
-      slug: 'mathematics-class-6-ncert',
+      id: 'atta-aashirvaad-5kg', category_id: 'atta-rice-dal', sub_category: 'flours',
+      name: 'Aashirvaad Shudh Chakki Atta', brand: 'Aashirvaad', unit: '5 kg',
+      description: '100% whole wheat flour with natural dietary fiber and superior aroma.',
+      price: 245, mrp: 275, stock_quantity: 50, grade_suitability: '5 kg',
+      subject_tag: 'Whole Wheat', image_url: 'linear-gradient(135deg, #FEF08A 0%, #EAB308 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'aashirvaad-shudh-chakki-atta-5kg',
       created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     },
     {
-      id: 'tb-ncert-s10', category_id: 'books', sub_category: 'textbooks',
-      name: 'Science Class X (NCERT)', brand: 'NCERT',
-      description: 'Official CBSE Class 10 Science textbook. Covers chemical reactions, life processes, electricity, light, and magnetic effects.',
-      price: 195, mrp: 195, stock_quantity: 30, grade_suitability: 'Class 10',
-      subject_tag: 'Science', image_url: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-      is_featured: true, is_bestseller: true, is_active: true,
-      slug: 'science-class-10-ncert',
+      id: 'rice-daawat-5kg', category_id: 'atta-rice-dal', sub_category: 'rice',
+      name: 'Daawat Rozana Super Basmati Rice', brand: 'Daawat', unit: '5 kg',
+      description: 'Fluffy, long grain aromatic basmati rice for daily royal meals.',
+      price: 380, mrp: 450, stock_quantity: 40, grade_suitability: '5 kg',
+      subject_tag: 'Basmati', image_url: 'linear-gradient(135deg, #FDE68A 0%, #D97706 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'daawat-rozana-super-basmati-rice-5kg',
       created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     },
     {
-      id: 'nb-classmate-s6', category_id: 'stationery', sub_category: 'notebooks',
-      name: 'Classmate Notebook Pack of 6', brand: 'Classmate',
-      description: 'Premium quality softcover single line notebooks. 172 pages per book, eco-friendly papers.',
-      price: 360, mrp: 390, stock_quantity: 25, grade_suitability: 'All Grades',
-      subject_tag: 'General', image_url: 'linear-gradient(135deg, #F5A623 0%, #D97706 100%)',
-      is_featured: true, is_bestseller: true, is_active: true,
-      slug: 'classmate-notebook-pack-6',
+      id: 'dal-tata-toor-1kg', category_id: 'atta-rice-dal', sub_category: 'pulses',
+      name: 'Tata Sampann Unpolished Toor Dal', brand: 'Tata Sampann', unit: '1 kg',
+      description: 'Rich in natural protein, unpolished arhar dal with no artificial colors.',
+      price: 175, mrp: 195, stock_quantity: 60, grade_suitability: '1 kg',
+      subject_tag: 'Toor Dal', image_url: 'linear-gradient(135deg, #FED7AA 0%, #EA580C 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'tata-sampann-toor-dal-1kg',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+
+    // 🫒 Oil, Ghee & Masala
+    {
+      id: 'oil-fortune-sunflower-1l', category_id: 'oil-ghee-masala', sub_category: 'cooking-oil',
+      name: 'Fortune Sunlite Refined Sunflower Oil', brand: 'Fortune', unit: '1 L',
+      description: 'Light, healthy cooking oil enriched with Vitamin A and Vitamin D.',
+      price: 135, mrp: 160, stock_quantity: 45, grade_suitability: '1 L Pouch',
+      subject_tag: 'Cooking Oil', image_url: 'linear-gradient(135deg, #FDE047 0%, #CA8A04 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'fortune-sunlite-sunflower-oil-1l',
       created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     },
     {
-      id: 'toy-lego-classic', category_id: 'toys', sub_category: 'building-blocks',
-      name: 'LEGO Creative Bricks (484 Pcs)', brand: 'LEGO',
-      description: 'Medium creative brick box featuring 35 colors. Endless custom structural designs and cognitive logic development.',
-      price: 1599, mrp: 1799, stock_quantity: 12, grade_suitability: 'Age 4+',
-      subject_tag: 'Creative', image_url: 'linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)',
-      is_featured: true, is_bestseller: true, is_active: true,
-      slug: 'lego-creative-bricks-484',
+      id: 'ghee-amul-1l', category_id: 'oil-ghee-masala', sub_category: 'ghee',
+      name: 'Amul Pure Desi Ghee', brand: 'Amul', unit: '1 L',
+      description: 'Traditional granular rich aroma pure cow and buffalo milk ghee.',
+      price: 595, mrp: 650, stock_quantity: 35, grade_suitability: '1 L Carton',
+      subject_tag: 'Pure Ghee', image_url: 'linear-gradient(135deg, #FEF08A 0%, #B45309 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'amul-pure-desi-ghee-1l',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+    {
+      id: 'masala-catch-garam-100g', category_id: 'oil-ghee-masala', sub_category: 'spices',
+      name: 'Catch Super Garam Masala', brand: 'Catch', unit: '100 g',
+      description: 'Authentic blend of aromatic spices for rich Indian curries.',
+      price: 75, mrp: 85, stock_quantity: 80, grade_suitability: '100 g Box',
+      subject_tag: 'Spices', image_url: 'linear-gradient(135deg, #FCA5A5 0%, #DC2626 100%)',
+      is_featured: false, is_bestseller: true, is_active: true, slug: 'catch-garam-masala-100g',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+
+    // 🥛 Dairy, Bread & Eggs
+    {
+      id: 'milk-amul-taaza-1l', category_id: 'dairy-bread-eggs', sub_category: 'milk',
+      name: 'Amul Taaza Toned Fresh Milk', brand: 'Amul', unit: '1 L',
+      description: 'Fresh homogenised toned milk, rich in calcium and essential vitamins.',
+      price: 54, mrp: 56, stock_quantity: 100, grade_suitability: '1 L Tetra',
+      subject_tag: 'Fresh Milk', image_url: 'linear-gradient(135deg, #93C5FD 0%, #2563EB 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'amul-taaza-toned-milk-1l',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+    {
+      id: 'butter-amul-500g', category_id: 'dairy-bread-eggs', sub_category: 'butter',
+      name: 'Amul Pasteurised Salted Butter', brand: 'Amul', unit: '500 g',
+      description: 'Utterly butterly delicious creamy table butter for breakfast toasts.',
+      price: 275, mrp: 285, stock_quantity: 60, grade_suitability: '500 g',
+      subject_tag: 'Table Butter', image_url: 'linear-gradient(135deg, #FEF08A 0%, #F59E0B 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'amul-salted-butter-500g',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+    {
+      id: 'bread-britannia-wheat-400g', category_id: 'dairy-bread-eggs', sub_category: 'bread',
+      name: 'Britannia 100% Whole Wheat Bread', brand: 'Britannia', unit: '400 g',
+      description: 'Zero maida, soft sliced healthy whole wheat loaf baked fresh daily.',
+      price: 50, mrp: 55, stock_quantity: 40, grade_suitability: '400 g Pack',
+      subject_tag: 'Fresh Bread', image_url: 'linear-gradient(135deg, #FDBA74 0%, #C2410C 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'britannia-whole-wheat-bread-400g',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+    {
+      id: 'eggs-farm-fresh-6pc', category_id: 'dairy-bread-eggs', sub_category: 'eggs',
+      name: 'Farm Fresh White Table Eggs (Pack of 6)', brand: 'Farm Fresh', unit: '6 pcs',
+      description: 'Clean, sanitized high protein farm eggs packed safely.',
+      price: 55, mrp: 65, stock_quantity: 50, grade_suitability: '6 Eggs Pack',
+      subject_tag: 'Farm Eggs', image_url: 'linear-gradient(135deg, #E2E8F0 0%, #94A3B8 100%)',
+      is_featured: true, is_bestseller: false, is_active: true, slug: 'farm-fresh-eggs-6pc',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+
+    // 🍜 Instant & Frozen
+    {
+      id: 'instant-maggi-4pack', category_id: 'instant-frozen', sub_category: 'noodles',
+      name: 'Maggi 2-Minute Masala Instant Noodles', brand: 'Maggi', unit: 'Pack of 4',
+      description: 'Iconic masala flavor instant noodles, favorite snack ready in 2 minutes.',
+      price: 56, mrp: 60, stock_quantity: 90, grade_suitability: '4 x 70g Pack',
+      subject_tag: 'Instant Noodles', image_url: 'linear-gradient(135deg, #FDE047 0%, #DC2626 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'maggi-2-minute-masala-noodles-4pack',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+    {
+      id: 'frozen-mccain-fries-420g', category_id: 'instant-frozen', sub_category: 'frozen-snacks',
+      name: 'McCain French Fries Crispy', brand: 'McCain', unit: '420 g',
+      description: 'Crispy golden restaurant style french fries, ready to fry or bake.',
+      price: 125, mrp: 145, stock_quantity: 30, grade_suitability: '420 g Pouch',
+      subject_tag: 'Frozen Snack', image_url: 'linear-gradient(135deg, #FCD34D 0%, #B45309 100%)',
+      is_featured: false, is_bestseller: true, is_active: true, slug: 'mccain-french-fries-420g',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+
+    // 🍫 Sweets & Chocolates
+    {
+      id: 'choc-cadbury-silk-150g', category_id: 'chocolates-sweets', sub_category: 'chocolates',
+      name: 'Cadbury Dairy Milk Silk Chocolate Bar', brand: 'Cadbury', unit: '150 g',
+      description: 'Silky smooth, melt in your mouth premium milk chocolate experience.',
+      price: 165, mrp: 185, stock_quantity: 50, grade_suitability: '150 g Bar',
+      subject_tag: 'Chocolate', image_url: 'linear-gradient(135deg, #C084FC 0%, #581C87 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'cadbury-dairy-milk-silk-150g',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+    {
+      id: 'sweets-haldiram-gulabjamun-1kg', category_id: 'chocolates-sweets', sub_category: 'indian-sweets',
+      name: "Haldiram's Gulab Jamun Tin", brand: "Haldiram's", unit: '1 kg',
+      description: 'Soft, juicy cottage cheese dumplings soaked in aromatic cardamom sugar syrup.',
+      price: 230, mrp: 260, stock_quantity: 25, grade_suitability: '1 kg Tin',
+      subject_tag: 'Indian Mithai', image_url: 'linear-gradient(135deg, #FED7AA 0%, #7C2D12 100%)',
+      is_featured: false, is_bestseller: false, is_active: true, slug: 'haldirams-gulab-jamun-1kg',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+
+    // 🍪 Bakery & Biscuits
+    {
+      id: 'bisc-britannia-goodday-600g', category_id: 'bakery-biscuits', sub_category: 'cookies',
+      name: 'Britannia Good Day Cashew Cookies', brand: 'Britannia', unit: '600 g',
+      description: 'Rich buttery cookies packed with crunchy real cashew nuts.',
+      price: 130, mrp: 150, stock_quantity: 60, grade_suitability: '600 g Family Pack',
+      subject_tag: 'Cookies', image_url: 'linear-gradient(135deg, #FDE68A 0%, #D97706 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'britannia-good-day-cashew-cookies-600g',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+    {
+      id: 'bisc-parleg-gold-1kg', category_id: 'bakery-biscuits', sub_category: 'glucose',
+      name: 'Parle-G Gold Glucose Biscuits', brand: 'Parle', unit: '1 kg',
+      description: 'The golden original Indian chai biscuit, fortified with milk and wheat.',
+      price: 110, mrp: 125, stock_quantity: 70, grade_suitability: '1 kg Value Pack',
+      subject_tag: 'Biscuits', image_url: 'linear-gradient(135deg, #FBBF24 0%, #92400E 100%)',
+      is_featured: false, is_bestseller: true, is_active: true, slug: 'parle-g-gold-biscuits-1kg',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+
+    // 🥤 Drinks & Juices
+    {
+      id: 'drink-coke-can-300ml', category_id: 'drinks-juices', sub_category: 'cold-drinks',
+      name: 'Coca-Cola Soft Drink Can', brand: 'Coca-Cola', unit: '300 ml',
+      description: 'Chilled refreshing sparkling cola, best companion for snacks & meals.',
+      price: 40, mrp: 40, stock_quantity: 80, grade_suitability: '300 ml Can',
+      subject_tag: 'Cold Drink', image_url: 'linear-gradient(135deg, #F87171 0%, #991B1B 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'coca-cola-can-300ml',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+    {
+      id: 'juice-real-mixed-1l', category_id: 'drinks-juices', sub_category: 'juices',
+      name: 'Real Fruit Power Mixed Fruit Juice', brand: 'Real', unit: '1 L',
+      description: 'Prepared with 9 real fruit goodness, rich in Vitamin C, no added preservatives.',
+      price: 115, mrp: 135, stock_quantity: 45, grade_suitability: '1 L Tetra',
+      subject_tag: 'Fruit Juice', image_url: 'linear-gradient(135deg, #FB923C 0%, #C2410C 100%)',
+      is_featured: true, is_bestseller: false, is_active: true, slug: 'real-mixed-fruit-juice-1l',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+
+    // 🥨 Chips & Namkeen
+    {
+      id: 'chips-lays-magic-masala-50g', category_id: 'chips-namkeen', sub_category: 'chips',
+      name: "Lay's India's Magic Masala Potato Chips", brand: "Lay's", unit: '50 g',
+      description: 'Crispy wafer thin potato chips seasoned with aromatic Indian spices.',
+      price: 20, mrp: 20, stock_quantity: 120, grade_suitability: '50 g Pouch',
+      subject_tag: 'Crisps', image_url: 'linear-gradient(135deg, #60A5FA 0%, #1E40AF 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'lays-magic-masala-chips-50g',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+    {
+      id: 'namkeen-haldiram-bhujia-400g', category_id: 'chips-namkeen', sub_category: 'namkeen',
+      name: "Haldiram's Nagpur Aloo Bhujia", brand: "Haldiram's", unit: '400 g',
+      description: 'Crunchy potato & chickpea flour noodles with minty tangy masala.',
+      price: 110, mrp: 125, stock_quantity: 85, grade_suitability: '400 g Pack',
+      subject_tag: 'Namkeen', image_url: 'linear-gradient(135deg, #FDE047 0%, #CA8A04 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'haldirams-aloo-bhujia-400g',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+
+    // 🧼 Cleaning Essentials
+    {
+      id: 'clean-lizol-citrus-500ml', category_id: 'cleaning-essentials', sub_category: 'floor-cleaner',
+      name: 'Lizol Disinfectant Floor Cleaner (Citrus)', brand: 'Lizol', unit: '500 ml',
+      description: 'Kills 99.9% germs, leaves long lasting citrus freshness on all floor surfaces.',
+      price: 110, mrp: 125, stock_quantity: 40, grade_suitability: '500 ml Bottle',
+      subject_tag: 'Disinfectant', image_url: 'linear-gradient(135deg, #FCD34D 0%, #EA580C 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'lizol-disinfectant-cleaner-citrus-500ml',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+    {
+      id: 'clean-vim-gel-750ml', category_id: 'cleaning-essentials', sub_category: 'dishwash',
+      name: 'Vim Lemon Dishwash Liquid Gel', brand: 'Vim', unit: '750 ml',
+      description: 'Concentrated gel with the power of 100 lemons, cuts stubborn grease easily.',
+      price: 140, mrp: 165, stock_quantity: 50, grade_suitability: '750 ml Bottle',
+      subject_tag: 'Dishwash Gel', image_url: 'linear-gradient(135deg, #86EFAC 0%, #15803D 100%)',
+      is_featured: false, is_bestseller: true, is_active: true, slug: 'vim-dishwash-gel-lemon-750ml',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+
+    // ☕ Tea, Coffee & More
+    {
+      id: 'tea-tata-gold-500g', category_id: 'tea-coffee', sub_category: 'tea',
+      name: 'Tata Tea Gold Premium Long Leaf Tea', brand: 'Tata Tea', unit: '500 g',
+      description: 'Rich taste and irresistible aroma blended with gently rolled long tea leaves.',
+      price: 295, mrp: 340, stock_quantity: 45, grade_suitability: '500 g Pack',
+      subject_tag: 'Black Tea', image_url: 'linear-gradient(135deg, #FDE68A 0%, #78350F 100%)',
+      is_featured: true, is_bestseller: true, is_active: true, slug: 'tata-tea-gold-500g',
+      created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    },
+    {
+      id: 'coffee-nescafe-classic-100g', category_id: 'tea-coffee', sub_category: 'coffee',
+      name: 'Nescafé Classic 100% Pure Instant Coffee', brand: 'Nescafe', unit: '100 g',
+      description: 'Start your morning with rich taste and stimulating aroma in every sip.',
+      price: 310, mrp: 350, stock_quantity: 35, grade_suitability: '100 g Glass Jar',
+      subject_tag: 'Instant Coffee', image_url: 'linear-gradient(135deg, #FED7AA 0%, #431407 100%)',
+      is_featured: true, is_bestseller: false, is_active: true, slug: 'nescafe-classic-instant-coffee-100g',
       created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     },
   ];
 
   const demoCategories: Category[] = [
-    { id: 'all', name: 'All Products', emoji: '✨', sort_order: 1, is_active: true, created_at: '' },
-    { id: 'books', name: 'NCERT Books', emoji: '📚', sort_order: 2, is_active: true, created_at: '' },
-    { id: 'stationery', name: 'Stationery', emoji: '✏️', sort_order: 3, is_active: true, created_at: '' },
-    { id: 'toys', name: 'Toys & Gifts', emoji: '🎁', sort_order: 4, is_active: true, created_at: '' },
-  ];
-
-  const onboardingSlides = [
-    {
-      emoji: '📚',
-      title: 'School Essentials Delivered in 1-2 Days',
-      desc: 'Get original CBSE & NCERT textbooks, guides, stationery kits, and school uniforms dispatched from closest Lucknow hubs.',
-    },
-    {
-      emoji: '✏️',
-      title: 'Premium Brand Stationery & Tools',
-      desc: 'Classmate notebooks, Camel paint sets, Maped compass kits, and calculators kept fully stocked in local zones.',
-    },
-    {
-      emoji: '🎁',
-      title: 'Cognitive Mind Toys & Birthday Gifts',
-      desc: 'Encourage brain development with Lego sets, puzzle blocks, premium board games, and elegant greeting cards.',
-    },
+    { id: 'all', name: 'All Items', emoji: '🛒', sort_order: 1, is_active: true, created_at: '' },
+    { id: 'atta-rice-dal', name: 'Atta, Rice & Dal', emoji: '🌾', sort_order: 2, is_active: true, created_at: '' },
+    { id: 'oil-ghee-masala', name: 'Oil, Ghee & Masala', emoji: '🫒', sort_order: 3, is_active: true, created_at: '' },
+    { id: 'dairy-bread-eggs', name: 'Dairy, Bread & Eggs', emoji: '🥛', sort_order: 4, is_active: true, created_at: '' },
+    { id: 'instant-frozen', name: 'Instant & Frozen', emoji: '🍜', sort_order: 5, is_active: true, created_at: '' },
+    { id: 'chocolates-sweets', name: 'Sweets & Chocolates', emoji: '🍫', sort_order: 6, is_active: true, created_at: '' },
+    { id: 'bakery-biscuits', name: 'Bakery & Biscuits', emoji: '🍪', sort_order: 7, is_active: true, created_at: '' },
+    { id: 'drinks-juices', name: 'Drinks & Juices', emoji: '🥤', sort_order: 8, is_active: true, created_at: '' },
+    { id: 'chips-namkeen', name: 'Chips & Namkeen', emoji: '🥨', sort_order: 9, is_active: true, created_at: '' },
+    { id: 'cleaning-essentials', name: 'Cleaning Essentials', emoji: '🧼', sort_order: 10, is_active: true, created_at: '' },
+    { id: 'tea-coffee', name: 'Tea, Coffee & More', emoji: '☕', sort_order: 11, is_active: true, created_at: '' },
   ];
 
   useEffect(() => {
@@ -208,17 +392,16 @@ export default function HomePage() {
     else startRecording();
   };
 
-  const handleRoleSelection = (role: 'student' | 'parent' | 'teacher' | 'general') => {
-    if (isAuthenticated && user) setSession({ ...user, role }, 'valid-session-jwt');
+  const handleRoleSelection = () => {
     setShowOnboarding(false);
   };
 
-  // ── SPLASH SCREEN ──
+  // ── BLINKIT-STYLE QUICK COMMERCE SPLASH SCREEN ──
   if (showSplash) {
     return (
       <div style={{
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-        minHeight: '100vh', position: 'relative', overflow: 'hidden', backgroundColor: '#F8F4FF',
+        minHeight: '100vh', position: 'relative', overflow: 'hidden', backgroundColor: '#F6F8F6',
         width: '100%',
       }}>
         {splashParticles.map((p) => (
@@ -226,17 +409,46 @@ export default function HomePage() {
             style={{ '--x': p.x, '--y': p.y, left: '50%', top: '50%', animationDelay: `${Math.random() * 0.4}s` } as React.CSSProperties}
           />
         ))}
-        <div className="splash-logo-anim" style={{ zIndex: 10, textAlign: 'center' }}>
-          <span style={{ fontFamily: 'Sora, sans-serif', fontWeight: 800, fontSize: '3rem', color: 'var(--primary)', letterSpacing: '0.2em', display: 'block' }}>
-            PUSTORA
+        <div className="splash-logo-anim" style={{ zIndex: 10, textAlign: 'center', maxWidth: '380px', padding: '0 24px' }}>
+          {/* Animated Bag / Lightning badge */}
+          <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '90px', height: '90px', margin: '0 auto 18px' }}>
+            <div className="grocery-pulse-ring" />
+            <div style={{
+              width: '90px', height: '90px', borderRadius: '26px',
+              background: 'linear-gradient(135deg, #0C831F 0%, #15A029 100%)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 14px 34px rgba(12, 131, 31, 0.35)', fontSize: '42px',
+            }}>
+              🛍️
+            </div>
+            <span style={{
+              position: 'absolute', bottom: '-4px', right: '-4px',
+              background: 'var(--accent)', color: '#1A1A1A', fontWeight: 900,
+              fontSize: '11px', padding: '3px 8px', borderRadius: '9999px',
+              border: '2px solid #fff', boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+            }}>
+              ⚡ 10m
+            </span>
+          </div>
+
+          <span style={{ fontFamily: 'Sora, sans-serif', fontWeight: 800, fontSize: '2.5rem', color: 'var(--primary)', letterSpacing: '-0.5px', display: 'block', lineHeight: 1.1 }}>
+            XYZ GROCERY
           </span>
-          <div style={{ height: '6px', width: '96px', margin: '12px auto', borderRadius: '9999px', background: 'var(--primary-gradient)' }} />
-          <p style={{ fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--accent)', fontWeight: 700 }}>
-            "Har Zaroorat, Ek App"
+          <p style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.18em', color: '#1C241E', fontWeight: 800, marginTop: '8px' }}>
+            Instant Delivery to Your Doorstep
+          </p>
+
+          {/* Progress bar */}
+          <div style={{ height: '5px', width: '160px', margin: '20px auto 12px', borderRadius: '9999px', background: '#E2E8F0', overflow: 'hidden' }}>
+            <div className="grocery-progress-bar" style={{ height: '100%', background: 'linear-gradient(90deg, #0C831F, #F7C325)', borderRadius: '9999px' }} />
+          </div>
+
+          <p style={{ fontSize: '11px', color: '#555', fontWeight: 600 }}>
+            Delivering fresh groceries in 10–15 mins 🚀
           </p>
         </div>
-        <span style={{ position: 'absolute', bottom: '2rem', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#6C5E94', fontWeight: 700 }}>
-          Lucknow Active Hubs Dispatch
+        <span style={{ position: 'absolute', bottom: '2rem', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--primary)', fontWeight: 700 }}>
+          ⚡ Fresh Stock Dispatched Locally
         </span>
       </div>
     );
@@ -244,67 +456,6 @@ export default function HomePage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'var(--background)', width: '100%' }}>
-
-      {/* ── ONBOARDING MODAL ── */}
-      {showOnboarding && (
-        <div style={{
-          position: 'fixed', inset: 0, zIndex: 100, display: 'flex',
-          alignItems: 'center', justifyContent: 'center', padding: '16px',
-          background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
-        }}>
-          <div className="stitch-card" style={{ maxWidth: '420px', width: '100%', position: 'relative', padding: '2rem' }}>
-            <button
-              onClick={() => setShowOnboarding(false)}
-              style={{ position: 'absolute', right: '1.5rem', top: '1.5rem', fontWeight: 700, fontSize: '0.75rem', color: 'var(--on-surface-variant)', background: 'none', border: 'none', cursor: 'pointer', minHeight: '44px' }}
-            >
-              Skip
-            </button>
-
-            <div style={{ textAlign: 'center', padding: '1rem 0', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <span style={{ fontSize: '3.75rem', display: 'block' }}>
-                {onboardingSlides[onboardingSlide].emoji}
-              </span>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, fontFamily: 'Sora, sans-serif', color: 'var(--deep-text)' }}>
-                {onboardingSlides[onboardingSlide].title}
-              </h3>
-              <p style={{ fontSize: '0.8125rem', lineHeight: 1.65, color: 'var(--on-surface-variant)' }}>
-                {onboardingSlides[onboardingSlide].desc}
-              </p>
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', margin: '8px 0 20px' }}>
-              {onboardingSlides.map((_, i) => (
-                <span key={i} style={{
-                  height: '10px', width: onboardingSlide === i ? '24px' : '10px',
-                  borderRadius: '9999px',
-                  background: onboardingSlide === i ? 'var(--primary)' : 'var(--outline)',
-                  transition: 'all 0.2s ease',
-                }} />
-              ))}
-            </div>
-
-            {onboardingSlide < 2 ? (
-              <button onClick={() => setOnboardingSlide(onboardingSlide + 1)} className="stitch-btn" style={{ width: '100%', justifyContent: 'center' }}>
-                Next Step
-              </button>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', paddingTop: '16px', borderTop: '1px solid var(--outline)' }}>
-                <span style={{ fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'center', fontWeight: 700, color: 'var(--primary)' }}>
-                  Choose Your School Role
-                </span>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                  {(['student', 'parent', 'teacher', 'general'] as const).map((role) => (
-                    <button key={role} onClick={() => handleRoleSelection(role)} className="stitch-btn-secondary"
-                      style={{ textTransform: 'capitalize', justifyContent: 'center', minHeight: '44px' }}>
-                      {role}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* ── NAVBAR ── */}
       <Navbar
@@ -323,52 +474,65 @@ export default function HomePage() {
 
             {/* Step 2 — Hero Section */}
             <HeroSection />
+
             {/* Step 3 — Category Grid */}
             <CategoryStrip
               selectedCategory={selectedCategory}
               onSelect={setSelectedCategory}
             />
 
-            {/* 3D Bookshelf (books category) */}
-            {(selectedCategory === 'books' || selectedCategory === 'all') && (
-              <section aria-label="NCERT Bookshelf">
-                <div className="section-header">
-                  <div>
-                    <h2 className="section-title">📚 Interactive 3D Bookshelf</h2>
-                    <p className="section-subtitle">CBSE / UP Board — hover to rotate covers</p>
-                  </div>
-                  <span className="section-badge">CBSE Class 1–12</span>
+            {/* Super Saver Daily Staples (Atta, Milk, Bread, Oil) */}
+            <section aria-label="Super Saver Staples" id="products-section">
+              <div className="section-header">
+                <div>
+                  <h2 className="section-title">⚡ Daily Kitchen Staples</h2>
+                  <p className="section-subtitle">Lowest everyday prices on Atta, Milk, Dal &amp; Oil</p>
                 </div>
-                <div className="bookshelf">
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '2rem', justifyItems: 'center' }}>
-                    {demoProducts.filter((p) => p.category_id === 'books').map((book) => (
-                      <div key={book.id} className="book-3d" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                        <Link href={`/product/${(book as any).slug || book.id}`} style={{ display: 'block' }}>
-                          <div className="book-3d-cover" style={{ background: book.image_url || 'var(--primary-gradient)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '12px' }}>
-                            <span style={{ fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.85)', fontWeight: 800, borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '4px' }}>
-                              {book.brand}
-                            </span>
-                            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#fff', lineHeight: 1.35 }}>
-                              {book.name.replace(' (NCERT)', '')}
-                            </span>
-                            <span style={{ background: '#fff', color: '#000', fontSize: '8px', fontWeight: 800, padding: '2px 6px', borderRadius: '4px', display: 'inline-block', margin: '0 auto' }}>
-                              {book.grade_suitability}
-                            </span>
-                          </div>
-                        </Link>
-                        <h3 style={{ fontWeight: 700, fontSize: '0.75rem', marginTop: '12px', color: 'var(--deep-text)', maxWidth: '120px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
-                          {book.name}
-                        </h3>
-                        <span style={{ fontSize: '0.75rem', fontWeight: 800, marginTop: '2px', color: 'var(--primary)' }}>₹{book.price}</span>
-                        <button onClick={() => addItem(book, 1)} className="stitch-btn" style={{ marginTop: '10px', padding: '0.4rem 1rem', minHeight: '36px', fontSize: '0.75rem' }} id={`btn-shelf-add-${book.id}`}>
-                          Quick Add
-                        </button>
+                <span className="section-badge" style={{ background: '#EBF7EE', color: 'var(--primary)', border: '1px solid #C2E8C9' }}>
+                  Delivering in 10–15 mins
+                </span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+                {demoProducts.slice(0, 4).map((item) => (
+                  <div key={item.id} className="stitch-card" style={{ padding: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderRadius: '16px', background: '#fff', border: '1px solid var(--outline)' }}>
+                    <div style={{ position: 'relative', height: '120px', borderRadius: '12px', background: item.image_url || 'var(--primary-gradient)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
+                      <span style={{ fontSize: '42px' }}>
+                        {item.category_id === 'atta-rice-dal' ? '🌾' : item.category_id === 'oil-ghee-masala' ? '🫒' : '🥛'}
+                      </span>
+                      {item.is_bestseller && (
+                        <span style={{ position: 'absolute', top: '8px', left: '8px', background: 'var(--accent)', color: '#1A1A1A', fontSize: '9px', fontWeight: 800, padding: '2px 6px', borderRadius: '4px' }}>
+                          ⚡ Top Saver
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
+                        <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--primary)' }}>{item.brand}</span>
+                        {item.unit && (
+                          <span style={{ fontSize: '10px', fontWeight: 700, background: '#EBF7EE', color: 'var(--primary)', padding: '1px 6px', borderRadius: '4px' }}>
+                            {item.unit}
+                          </span>
+                        )}
                       </div>
-                    ))}
+                      <h3 style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--deep-text)', minHeight: '36px', lineHeight: 1.3 }}>
+                        {item.name}
+                      </h3>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px' }}>
+                      <div>
+                        <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--deep-text)' }}>₹{item.price}</span>
+                        {item.mrp > item.price && (
+                          <span style={{ fontSize: '0.75rem', color: '#888', textDecoration: 'line-through', marginLeft: '6px' }}>₹{item.mrp}</span>
+                        )}
+                      </div>
+                      <button onClick={() => addItem(item, 1)} className="product-add-btn" id={`btn-staple-add-${item.id}`} aria-label={`Add ${item.name} to cart`}>
+                        Add +
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </section>
-            )}
+                ))}
+              </div>
+            </section>
 
             {/* Best Sellers row — below How It Works */}
             <BestSellers products={demoProducts} onAddToCart={(p) => addItem(p, 1)} />

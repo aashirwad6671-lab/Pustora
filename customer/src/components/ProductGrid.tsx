@@ -12,15 +12,21 @@ interface ProductGridProps {
   onAddToCart: (product: Product) => void;
 }
 
-const GRADE_OPTIONS = ['Class 1–2', 'Class 3–5', 'Class 6–8', 'Class 9–10', 'Class 11–12'];
-const BRAND_OPTIONS = ['NCERT', 'Classmate', 'Camel', 'LEGO', 'Maped'];
-const SUBJECT_OPTIONS = ['Mathematics', 'Science', 'English', 'Social Studies', 'Hindi'];
+const GRADE_OPTIONS = ['1 kg & above', '500 g - 1 kg', 'Under 500 g', 'Packs & Multipacks'];
+const BRAND_OPTIONS = ['Amul', 'Aashirvaad', 'Fortune', 'Tata Sampann', 'Britannia', 'Maggi', "Haldiram's", "Lay's", 'Cadbury', 'Lizol', 'Nescafe'];
+const SUBJECT_OPTIONS = ['Vegetarian', 'Organic', 'Popular Choice', 'Value Pack'];
 
 const CATEGORY_EMOJI: Record<string, string> = {
-  books: '📚',
-  stationery: '✏️',
-  toys: '🎁',
-  art: '🎨',
+  'atta-rice-dal': '🌾',
+  'oil-ghee-masala': '🫒',
+  'dairy-bread-eggs': '🥛',
+  'instant-frozen': '🍜',
+  'chocolates-sweets': '🍫',
+  'bakery-biscuits': '🍪',
+  'drinks-juices': '🥤',
+  'chips-namkeen': '🥨',
+  'cleaning-essentials': '🧼',
+  'tea-coffee': '☕',
 };
 
 function SkeletonCard() {
@@ -95,9 +101,9 @@ function FilterContent({
 
       <div className="filter-divider" />
 
-      {/* Class/Grade */}
+      {/* Pack Size / Weight */}
       <div className="filter-group">
-        <p className="filter-group-title">Class / Grade</p>
+        <p className="filter-group-title">Pack Size / Weight</p>
         {GRADE_OPTIONS.map((g) => (
           <label key={g} className="filter-option">
             <input
@@ -312,13 +318,17 @@ export default function ProductGrid({ products, loading, onAddToCart }: ProductG
 
                     {/* Body */}
                     <div className="product-card-body">
-                      <span className="product-card-cat">
-                        {prod.category_id} {prod.grade_suitability ? `• ${prod.grade_suitability}` : ''}
-                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
+                        <span className="product-card-meta" style={{ fontWeight: 600, color: 'var(--primary)' }}>{prod.brand}</span>
+                        {prod.unit && (
+                          <span style={{ fontSize: '11px', fontWeight: 700, background: '#EBF7EE', color: 'var(--primary)', padding: '1px 6px', borderRadius: '4px' }}>
+                            {prod.unit}
+                          </span>
+                        )}
+                      </div>
                       <Link href={`/product/${(prod as any).slug || prod.id}`} style={{ textDecoration: 'none' }}>
-                        <h3 className="product-card-name">{prod.name}</h3>
+                        <h3 className="product-card-name" style={{ minHeight: '38px', lineHeight: 1.3 }}>{prod.name}</h3>
                       </Link>
-                      <p className="product-card-meta">{prod.brand}</p>
                     </div>
 
                     {/* Footer */}

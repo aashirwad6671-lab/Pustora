@@ -64,6 +64,7 @@ export interface Product {
   edition?: string | null;
   language?: string | null;
   format?: string | null;
+  unit?: string | null; // e.g. '1 kg', '500 ml', 'Pack of 4'
   created_at: string;
   updated_at: string;
 }

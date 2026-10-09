@@ -10,28 +10,30 @@ interface AccordionSection {
 
 const FOOTER_SECTIONS: AccordionSection[] = [
   {
-    title: 'Shop',
+    title: 'Categories',
     links: [
-      { label: 'NCERT Books', href: '/?cat=books' },
-      { label: 'Stationery', href: '/?cat=stationery' },
-      { label: 'Toys & Gifts', href: '/?cat=toys' },
-      { label: 'Art & Craft', href: '/?cat=art' },
-      { label: 'School Uniforms', href: '/' },
+      { label: 'Atta, Rice & Dal', href: '/category/atta-rice-dal' },
+      { label: 'Oil, Ghee & Masala', href: '/category/oil-ghee-masala' },
+      { label: 'Dairy, Bread & Eggs', href: '/category/dairy-bread-eggs' },
+      { label: 'Chips & Namkeen', href: '/category/chips-namkeen' },
+      { label: 'Cold Drinks & Juices', href: '/category/drinks-juices' },
+      { label: 'Cleaning Essentials', href: '/category/cleaning-essentials' },
     ],
   },
   {
     title: 'Support',
     links: [
       { label: 'Track Order', href: '/orders' },
+      { label: 'Customer Support', href: '/help' },
+      { label: 'Delivery Terms', href: '#' },
     ],
   },
   {
-    title: 'Pustora',
+    title: 'XYZ Grocery',
     links: [
       { label: 'About Us', href: '/' },
       { label: 'Careers', href: '/' },
-      { label: 'Blog', href: '/' },
-      { label: 'Press Kit', href: '/' },
+      { label: 'Our Dark Stores', href: '/' },
       { label: 'Partner with Us', href: '/' },
     ],
   },
@@ -60,10 +62,10 @@ export default function Footer() {
         <div className="footer-main">
           {/* Column 1: Brand */}
           <div className="footer-brand-section">
-            <span className="footer-col-brand-logo">PUSTORA</span>
+            <span className="footer-col-brand-logo" style={{ color: 'var(--accent)' }}>XYZ GROCERY</span>
             <p className="footer-tagline">
-              Original NCERT textbooks, guides, stationery, and creative
-              toys delivered in 1-2 days from Lucknow's active hubs.
+              Fresh dairy, kitchen staples, instant snacks, cold drinks and
+              household essentials delivered in 10–15 mins from local dark stores.
             </p>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <span style={{
@@ -71,14 +73,14 @@ export default function Footer() {
                 borderRadius: '6px', background: 'rgba(255,255,255,0.1)',
                 color: 'var(--footer-text)', border: '1px solid var(--footer-border)'
               }}>
-                📍 Lucknow
+                📍 Lucknow Hubs
               </span>
               <span style={{
                 fontSize: '0.6875rem', fontWeight: 700, padding: '4px 10px',
                 borderRadius: '6px', background: 'rgba(255,255,255,0.1)',
                 color: 'var(--footer-text)', border: '1px solid var(--footer-border)'
               }}>
-                ⚡ Standard Delivery
+                ⚡ 10–15 Mins Delivery
               </span>
             </div>
           </div>
@@ -156,9 +158,9 @@ export default function Footer() {
         <div className="footer-mobile-only">
           {/* Brand always shown */}
           <div className="footer-brand-section-mobile" style={{ padding: '24px 0 20px', borderBottom: '1px solid var(--footer-border)' }}>
-            <span className="footer-col-brand-logo">PUSTORA</span>
+            <span className="footer-col-brand-logo" style={{ color: 'var(--accent)' }}>XYZ GROCERY</span>
             <p className="footer-tagline" style={{ marginBottom: '12px' }}>
-              Fast school essentials delivery across Lucknow.
+              Fresh groceries &amp; daily pantry essentials delivered in 10-15 mins.
             </p>
           </div>
 
@@ -237,7 +239,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="footer-bottom">
           <p className="footer-copyright">
-            © {year} Pustora Quick-Commerce Delivery, Lucknow. Original CBSE/NCERT syllabus catalog partner.
+            © {year} XYZ Grocery Express Quick-Commerce. Fresh groceries delivered in 10–15 minutes.
           </p>
           <nav className="footer-bottom-links" aria-label="Footer legal links">
             <a href="#" className="footer-bottom-link">Privacy Policy</a>

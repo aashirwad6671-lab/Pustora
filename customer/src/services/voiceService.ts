@@ -71,13 +71,13 @@ export class VoiceService {
 
       // Catalog snapshot for standard search hints
       const catalogSnapshot = [
-        { id: 'tb-ncert-m6', name: 'Mathematics Class VI (NCERT)', category: 'books', price: 150, brand: 'NCERT' },
-        { id: 'tb-ncert-s10', name: 'Science Class X (NCERT)', category: 'books', price: 195, brand: 'NCERT' },
-        { id: 'nb-classmate-s6', name: 'Classmate Notebook Pack of 6', category: 'stationery', price: 360, brand: 'Classmate' },
-        { id: 'toy-lego-classic', name: 'LEGO Creative Bricks (484 Pcs)', category: 'toys', price: 1599, brand: 'LEGO' }
+        { id: 'atta-aashirvaad-5kg', name: 'Aashirvaad Shudh Chakki Atta', category: 'atta-rice-dal', price: 245, brand: 'Aashirvaad' },
+        { id: 'milk-amul-taaza-1l', name: 'Amul Taaza Toned Fresh Milk', category: 'dairy-bread-eggs', price: 54, brand: 'Amul' },
+        { id: 'oil-fortune-sunflower-1l', name: 'Fortune Sunlite Refined Sunflower Oil', category: 'oil-ghee-masala', price: 135, brand: 'Fortune' },
+        { id: 'chips-lays-magic-masala-50g', name: "Lay's India's Magic Masala Potato Chips", category: 'chips-namkeen', price: 20, brand: "Lay's" }
       ];
 
-      const systemPrompt = `You are Pustora AI Voice Agent, a smart quick-commerce support assistant for Lucknow.
+      const systemPrompt = `You are XYZ Grocery AI Voice Agent, a smart express grocery assistant delivering in 10-15 mins.
 The user will talk in English, Hindi, or a mix of both (Hinglish).
 Analyze the query and determine their intent, then output a strict JSON object matching the VoiceAgentIntent type.
 
@@ -87,7 +87,7 @@ Strict Output Schema:
   "action": "search" | "add_to_cart" | "recommend" | "checkout" | "none",
   "payload": {
     "query": "string (for search/recommend)",
-    "categoryId": "string (books, stationery, toys, gifts)",
+    "categoryId": "string (atta-rice-dal, oil-ghee-masala, dairy-bread-eggs, instant-frozen, chips-namkeen)",
     "grade": "string (e.g. Class 6, Class 10)",
     "productId": "string (resolved product ID if matching)",
     "quantity": number,

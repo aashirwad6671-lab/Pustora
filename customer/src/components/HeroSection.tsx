@@ -4,9 +4,9 @@ import React from 'react';
 import Link from 'next/link';
 
 const TRUST = [
-  { icon: '🚚', label: 'Free Delivery', sub: 'On every order' },
-  { icon: '💳', label: 'Cash on\nDelivery', sub: 'Always available' },
-  { icon: '⚡', label: 'Standard\nDelivery', sub: 'In 1-2 Days' },
+  { icon: '⚡', label: '10–15 Mins', sub: 'Express Delivery' },
+  { icon: '🛒', label: '5000+ Items', sub: 'Wholesale Prices' },
+  { icon: '💯', label: '100% Quality', sub: 'Fresh & Verified' },
 ];
 
 export default function HeroSection() {
@@ -19,29 +19,29 @@ export default function HeroSection() {
       <div className="hero-v2-inner">
         {/* ── Tag badge ── */}
         <div className="hero-v2-eyebrow">
-          <span>⚡</span> Active in Lucknow
+          <span>⚡</span> Express Delivery in 10-15 Mins
         </div>
 
         {/* ── Headline ── */}
         <h1 className="hero-v2-headline">
-          Padhna ho ya khelna —{' '}
-          <span className="hero-v2-accent">sab kuch</span>{' '}
-          aapke ghar tak
+          Ghar ka rashan ho ya snacks —{' '}
+          <span className="hero-v2-accent">sab milega</span>{' '}
+          chutkiyon mein!
         </h1>
 
         {/* ── Subtext ── */}
         <p className="hero-v2-sub">
-          NCERT books, notebooks, stationery &amp; creative toys — delivered
-          from Hazratganj, Gomti Nagar &amp; Aliganj hubs in 1-2 days.
+          Atta, Dal, Cooking Oil, Fresh Dairy, Instant Munchies &amp; Household Essentials —
+          dispatched straight to your kitchen in 10–15 minutes.
         </p>
 
         {/* ── CTAs ── */}
         <div className="hero-v2-ctas">
-          <Link href="/" className="hero-v2-btn-solid" id="hero-cta-shop">
-            Shop now →
+          <Link href="#products-section" className="hero-v2-btn-solid" id="hero-cta-shop">
+            Order Groceries Now →
           </Link>
           <Link href="/cart" className="hero-v2-btn-ghost" id="hero-cta-track">
-            Track order
+            View Cart
           </Link>
         </div>
 
